@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Minelab TID"/>
+  <meta name="theme-color" content="#f59e0b"/>
+  <link rel="manifest" href="./manifest.json"/>
+  <link rel="apple-touch-icon" href="./icon-192.png"/>
+  <title>Minelab TID</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    /* ══ CARD FONT SIZES (user-controlled) ══ */
+    :root{ --fs-tid:13px;--fs-name:13px;--fs-note:10px;--fs-badge:8px;--fs-filter:11px;--fs-count:11px; }
+    [data-fsize="md"]{ --fs-tid:16px;--fs-name:16px;--fs-note:12px;--fs-badge:10px;--fs-filter:13px;--fs-count:13px; }
+    [data-fsize="lg"]{ --fs-tid:19px;--fs-name:19px;--fs-note:14px;--fs-badge:12px;--fs-filter:15px;--fs-count:14px; }
+    [data-fsize="xl"]{ --fs-tid:23px;--fs-name:22px;--fs-note:16px;--fs-badge:14px;--fs-filter:17px;--fs-count:15px; }
+
+    /* ══ NIGHT ══ */
+    :root{
+      --bg:#0a0a0a;--surface:#111827;--surface2:#0f172a;
+      --border:#1e293b;--border2:#334155;
+      --amber:#f59e0b;--red:#dc2626;
+      --text:#e2e8f0;--text2:#cbd5e1;--muted:#94a3b8;--muted2:#64748b;
+      --input-bg:#0f172a;--footer-bg:#0f172a;--overlay:rgba(0,0,0,.8);
+      --hdr-bg:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#0f172a 100%);
+      --hdr-border:#f59e0b;--hdr-eye:#f59e0b;--hdr-h1:#f1f5f9;--hdr-sub:#94a3b8;
+      --hdr-btn-border:#334155;--hdr-btn-color:#f59e0b;--hdr-tick:#64748b;
+      --coin-bg:#1a2f1a;--coin-bo:#4ade80;--coin-tx:#86efac;--coin-bb:#166534;--coin-bt:#4ade80;
+      --gold-bg:#2a2000;--gold-bo:#fbbf24;--gold-tx:#fde68a;--gold-bb:#92400e;--gold-bt:#fbbf24;
+      --jew-bg:#1a1a2e; --jew-bo:#a78bfa; --jew-tx:#c4b5fd; --jew-bb:#4c1d95; --jew-bt:#a78bfa;
+      --rel-bg:#1e1a10; --rel-bo:#d97706; --rel-tx:#fcd34d; --rel-bb:#78350f; --rel-bt:#d97706;
+      --trs-bg:#1a1a1a; --trs-bo:#6b7280; --trs-tx:#9ca3af; --trs-bb:#374151; --trs-bt:#9ca3af;
+      --ion-bg:#1f1111; --ion-bo:#ef4444; --ion-tx:#fca5a5; --ion-bb:#7f1d1d; --ion-bt:#f87171;
+      --link:#60a5fa;
+    }
+    /* ══ DAY ══ */
+    [data-theme="day"]{
+      --bg:#f0f4f8;--surface:#fff;--surface2:#e2e8f0;
+      --border:#cbd5e1;--border2:#94a3b8;
+      --amber:#b45309;--red:#b91c1c;
+      --text:#0f172a;--text2:#1e293b;--muted:#374151;--muted2:#1f2937;
+      --input-bg:#fff;--footer-bg:#1e293b;--overlay:rgba(0,0,0,.5);
+      --hdr-bg:#fff;--hdr-border:#b45309;--hdr-eye:#b45309;--hdr-h1:#0f172a;
+      --hdr-sub:#475569;--hdr-btn-border:#b45309;--hdr-btn-color:#b45309;--hdr-tick:#64748b;
+      --coin-bg:#dcfce7;--coin-bo:#15803d;--coin-tx:#14532d;--coin-bb:#15803d;--coin-bt:#fff;
+      --gold-bg:#fef3c7;--gold-bo:#b45309;--gold-tx:#7c2d12;--gold-bb:#b45309;--gold-bt:#fff;
+      --jew-bg:#ede9fe; --jew-bo:#6d28d9; --jew-tx:#3b0764; --jew-bb:#6d28d9; --jew-bt:#fff;
+      --rel-bg:#fef9c3; --rel-bo:#a16207; --rel-tx:#713f12; --rel-bb:#a16207; --rel-bt:#fff;
+      --trs-bg:#f1f5f9; --trs-bo:#475569; --trs-tx:#1e293b; --trs-bb:#475569; --trs-bt:#fff;
+      --ion-bg:#fee2e2; --ion-bo:#b91c1c; --ion-tx:#7f1d1d; --ion-bb:#b91c1c; --ion-bt:#fff;
+      --link:#1d4ed8;
+    }
+
+    html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Courier New','Lucida Console',monospace;overscroll-behavior:none;transition:background .2s,color .2s}
+    body{display:flex;flex-direction:column;height:100dvh}
+
+    /* ══ HEADER — larger chrome fonts ══ */
+    #header{background:var(--hdr-bg);border-bottom:2px solid var(--hdr-border);padding:13px 16px 11px;padding-top:max(13px,env(safe-area-inset-top));flex-shrink:0;transition:background .2s,border-color .2s}
+    .hrow{display:flex;align-items:flex-start;justify-content:space-between}
+    .htitles .eye{font-size:11px;letter-spacing:.22em;color:var(--hdr-eye);text-transform:uppercase;margin-bottom:3px;transition:color .2s}
+    .htitles h1{font-size:21px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:var(--hdr-h1);line-height:1.1;transition:color .2s}
+    .htitles .sub{font-size:11px;color:var(--hdr-sub);margin-top:3px;letter-spacing:.06em;transition:color .2s}
+    #settings-btn{background:transparent;border:1px solid var(--hdr-btn-border);border-radius:6px;padding:7px 11px;cursor:pointer;color:var(--hdr-btn-color);font-size:20px;line-height:1;-webkit-tap-highlight-color:transparent;flex-shrink:0;margin-left:10px;margin-top:2px;transition:border-color .2s,color .2s}
+    #scalebar{margin-top:9px;position:relative;overflow:visible}
+    #scalebar .slabels{display:flex;justify-content:space-between;font-size:9px;color:var(--hdr-tick);margin-bottom:3px;transition:color .2s}
+    #scalebar .sbar{height:14px;border-radius:7px;background:linear-gradient(to right,#7f1d1d,#ef4444,#f59e0b,#4ade80,#22d3ee,#818cf8,#c4b5fd);border:1px solid #334155;position:relative;overflow:visible;cursor:pointer;touch-action:none}
+    #sbar-thumb{display:none;position:absolute;top:-10px;width:26px;height:34px;background:var(--surface);border:2px solid var(--amber);border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.7);align-items:center;justify-content:center;pointer-events:none;transform:translateX(-50%);z-index:10}
+    #sbar-thumb.visible{display:flex}
+    #sbar-thumb .sthumb-val{font-size:9px;color:var(--amber);font-weight:900}
+    .tval-highlight{background:rgba(245,158,11,.2);padding:2px 5px;border-radius:3px}
+    #filter-status{display:none;align-items:center;gap:6px;margin-bottom:9px;flex-wrap:wrap}
+    #filter-status.visible{display:flex}
+    .fs-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin-right:2px}
+    .fchip{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;background:var(--surface2);border-radius:12px;font-size:10px;font-weight:700}
+    .fchip-tid{border:1px solid var(--amber);color:var(--amber)}
+    .fchip-search{border:1px solid #60a5fa;color:#60a5fa}
+    .fchip-x{color:var(--muted2);font-size:12px;cursor:pointer;margin-left:2px;-webkit-tap-highlight-color:transparent}
+    .fs-clear{font-size:10px;color:var(--muted2);margin-left:auto;cursor:pointer;text-decoration:underline;-webkit-tap-highlight-color:transparent}
+    #field-show-all{display:none;width:100%;margin-top:8px;padding:9px;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;color:var(--text2);font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s}
+    #sbar-tooltip{display:none;position:absolute;bottom:28px;transform:translateX(-50%);z-index:30;pointer-events:none}
+    #sbar-tooltip.visible{display:block}
+    #sbar-tooltip .stt-num{background:var(--amber);color:#0f172a;font-weight:900;font-size:32px;padding:10px 16px;border-radius:12px;text-align:center;box-shadow:0 6px 20px rgba(245,158,11,.6);line-height:1;min-width:64px}
+    #sbar-tooltip .stt-stem{width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:10px solid var(--amber);margin:0 auto}
+    #sbar-bands{position:absolute;inset:0;border-radius:7px;overflow:hidden;pointer-events:none}
+    .sbar-band{position:absolute;top:0;bottom:0}
+    .sbar-tick{position:absolute;top:-3px;bottom:-3px;width:2px;border-radius:1px;pointer-events:none}
+
+
+    /* ══ SETTINGS DRAWER — larger chrome fonts ══ */
+    #sov{display:none;position:fixed;inset:0;background:var(--overlay);z-index:100}
+    #sov.open{display:block}
+    #sdrawer{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:2px solid var(--amber);border-radius:16px 16px 0 0;padding:20px 20px calc(24px + env(safe-area-inset-bottom));z-index:101;transform:translateY(100%);transition:transform .25s ease;max-height:92dvh;overflow-y:auto}
+    #sdrawer.open{transform:translateY(0)}
+    .dhandle{width:44px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 18px}
+    .dtitle{font-size:14px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);margin-bottom:16px}
+    .slabel{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:11px;margin-top:20px}
+    .slabel:first-of-type{margin-top:0}
+
+    /* detector opts */
+    .dopts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:4px}
+    .dopt{display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 8px;border-radius:8px;border:2px solid var(--border2);background:var(--surface2);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s}
+    .dopt.sel{border-color:var(--amber);background:rgba(245,158,11,.08)}
+    .dopt .dico{font-size:18px;line-height:1}
+    .dopt .dlbl{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text2);text-align:center;line-height:1.3}
+    .dopt.sel .dlbl{color:var(--amber)}
+
+    /* theme opts */
+    .topts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:4px}
+    .topt{display:flex;flex-direction:column;align-items:center;gap:6px;padding:13px 6px;border-radius:8px;border:2px solid var(--border2);background:var(--surface2);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s}
+    .topt.sel{border-color:var(--amber);background:var(--border)}
+    .topt .tico{font-size:20px;line-height:1}
+    .topt .tlbl{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text2)}
+    .topt.sel .tlbl{color:var(--amber)}
+
+    /* font opts */
+    .fopts{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:4px}
+    .fopt{display:flex;flex-direction:column;align-items:center;gap:5px;padding:11px 4px;border-radius:8px;border:2px solid var(--border2);background:var(--surface2);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s}
+    .fopt.sel{border-color:var(--amber);background:var(--border)}
+    .fopt .fico{font-weight:900;line-height:1;color:var(--text2)}
+    .fopt .flbl{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .fopt.sel .fico,.fopt.sel .flbl{color:var(--amber)}
+    .fopt[data-fsize="sm"] .fico{font-size:13px}
+    .fopt[data-fsize="md"] .fico{font-size:16px}
+    .fopt[data-fsize="lg"] .fico{font-size:20px}
+    .fopt[data-fsize="xl"] .fico{font-size:24px}
+
+    /* ══ INTERFACE MODE SEGMENTED CONTROL ══ */
+    .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+    .sopt{padding:11px;border-radius:8px;border:2px solid var(--border2);background:var(--surface2);cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);-webkit-tap-highlight-color:transparent;transition:all .15s}
+    .sopt.sel{border-color:var(--amber);background:var(--border);color:var(--amber)}
+
+    /* ══ FIELD MODE OVERRIDES ══ */
+    [data-mode="field"] #scalebar .sbar{height:26px;border-radius:13px}
+    [data-mode="field"] #sbar-thumb{top:-4px}
+    [data-mode="field"] #sbar-bands{border-radius:13px}
+    [data-mode="field"] #sbar-tooltip{bottom:40px}
+    [data-mode="field"] .fbtn{padding:10px 16px;font-size:13px}
+    [data-mode="field"] #search{display:none}
+    [data-mode="field"] #filter-status{display:none !important} /* !important beats .visible{display:flex} */
+
+    /* ══ ONBOARDING MODAL ══ */
+    #onboard-modal{display:none;position:fixed;inset:0;background:rgba(10,15,30,.98);z-index:300;overflow-y:auto;padding:20px 16px}
+    #onboard-modal.open{display:block}
+    #onboard-panel{max-width:440px;margin:0 auto;padding-bottom:20px}
+    .onb-eyebrow{font-size:10px;letter-spacing:.28em;color:var(--amber);text-transform:uppercase;text-align:center;margin-bottom:8px}
+    .onb-title{font-size:24px;font-weight:900;color:var(--hdr-h1);letter-spacing:.05em;text-transform:uppercase;text-align:center;line-height:1.1;margin:0 0 8px}
+    .onb-sub{font-size:12px;color:var(--muted);text-align:center;line-height:1.6;margin:0 0 24px}
+    .onb-step{margin-bottom:20px}
+    .onb-step-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+    .onb-num{background:var(--amber);color:#0f172a;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0}
+    #onb-modes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .omode{border-radius:8px;border:2px solid var(--border2);background:var(--surface2);padding:14px 12px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s}
+    .omode-title{font-size:13px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:var(--text2);margin-bottom:8px}
+    .omode ul{margin:0;padding:0;list-style:none;font-size:10px;color:var(--muted);line-height:2}
+    .omode.sel-field{border-color:var(--amber);background:rgba(245,158,11,.08)}
+    .omode.sel-field .omode-title{color:var(--amber)}
+    .omode.sel-field ul{color:#fde68a}
+    .omode.sel-advanced{border-color:var(--amber);background:rgba(245,158,11,.08)}
+    .omode.sel-advanced .omode-title{color:var(--amber)}
+    .omode.sel-advanced ul{color:#fde68a}
+    .onb-hint{font-size:10px;color:var(--muted2);text-align:center;margin:9px 0 0}
+    #onb-submit{width:100%;padding:15px;background:var(--amber);color:#0f172a;font-family:inherit;font-size:15px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;border:none;border-radius:8px;cursor:pointer;margin-top:20px;-webkit-tap-highlight-color:transparent;transition:opacity .15s}
+    #onb-submit:disabled{opacity:.35;cursor:not-allowed}
+
+    /* toggle */
+    .trow{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-top:1px solid var(--border)}
+    .trow-label{font-size:13px;color:var(--text2);letter-spacing:.04em}
+    .trow-sub{font-size:11px;color:var(--muted);margin-top:3px}
+    .tog{position:relative;width:46px;height:26px;flex-shrink:0;cursor:pointer}
+    .tog input{opacity:0;width:0;height:0;position:absolute}
+    .tog-track{position:absolute;inset:0;border-radius:13px;background:var(--border2);transition:background .2s}
+    .tog input:checked~.tog-track{background:var(--amber)}
+    .tog-thumb{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+    .tog input:checked~.tog-thumb{transform:translateX(20px)}
+
+    /* credits button */
+    #credits-btn{
+      width:100%;margin-top:4px;
+      background:transparent;
+      border:1px solid var(--border2);
+      border-radius:8px;
+      padding:13px 16px;
+      cursor:pointer;
+      color:var(--text2);
+      font-family:inherit;
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-align:left;
+      display:flex;align-items:center;justify-content:space-between;
+      -webkit-tap-highlight-color:transparent;
+      transition:border-color .15s;
+    }
+    #credits-btn:active{border-color:var(--amber)}
+    #credits-btn .cr-arrow{font-size:16px;color:var(--muted)}
+
+    .dnote{font-size:12px;color:var(--muted);line-height:1.7;letter-spacing:.03em;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+    .dnote strong{color:var(--text2)}
+
+    /* ══ CREDITS MODAL ══ */
+    #credits-modal{
+      display:none;
+      position:fixed;inset:0;
+      background:var(--overlay);
+      z-index:200;
+    }
+    #credits-modal.open{display:flex;flex-direction:column;justify-content:flex-end}
+    #credits-panel{
+      background:var(--surface);
+      border-top:2px solid var(--amber);
+      border-radius:16px 16px 0 0;
+      padding:20px 20px calc(24px + env(safe-area-inset-bottom));
+      max-height:88dvh;
+      overflow-y:auto;
+      transform:translateY(100%);
+      transition:transform .25s ease;
+    }
+    #credits-modal.open #credits-panel{transform:translateY(0)}
+    .cr-handle{width:44px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 18px}
+    .cr-title{font-size:14px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);margin-bottom:20px}
+    .cr-section{margin-bottom:22px}
+    .cr-section-title{font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+    .cr-dev-name{font-size:16px;font-weight:900;color:var(--text);margin-bottom:4px}
+    .cr-dev-role{font-size:12px;color:var(--muted);margin-bottom:10px;letter-spacing:.05em}
+    .cr-contact-btn{
+      display:inline-flex;align-items:center;gap:8px;
+      background:var(--surface2);
+      border:1px solid var(--border2);
+      border-radius:6px;
+      padding:10px 14px;
+      font-family:inherit;
+      font-size:13px;
+      color:var(--link);
+      text-decoration:none;
+      letter-spacing:.03em;
+      cursor:pointer;
+    }
+    .cr-desc{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:14px}
+    .cr-source{display:flex;flex-direction:column;margin-bottom:11px;padding-bottom:11px;border-bottom:1px solid var(--border)}
+    .cr-source:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+    .cr-src-name{font-size:13px;font-weight:700;color:var(--text2);margin-bottom:2px}
+    .cr-src-desc{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:5px}
+    .cr-src-link{font-size:11px;color:var(--link);word-break:break-all;text-decoration:none}
+    .cr-ver{font-size:11px;color:var(--muted2);margin-top:20px;padding-top:14px;border-top:1px solid var(--border);text-align:center;letter-spacing:.08em}
+
+    /* ══ CONTROLS ══ */
+    #controls{background:var(--surface);border-bottom:1px solid var(--border);padding:11px 13px;flex-shrink:0}
+    #search{width:100%;background:var(--input-bg);border:1px solid var(--border2);border-radius:4px;color:var(--text);padding:9px 11px;font-size:14px;font-family:inherit;margin-bottom:10px;outline:none;-webkit-appearance:none}
+    #search::placeholder{color:var(--muted)}
+    #search:focus{border-color:var(--amber)}
+    #filters{display:flex;flex-wrap:wrap;gap:6px}
+    .fbtn{padding:6px 12px;border-radius:3px;font-size:var(--fs-filter);font-family:inherit;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;border:1px solid var(--border2);background:var(--surface2);color:var(--muted);font-weight:400;transition:all .15s;-webkit-tap-highlight-color:transparent}
+    .fbtn.a-all    {background:#1e3a5f;color:#60a5fa;border-color:#3b82f6;font-weight:700}
+    .fbtn.a-coin   {background:var(--coin-bb);color:var(--coin-bt);border-color:var(--coin-bo);font-weight:700}
+    .fbtn.a-gold   {background:var(--gold-bb);color:var(--gold-bt);border-color:var(--gold-bo);font-weight:700}
+    .fbtn.a-jewelry{background:var(--jew-bb); color:var(--jew-bt); border-color:var(--jew-bo); font-weight:700}
+    .fbtn.a-relic  {background:var(--rel-bb); color:var(--rel-bt); border-color:var(--rel-bo); font-weight:700}
+    .fbtn.a-trash  {background:var(--trs-bb); color:var(--trs-bt); border-color:var(--trs-bo); font-weight:700}
+    .fbtn.a-iron   {background:var(--ion-bb); color:var(--ion-bt); border-color:var(--ion-bo); font-weight:700}
+
+    /* ══ COUNT ══ */
+    #cbar{padding:6px 15px;font-size:var(--fs-count);color:var(--muted2);letter-spacing:.07em;flex-shrink:0;background:var(--bg)}
+
+    /* ══ LIST ══ */
+    #list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:4px 10px 8px}
+    .list-pad{height:calc(52px + env(safe-area-inset-bottom))}
+    .card{border-radius:3px;margin-bottom:7px;padding:10px 11px;display:grid;grid-template-columns:70px 1fr auto;gap:8px;align-items:start}
+
+    .card-coin    {background:var(--coin-bg);border-left:3px solid var(--coin-bo)}
+    .card-gold    {background:var(--gold-bg);border-left:3px solid var(--gold-bo)}
+    .card-jewelry {background:var(--jew-bg); border-left:3px solid var(--jew-bo)}
+    .card-relic   {background:var(--rel-bg); border-left:3px solid var(--rel-bo)}
+    .card-trash   {background:var(--trs-bg); border-left:3px solid var(--trs-bo)}
+    .card-iron    {background:var(--ion-bg); border-left:3px solid var(--ion-bo)}
+    .tval{font-size:var(--fs-tid);font-weight:900;line-height:1;letter-spacing:.02em}
+    .tlbl2{font-size:9px;color:var(--muted2);margin-top:2px;letter-spacing:.1em}
+    .card-coin    .tval{color:var(--coin-bo)}
+    .card-gold    .tval{color:var(--gold-bo)}
+    .card-jewelry .tval{color:var(--jew-bo)}
+    .card-relic   .tval{color:var(--rel-bo)}
+    .card-trash   .tval{color:var(--trs-bo)}
+    .card-iron    .tval{color:var(--ion-bo)}
+    .iname{font-size:var(--fs-name);font-weight:700;line-height:1.3}
+    .card-coin    .iname{color:var(--coin-tx)}
+    .card-gold    .iname{color:var(--gold-tx)}
+    .card-jewelry .iname{color:var(--jew-tx)}
+    .card-relic   .iname{color:var(--rel-tx)}
+    .card-trash   .iname{color:var(--trs-tx)}
+    .card-iron    .iname{color:var(--ion-tx)}
+    .inote{font-size:var(--fs-note);color:var(--muted);margin-top:3px;line-height:1.4}
+    .badge{font-size:var(--fs-badge);font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 6px;border-radius:2px;white-space:nowrap}
+    .b-coin    {background:var(--coin-bb);color:var(--coin-bt)}
+    .b-gold    {background:var(--gold-bb);color:var(--gold-bt)}
+    .b-jewelry {background:var(--jew-bb); color:var(--jew-bt)}
+    .b-relic   {background:var(--rel-bb); color:var(--rel-bt)}
+    .b-trash   {background:var(--trs-bb); color:var(--trs-bt)}
+    .b-iron    {background:var(--ion-bb); color:var(--ion-bt)}
+
+    /* ══ FOOTER ══ */
+    #footer{position:fixed;bottom:0;left:0;right:0;background:var(--footer-bg);border-top:1px solid #f59e0b44;padding:7px 42px 7px 15px;padding-bottom:max(7px,env(safe-area-inset-bottom));font-size:11px;color:#94a3b8;letter-spacing:.04em;line-height:1.5;transition:transform .3s ease,opacity .3s ease}
+    #footer.hidden{transform:translateY(100%);opacity:0;pointer-events:none}
+    #dismiss-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:transparent;border:1px solid #475569;border-radius:4px;color:#94a3b8;font-size:15px;line-height:1;padding:3px 7px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+    #list::-webkit-scrollbar{width:4px}
+    #list::-webkit-scrollbar-track{background:transparent}
+    #list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+  </style>
+</head>
+<body>
+
+<div id="header">
+  <div class="hrow">
+    <div class="htitles">
+      <div class="eye" id="det-label">Minelab Manticore</div>
+      <h1>Target ID Reference</h1>
+      <div class="sub" id="scale-label">TID Scale: −19 to 99 · Multi-IQ+ · Air Test Baseline</div>
+    </div>
+    <button id="settings-btn">⚙</button>
+  </div>
+  <div id="scalebar">
+    <div class="slabels" id="scale-ticks">
+      <span>−19 IRON</span><span>0</span><span>25 NICKEL</span><span>50</span><span>75 COPPER</span><span>99 SILVER</span>
+    </div>
+    <div class="sbar" id="scalebar-bar"><div id="sbar-bands"></div><div id="sbar-thumb"><span class="sthumb-val" id="sthumb-val"></span></div></div>
+    <div id="sbar-tooltip"><div class="stt-num" id="stt-num"></div><div class="stt-stem"></div></div>
+  </div>
+  <button id="field-show-all">Reset Filters</button>
+</div>
+
+<!-- Settings Drawer -->
+<div id="sov"></div>
+<div id="sdrawer">
+  <div class="dhandle"></div>
+  <div class="dtitle">⚙ Settings</div>
+
+  <div class="slabel">Detector</div>
+  <div class="dopts">
+    <div class="dopt" data-det="manticore"><span class="dico">🔴</span><span class="dlbl">Manticore</span></div>
+    <div class="dopt" data-det="equinox900"><span class="dico">🟠</span><span class="dlbl">Equinox 900</span></div>
+    <div class="dopt" data-det="equinox800"><span class="dico">🔵</span><span class="dlbl">Equinox 800</span></div>
+    <div class="dopt" data-det="equinox700"><span class="dico">🟡</span><span class="dlbl">Equinox 700</span></div>
+  </div>
+
+  <div class="slabel">Display Mode</div>
+  <div class="topts">
+    <div class="topt" data-mode="night"><span class="tico">🌙</span><span class="tlbl">Night</span></div>
+    <div class="topt" data-mode="day">  <span class="tico">☀️</span><span class="tlbl">Day</span></div>
+    <div class="topt" data-mode="auto"> <span class="tico">📱</span><span class="tlbl">Auto</span></div>
+  </div>
+
+  <div class="slabel">Font Size</div>
+  <div class="fopts">
+    <div class="fopt" data-fsize="sm"><span class="fico">A</span><span class="flbl">Small</span></div>
+    <div class="fopt" data-fsize="md"><span class="fico">A</span><span class="flbl">Med</span></div>
+    <div class="fopt" data-fsize="lg"><span class="fico">A</span><span class="flbl">Large</span></div>
+    <div class="fopt" data-fsize="xl"><span class="fico">A</span><span class="flbl">XL</span></div>
+  </div>
+
+  <div class="slabel">Interface</div>
+  <div class="seg" id="mode-seg">
+    <button class="sopt" data-mode-opt="advanced">Advanced</button>
+    <button class="sopt" data-mode-opt="field">Field</button>
+  </div>
+
+  <div class="trow">
+    <div><div class="trow-label">Show Disclaimer</div><div class="trow-sub">⚠ TID accuracy warning in footer</div></div>
+    <label class="tog"><input type="checkbox" id="disc-toggle"/><span class="tog-track"></span><span class="tog-thumb"></span></label>
+  </div>
+
+  <div class="dnote">
+    <strong>Night</strong> — Dark theme for indoor/low-light use.<br>
+    <strong>Day</strong> — High-contrast for outdoor direct sunlight.<br>
+    <strong>Auto</strong> — Follows your phone's system Dark/Light Mode, updates live.<br><br>
+    TID values are air test baselines. Actual readings shift with depth, soil mineralization, orientation, and corrosion. Tone quality always trumps the number.
+  </div>
+
+  <div class="slabel" style="margin-top:20px">About &amp; Sources</div>
+  <button id="credits-btn">
+    <span>📋 Credits, Sources &amp; Contact</span>
+    <span class="cr-arrow">›</span>
+  </button>
+</div>
+
+<!-- Credits Modal -->
+<div id="credits-modal">
+  <div id="credits-panel">
+    <div class="cr-handle"></div>
+    <div class="cr-title">📋 Credits &amp; Sources</div>
+
+    <div class="cr-section">
+      <div class="cr-section-title">Developer</div>
+      <div class="cr-dev-name">Mike Noirot</div>
+      <div class="cr-dev-role">App Developer · Metal Detecting Enthusiast</div>
+      <a class="cr-contact-btn" href="mailto:noirot@gmail.com">
+        <span>✉</span><span>noirot@gmail.com</span>
+      </a>
+      <div class="cr-desc" style="margin-top:12px">
+        Questions, feedback, bug reports, or requests to add new detectors?<br>
+        Reach out — contributions and data corrections are always welcome.
+      </div>
+    </div>
+
+    <div class="cr-section">
+      <div class="cr-section-title">🔴 Manticore — Data Sources</div>
+      <div class="cr-source">
+        <div class="cr-src-name">Big Boys Hobbies — Manticore Coin Chart 2025</div>
+        <div class="cr-src-desc">Updated 2025 chart covering U.S. coins, gold, relics, and trash with expert tips. Primary source for validated TID ranges.</div>
+        <a class="cr-src-link" href="https://bigboyshobbies.net/blogs/default-blog/minelab-manticore-coin-chart-2025" target="_blank">bigboyshobbies.net › manticore-coin-chart-2025</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">Big Boys Hobbies — Manticore Target ID List 2025</div>
+        <div class="cr-src-desc">Field-compiled TID list from real-world hunts, updated continuously.</div>
+        <a class="cr-src-link" href="https://bigboyshobbies.net/blogs/default-blog/minelab-manticore-target-id-list-2025" target="_blank">bigboyshobbies.net › manticore-target-id-list-2025</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">DetectorProspector — Manticore VDI Chart (BigSky)</div>
+        <div class="cr-src-desc">Field-tested measurements from dug targets using All Terrain General default settings. Community-verified data.</div>
+        <a class="cr-src-link" href="https://www.detectorprospector.com/topic/21367-manticore-v-d-i-chart/" target="_blank">detectorprospector.com › manticore-v-d-i-chart</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">FindMall — 900/Manticore VDI Chart Thread</div>
+        <div class="cr-src-desc">Community thread with dug coin measurements and cross-referenced values across multiple hunters.</div>
+        <a class="cr-src-link" href="https://www.findmall.com/threads/for-those-interested-900-manticore-vdi-chart.365093/" target="_blank">findmall.com › 900-manticore-vdi-chart</a>
+      </div>
+    </div>
+
+    <div class="cr-section">
+      <div class="cr-section-title">🔵 Equinox 800 — Data Sources</div>
+      <div class="cr-source">
+        <div class="cr-src-name">Big Boys Hobbies — Equinox ID Chart Quick Reference</div>
+        <div class="cr-src-desc">Compiled charts from experienced hunters covering U.S. coins and common targets on the −9 to 40 scale.</div>
+        <a class="cr-src-link" href="https://bigboyshobbies.net/blogs/default-blog/minelab-equinox-metal-detector-id-chart-numbers-quick-reference-guide" target="_blank">bigboyshobbies.net › equinox-id-chart</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">DetectorProspector — Another Equinox VDI Chart</div>
+        <div class="cr-src-desc">Long-running community thread with field-tested VDI data from multiple experienced Equinox 800 users.</div>
+        <a class="cr-src-link" href="https://www.detectorprospector.com/topic/5472-another-equinox-vdi-chart/" target="_blank">detectorprospector.com › another-equinox-vdi-chart</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">DetectorProspector — US Gold Coins and the EQX 800</div>
+        <div class="cr-src-desc">Field 1 air test data for U.S. gold coins specifically, providing validated low-TID values for gold coins.</div>
+        <a class="cr-src-link" href="https://www.detectorprospector.com/topic/10972-us-gold-coins-and-the-eqx-800/" target="_blank">detectorprospector.com › us-gold-coins-eqx-800</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">History Detector — Equinox 600/800 VDI Numbers Chart</div>
+        <div class="cr-src-desc">Field Mode 1 air test data for a wide range of finds. UK-focused but conductivity scale is universal.</div>
+        <a class="cr-src-link" href="https://www.historydetector.com/minelab-equinox/minelab-equinox-800-vdi-numbers/" target="_blank">historydetector.com › equinox-800-vdi-numbers</a>
+      </div>
+    </div>
+
+    <div class="cr-section">
+      <div class="cr-section-title">🟠 Equinox 900 — Data Sources</div>
+      <div class="cr-source">
+        <div class="cr-src-name">TreasureNet — Equinox 900 VDI Chart Community Thread</div>
+        <div class="cr-src-desc">Community-sourced TID values from experienced hunters specific to the 900's −19 to 99 scale.</div>
+        <a class="cr-src-link" href="https://www.treasurenet.com/threads/equinox-900-vdi-chart.682499/" target="_blank">treasurenet.com › equinox-900-vdi-chart</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">Kellyco Detectors — Equinox 900 Product Guide</div>
+        <div class="cr-src-desc">Scale documentation, Iron Bias explanation, and general TID range guidance for the 900.</div>
+        <a class="cr-src-link" href="https://www.kellycodetectors.com/minelab-equinox-900-metal-detector/" target="_blank">kellycodetectors.com › equinox-900</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">FindMall — 900/Manticore VDI Chart Thread</div>
+        <div class="cr-src-desc">Cross-referenced values for both the 900 and Manticore from dug targets in the field.</div>
+        <a class="cr-src-link" href="https://www.findmall.com/threads/for-those-interested-900-manticore-vdi-chart.365093/" target="_blank">findmall.com › 900-manticore-vdi-chart</a>
+      </div>
+    </div>
+
+    <div class="cr-section">
+      <div class="cr-section-title">🟡 Equinox 700 — Data Sources</div>
+      <div class="cr-source">
+        <div class="cr-src-name">DetectorProspector — EQX 700/900 vs 600/800 TID Comparison</div>
+        <div class="cr-src-desc">Community-verified confirmation that the Equinox 700 and 900 share identical TID readings on the −19 to 99 Multi-IQ+ scale.</div>
+        <a class="cr-src-link" href="https://www.detectorprospector.com/topic/25711-target-id-chart-differences-between-equinox-600800-and-equinox-700900manticore/" target="_blank">detectorprospector.com › equinox-700-900-tid-comparison</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">TreasureNet — Equinox 900 VDI Chart (applies to 700)</div>
+        <div class="cr-src-desc">Community-compiled TID chart for the Equinox 900 / 700 platform. Values confirmed identical across both models.</div>
+        <a class="cr-src-link" href="https://www.treasurenet.com/threads/equinox-900-vdi-chart.682499/" target="_blank">treasurenet.com › equinox-900-vdi-chart</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">FindMall — 900/Manticore VDI Chart (applies to 700)</div>
+        <div class="cr-src-desc">Detailed community thread covering TID values for the Equinox 900 / 700 and Manticore, with cross-referenced target data.</div>
+        <a class="cr-src-link" href="https://www.findmall.com/threads/for-those-interested-900-manticore-vdi-chart.365093/" target="_blank">findmall.com › 900-manticore-vdi-chart</a>
+      </div>
+    </div>
+
+    <div class="cr-ver">TID Reference App · v2.1 · May 2026<br>Built for the metal detecting community</div>
+  </div>
+</div>
+
+<!-- Onboarding Modal -->
+<div id="onboard-modal">
+  <div id="onboard-panel">
+    <div class="onb-eyebrow">Welcome to</div>
+    <h2 class="onb-title">Minelab TID</h2>
+    <p class="onb-sub">Field-ready Target ID reference.<br>Let's get you set up.</p>
+
+    <div class="onb-step">
+      <div class="onb-step-label"><span class="onb-num">1</span> Choose your detector</div>
+      <div class="dopts">
+        <div class="dopt" data-onb-det="manticore"><span class="dico">🔴</span><span class="dlbl">Manticore</span></div>
+        <div class="dopt" data-onb-det="equinox900"><span class="dico">🟠</span><span class="dlbl">Equinox 900</span></div>
+        <div class="dopt" data-onb-det="equinox800"><span class="dico">🔵</span><span class="dlbl">Equinox 800</span></div>
+        <div class="dopt" data-onb-det="equinox700"><span class="dico">🟡</span><span class="dlbl">Equinox 700</span></div>
+      </div>
+    </div>
+
+    <div class="onb-step">
+      <div class="onb-step-label"><span class="onb-num">2</span> Choose your interface</div>
+      <div id="onb-modes">
+        <div class="omode" data-onb-mode="field">
+          <div class="omode-title">Field</div>
+          <ul>
+            <li>🧤 Glove-friendly controls</li>
+            <li>📏 Larger slider</li>
+            <li>🎯 Category filters</li>
+            <li>🃏 Matching cards</li>
+          </ul>
+        </div>
+        <div class="omode" data-onb-mode="advanced">
+          <div class="omode-title">Advanced</div>
+          <ul>
+            <li>🔍 Search bar</li>
+            <li>📌 Pin cards to bar</li>
+            <li>🏷 Filter chips</li>
+            <li>📏 Precision slider</li>
+          </ul>
+        </div>
+      </div>
+      <p class="onb-hint">You can change this anytime in ⚙ Settings</p>
+    </div>
+
+    <button id="onb-submit" disabled>Let's Dig →</button>
+  </div>
+</div>
+
+<div id="controls">
+  <input id="search" type="search" placeholder="Search targets or TID…" autocomplete="off" autocorrect="off" spellcheck="false"/>
+  <div id="filter-status">
+    <span class="fs-label">Active:</span>
+    <div id="fchip-tid" class="fchip fchip-tid" style="display:none">📍 TID <span id="fchip-tid-val"></span><span class="fchip-x" id="fchip-tid-x">✕</span></div>
+    <div id="fchip-search" class="fchip fchip-search" style="display:none">🔍 "<span id="fchip-search-val"></span>"<span class="fchip-x" id="fchip-search-x">✕</span></div>
+    <span class="fs-clear" id="fs-clear-all" style="display:none">clear all filters</span>
+  </div>
+  <div id="filters"></div>
+</div>
+<div id="cbar"><span id="count">0</span> TARGETS SHOWN<span id="cbar-summary"></span></div>
+<div id="list"><div class="list-pad"></div></div>
+<div id="footer">
+  ⚠ TIDs shift with depth, soil, orientation &amp; corrosion. Solid repeatable tone &gt; number alone. Dig all solid tones in gold zone.
+  <button id="dismiss-btn" title="Dismiss">✕</button>
+</div>
+
+<script>
+/* ═══════════════ DETECTOR DATA ═══════════════ */
+const DETECTORS = {
+
+  /* MANTICORE — Sources: BBH 2025 Coin Chart, BBH TID List 2025, DetectorProspector BigSky chart, FindMall thread */
+  manticore:{
+    label:'Minelab Manticore', ctx:false,
+    scaleLabel:'TID Scale: −19 to 99 · Multi-IQ+ · Air Test Baseline',
+    scaleTicks:['−19 IRON','0','25 NICKEL','50','75 COPPER','99 SILVER'],
+    targets:[
+      {tid:"-19–0",  item:"Iron / Deep Iron",                         cat:"iron",  note:"Negative values = ferrous. Choppy broken signal. Not worth digging."},
+      {tid:"1–5",    item:"Small Iron, Wire, Nails",                   cat:"iron",  note:"Erratic signal. Skip."},
+      {tid:"5–15",   item:"Small Foil, Candy/Gum Wrappers",            cat:"trash", note:"Shallow, chirpy signal. — Source: BBH 2025"},
+      {tid:"8–20",   item:"Gold Jewelry — Small (chains, thin rings)", cat:"gold",  note:"Use All-Metal to catch fine chains. — Source: BBH 2025"},
+      {tid:"20–45",  item:"Gold Jewelry — Medium (class rings, bands)",cat:"gold",  note:"Pull-tab range. Dig ALL repeatable solid tones. — Source: BBH 2025"},
+      {tid:"22–30",  item:"Pull Tabs — Modern (aluminum)",             cat:"trash", note:"Tone nuances help separate from nickels. — Source: BBH 2025"},
+      {tid:"25–30",  item:"US Nickel (Jefferson / Buffalo / V-Nickel)",cat:"coin",  note:"Dig all solid tones — gold rings overlap. — Source: BBH 2025"},
+      {tid:"28–29",  item:"14k White Gold Men's Band",                 cat:"gold",  note:"Overlaps nickel range. Solid tone = dig."},
+      {tid:"29",     item:"Silver War Nickel (35% silver, WWII)",      cat:"coin",  note:"Reads same as modern nickel. Solid tone."},
+      {tid:"30",     item:"Platinum Men's Ring",                       cat:"jewelry",note:"Solid tone, reads in nickel zone."},
+      {tid:"30–40",  item:"Gold Rings (various karat)",                cat:"gold",  note:"ALWAYS dig solid tones here. Not scratchy like tabs. — Source: BBH 2025"},
+      {tid:"30–40",  item:"Pull Tabs — Older (ring style)",            cat:"trash", note:"Slightly higher than modern tabs. Often jumpy. — Source: BBH 2025"},
+      {tid:"35–36",  item:"Eagle Button (relic)",                      cat:"relic", note:"Military button — solid, repeatable."},
+      {tid:"36–38",  item:"Square Nails",                              cat:"iron",  note:"Choppy. Common at historic sites."},
+      {tid:"37–38",  item:"$2.50 Gold Piece (Quarter Eagle)",          cat:"gold",  note:"Solid tone at this range = dig."},
+      {tid:"38",     item:"Steel Bottle Cap",                          cat:"trash", note:"Choppy/broken. Check tone edges."},
+      {tid:"40–80",  item:"Can Slaw / Shredded Aluminum",              cat:"trash", note:"Numbers bounce. Only dig if completely stable. — Source: BBH 2025"},
+      {tid:"40–70",  item:"Lead (sinkers, musket balls, pipe)",        cat:"relic", note:"Size determines range position. — Source: BBH 2025"},
+      {tid:"45–47",  item:"Silver 3-Cent Piece",                       cat:"coin",  note:"Rare. Solid tone."},
+      {tid:"45–80",  item:"Civil War Relics (brass buckles/buttons)",  cat:"relic", note:"Brass buckles ring high; small buttons mid-range. — Source: BBH 2025"},
+      {tid:"49–53",  item:"$5 Gold Piece (Half Eagle)",                cat:"gold",  note:"Larger gold coin. Solid repeatable tone."},
+      {tid:"52–53",  item:"Small Flat Round Buttons",                  cat:"relic", note:"Military or civilian origin."},
+      {tid:"54–56",  item:"Indian Head Cent (bronze, 1889–1909)",      cat:"coin",  note:"Solid, repeatable. — Source: BBH 2025 / DetectorProspector"},
+      {tid:"58–61",  item:"Half Dime (silver)",                        cat:"coin",  note:"Small silver coin, reads lower than full dimes."},
+      {tid:"60–62",  item:"Indian Head / Wheat Cent",                  cat:"coin",  note:"Bronze cents. Clear, repeatable high tone."},
+      {tid:"61–63",  item:"Flat Button (brass)",                       cat:"relic", note:"Colonial/Civil War era common."},
+      {tid:"60–80",  item:"Gold Jewelry — Large (heavy bands, coins)", cat:"gold",  note:"Overlaps copper/silver coin readings. — Source: BBH 2025"},
+      {tid:"65",     item:"$10 Gold Piece (Eagle)",                    cat:"gold",  note:"Larger gold coin. High confidence signal."},
+      {tid:"66–71",  item:"2-Cent Piece (Civil War era)",              cat:"coin",  note:"1864–1873 series."},
+      {tid:"70–85",  item:"Platinum Ring (heavy)",                     cat:"jewelry",note:"Reads similar to silver; softer tone."},
+      {tid:"72–78",  item:"Modern Zinc Penny (1982–present)",          cat:"coin",  note:"Corroded zinc can drop to high 60s. — Source: BBH 2025"},
+      {tid:"76–78",  item:"$20 Gold Piece (Double Eagle)",             cat:"gold",  note:"Large gold coin — rare but solid."},
+      {tid:"76–79",  item:"Wheat Cent (1930s–1950s)",                  cat:"coin",  note:"Strong repeatable signal. — Source: DetectorProspector / BBH"},
+      {tid:"77–80",  item:"Clad Dime (Roosevelt)",                     cat:"coin",  note:"Field-tested range. Corrected per Manticore air test."},
+      {tid:"80–85",  item:"Copper Cents / Large Cents",                cat:"coin",  note:"Solid, repeatable, strong high tone. — Source: BBH 2025"},
+      {tid:"82–87",  item:"Silver Dime (Mercury / Roosevelt)",         cat:"coin",  note:"Clear, crisp high tone. — Source: BBH 2025 / DetectorProspector"},
+      {tid:"85–90",  item:"Clad Quarter (Washington / State)",         cat:"coin",  note:"Corrected range. Source: BBH 2025 Coin Chart."},
+      {tid:"85–99",  item:"Silver Coins (Barber / Morgan / Peace)",    cat:"coin",  note:"Larger silver pushes into 90s. Deep reads lower. — Source: BBH 2025"},
+      {tid:"88–92",  item:"Silver Quarter (pre-1965)",                 cat:"coin",  note:"Slightly richer tone than clad. Crisp, repeatable. — Source: DetectorProspector"},
+      {tid:"89–90",  item:"Sacagawea / Presidential Dollar",           cat:"coin",  note:"Modern dollar coin."},
+      {tid:"80–99⚠", item:"Bottle Caps (rusty steel)",                 cat:"trash", note:"High TID but BROKEN tone edges. Sweep all directions. — Source: BBH 2025"},
+      {tid:"92–94",  item:"Silver Half Dollar (Franklin / Walking Liberty)",cat:"coin",note:"Large silver. Rich, confident tone."},
+      {tid:"93–95",  item:"Kennedy Half Dollar",                       cat:"coin",  note:"Clad or 40% silver versions."},
+      {tid:"95–96",  item:"1971 Ike Dollar",                           cat:"coin",  note:"Large clad coin."},
+      {tid:"95–97",  item:"Morgan / Peace Silver Dollar",              cat:"coin",  note:"Top of the scale silver. — Source: BBH 2025"},
+    ]
+  },
+
+  /* EQUINOX 900 — Sources: TreasureNet community, Kellyco, FindMall */
+  equinox900:{
+    label:'Minelab Equinox 900', ctx:false,
+    scaleLabel:'TID Scale: −19 to 99 · Multi-IQ+ · Air Test Baseline',
+    scaleTicks:['−19 IRON','0','25 NICKEL','50','75 COPPER','99 SILVER'],
+    targets:[
+      {tid:"-19–0",  item:"Iron / Nails / Wire",                       cat:"iron",  note:"Negative values = ferrous. Choppy broken signal."},
+      {tid:"1–5",    item:"Small Iron, Tiny Lead, Fine Foil",           cat:"trash", note:"Shallow erratic chirps."},
+      {tid:"5–12",   item:"Foil, Gum Wrappers, Small Trash",           cat:"trash", note:"Scratchy signal. Thin aluminum range."},
+      {tid:"8–15",   item:"Small Gold Jewelry (chains, studs)",         cat:"gold",  note:"Use All-Metal mode. Very faint, easy to miss."},
+      {tid:"18–25",  item:"Gold Rings — Small/Medium",                  cat:"gold",  note:"Overlaps pull-tab zone. Tone quality is the separator."},
+      {tid:"25–35",  item:"Pull Tabs (modern, various)",                cat:"trash", note:"Most common trash range. Compare tone quality to gold. — Source: TreasureNet"},
+      {tid:"26–28",  item:"US Nickel (Jefferson / Buffalo / War)",      cat:"coin",  note:"Solid tone here. War nickel (WWII) reads same range. — Source: TreasureNet"},
+      {tid:"26–33",  item:"Older Pull Rings",                           cat:"trash", note:"Choppy/jumpy edges. — Source: TreasureNet"},
+      {tid:"30–40",  item:"Gold Rings — Large / Heavy Bands",           cat:"gold",  note:"Dig all solid tones. Pull tabs overlap this zone."},
+      {tid:"38–42",  item:"Small Lead (sinkers, musket balls)",         cat:"relic", note:"Lead reads solid here."},
+      {tid:"45–50",  item:"Civil War Brass Buttons / Eagle Buttons",    cat:"relic", note:"Solid repeatable. Key relic signal."},
+      {tid:"55–65",  item:"Bronze / Copper Relics (buckles, buttons)",  cat:"relic", note:"Mid-range copper/brass. Solid tone."},
+      {tid:"60–65",  item:"Zinc Penny, clean (1982–present)",           cat:"coin",  note:"Source: TreasureNet community data."},
+      {tid:"18–72",  item:"Gold Jewelry — Full Range",                  cat:"gold",  note:"Gold rings vary widely. Dig all solid unidentified hits. — Source: TreasureNet"},
+      {tid:"72–75",  item:"Wheat Cent / Indian Head Cent",              cat:"coin",  note:"Source: TreasureNet / FindMall."},
+      {tid:"76–80",  item:"Clad Dime / Copper Memorial Penny",         cat:"coin",  note:"Source: TreasureNet. Very common park finds."},
+      {tid:"80–85",  item:"Silver Dime (Mercury / Roosevelt)",          cat:"coin",  note:"Slightly richer signal than clad dime."},
+      {tid:"82–86",  item:"Large Copper Cent / Early American Cent",    cat:"coin",  note:"Big copper. Solid repeatable high tone."},
+      {tid:"87–89",  item:"Clad Quarter (Washington / State)",          cat:"coin",  note:"Source: TreasureNet. Strong repeatable signal."},
+      {tid:"88–92",  item:"Silver Quarter (pre-1965)",                  cat:"coin",  note:"Richer tone than clad. — Source: TreasureNet / Kellyco"},
+      {tid:"90–92",  item:"Sacagawea / Presidential Dollar",            cat:"coin",  note:"Modern dollar coin. Solid consistent tone."},
+      {tid:"92–94",  item:"Silver Half Dollar (Franklin / Walking Liberty)",cat:"coin",note:"Large silver. Rich confident tone."},
+      {tid:"94–96",  item:"Ike Dollar / Kennedy Half Dollar",           cat:"coin",  note:"Large clad coin. Strong signal."},
+      {tid:"95–97",  item:"Morgan / Peace Silver Dollar",               cat:"coin",  note:"Top-tier silver. Confident high tone."},
+      {tid:"80–99⚠", item:"Bottle Caps (rusty steel)",                  cat:"trash", note:"High TID but BROKEN choppy signal. Check all sweep angles."},
+      {tid:"20–30",  item:"Platinum Ring",                              cat:"jewelry",note:"Reads in nickel/gold zone. Solid tone with clean edges."},
+    ]
+  },
+
+  /* EQUINOX 800 — Sources: BBH Equinox Chart, DetectorProspector VDI threads, HistoryDetector, DetectorProspector Gold Coins */
+  equinox800:{
+    label:'Minelab Equinox 800', ctx:false,
+    scaleLabel:'TID Scale: −9 to 40 · Multi-IQ · Air Test Baseline',
+    scaleTicks:['−9 IRON','0','10 GOLD','20 NICKEL','30 SILVER','40'],
+    targets:[
+      {tid:"-9– -1", item:"Iron / Nails / Wire",                       cat:"iron",  note:"Choppy, broken signal. Skip unless using All Metal."},
+      {tid:"1–3",    item:"Fine Iron, Small Lead, Tiny Foil",           cat:"trash", note:"Very shallow chirpy signal."},
+      {tid:"4–6",    item:"Foil, Gum Wrappers, Small Trash",           cat:"trash", note:"Thin aluminum foil range. Scratchy signal."},
+      {tid:"7–9",    item:"Small Gold Jewelry (fine chains, earrings)", cat:"gold",  note:"Use All-Metal. Very faint and easy to miss. — Source: DetectorProspector Gold Coins"},
+      {tid:"10–11",  item:"Very Small Gold Rings / Thin Bands",         cat:"gold",  note:"Solid repeatable = dig. Foil can falsely hit here."},
+      {tid:"11–12",  item:"Small Lead (fishing sinkers)",               cat:"relic", note:"Solid signal. Compare to gold tone quality."},
+      {tid:"12–13",  item:"US Nickel (Jefferson / Buffalo)",            cat:"coin",  note:"Classic nickel signal. Dig all solid 12–13 hits. — Source: BBH / DetectorProspector"},
+      {tid:"12–13",  item:"Silver War Nickel (35% silver, WWII)",       cat:"coin",  note:"Reads same as modern nickel. — Source: DetectorProspector VDI thread"},
+      {tid:"13–15",  item:"Beaver Tail Pull Tab",                       cat:"trash", note:"Choppy/jumpy. Gold rings overlap — check tone quality."},
+      {tid:"14–16",  item:"Gold Rings (10k–18k, medium size)",          cat:"gold",  note:"Critical zone. Solid tone = dig. Jumpy = tab. — Source: BBH"},
+      {tid:"15–17",  item:"Ring Pull Tab (whole)",                      cat:"trash", note:"Very common. Scratchy edges vs gold's cleaner signal."},
+      {tid:"16–17",  item:"Zip Tab",                                    cat:"trash", note:"Similar range to gold. Tone quality decides."},
+      {tid:"17–18",  item:"Aluminum Screw Cap",                         cat:"trash", note:"Consistent signal but sizable target."},
+      {tid:"18–19",  item:"Zinc Penny (corroded, post-1982)",           cat:"coin",  note:"Corroded zincers drop here. Clean ones read 21–22."},
+      {tid:"19–20",  item:"Large Gold Ring / Heavy Gold Band",          cat:"gold",  note:"Overlaps pull tab zone — tone quality is everything."},
+      {tid:"20–21",  item:"Small Aluminum Trash",                       cat:"trash", note:"Choppy. Common in park trash layers."},
+      {tid:"21–22",  item:"Zinc Penny (clean, 1982–present)",           cat:"coin",  note:"Very common. — Source: BBH / DetectorProspector VDI Chart"},
+      {tid:"23–24",  item:"Copper Penny (Wheat/Indian Head, pre-1982)", cat:"coin",  note:"Bronze cents. Solid, repeatable. — Source: BBH"},
+      {tid:"24–25",  item:"Large Cent (early American copper)",         cat:"coin",  note:"Big copper. Solid high-value signal."},
+      {tid:"24–26",  item:"Brass Button (Colonial/Civil War)",          cat:"relic", note:"Key relic signal. Dig all solid tones. — Source: DetectorProspector VDI Chart"},
+      {tid:"25–26",  item:"Musket Ball / Lead Ball",                    cat:"relic", note:"Lead. Solid signal around 25."},
+      {tid:"26–27",  item:"Silver Dime (Mercury / Roosevelt)",          cat:"coin",  note:"Clear silver tone. — Source: BBH / DetectorProspector VDI Chart"},
+      {tid:"27–28",  item:"Clad Dime (Roosevelt, modern)",              cat:"coin",  note:"Very close to silver dime. Slightly softer tone."},
+      {tid:"28–29",  item:"Clad Quarter (modern Washington)",           cat:"coin",  note:"Solid signal. Very common park find. — Source: BBH"},
+      {tid:"28–29",  item:"Half Dime (silver)",                         cat:"coin",  note:"Small 19th-century silver coin."},
+      {tid:"29–30",  item:"Silver Quarter (pre-1965)",                  cat:"coin",  note:"Slightly richer tone than clad. — Source: DetectorProspector VDI Chart"},
+      {tid:"30–31",  item:"Clad Half Dollar / 40% Silver Kennedy",      cat:"coin",  note:"Larger coin. Strong signal."},
+      {tid:"31–32",  item:"Silver Half Dollar (Franklin/Walking Liberty)",cat:"coin",note:"Full silver. Rich, confident tone. — Source: DetectorProspector VDI Chart"},
+      {tid:"32–34",  item:"Ike Dollar / Clad Dollar",                   cat:"coin",  note:"Large coin. Clear high signal."},
+      {tid:"33–35",  item:"Morgan / Peace Silver Dollar",               cat:"coin",  note:"Top-tier find. Solid confident tone. — Source: DetectorProspector VDI Chart"},
+      {tid:"35–40",  item:"Very Large Copper/Brass/Silver Objects",     cat:"relic", note:"Big targets like plates, buckles, large relics."},
+      {tid:"28–38⚠", item:"Bottle Caps (rusty steel)",                  cat:"trash", note:"BROKEN choppy signal edges. Sweep multiple directions."},
+      {tid:"20–30",  item:"Civil War Relics (belt plates, buckles)",    cat:"relic", note:"Brass and copper military hardware. Dig solid tones."},
+      {tid:"5–12",   item:"Gold Jewelry — Small (fine chains, studs)",  cat:"gold",  note:"Very easy to miss. Slow sweep, All-Metal mode. — Source: DetectorProspector Gold Coins"},
+      {tid:"12–20",  item:"Gold Jewelry — Medium (rings, bands)",       cat:"gold",  note:"Overlaps pull-tab zone. Tone quality is the only separator."},
+      {tid:"14–18",  item:"Platinum Ring",                              cat:"jewelry",note:"Reads in gold/pull-tab range. Solid tone with clean edges."},
+    ]
+  },
+
+  /* EQUINOX 700 — Sources: DetectorProspector, TreasureNet, FindMall. TID scale identical to Equinox 900 (same Multi-IQ+ platform). */
+  equinox700:{
+    label:'Minelab Equinox 700', ctx:false,
+    scaleLabel:'TID Scale: −19 to 99 · Multi-IQ+ · Air Test Baseline',
+    scaleTicks:['−19 IRON','0','25 NICKEL','50','75 COPPER','99 SILVER'],
+    targets:[
+      {tid:"-19–0",  item:"Iron / Nails / Wire",                       cat:"iron",  note:"Negative values = ferrous. Choppy broken signal."},
+      {tid:"1–5",    item:"Small Iron, Tiny Lead, Fine Foil",           cat:"trash", note:"Shallow erratic chirps."},
+      {tid:"5–12",   item:"Foil, Gum Wrappers, Small Trash",           cat:"trash", note:"Scratchy signal. Thin aluminum range."},
+      {tid:"8–15",   item:"Small Gold Jewelry (chains, studs)",         cat:"gold",  note:"Use All-Metal mode. Very faint, easy to miss."},
+      {tid:"18–25",  item:"Gold Rings — Small/Medium",                  cat:"gold",  note:"Overlaps pull-tab zone. Tone quality is the separator."},
+      {tid:"25–35",  item:"Pull Tabs (modern, various)",                cat:"trash", note:"Most common trash range. Compare tone quality to gold."},
+      {tid:"26–28",  item:"US Nickel (Jefferson / Buffalo / War)",      cat:"coin",  note:"Solid tone here. War nickel (WWII) reads same range."},
+      {tid:"26–33",  item:"Older Pull Rings",                           cat:"trash", note:"Choppy/jumpy edges."},
+      {tid:"30–40",  item:"Gold Rings — Large / Heavy Bands",           cat:"gold",  note:"Dig all solid tones. Pull tabs overlap this zone."},
+      {tid:"38–42",  item:"Small Lead (sinkers, musket balls)",         cat:"relic", note:"Lead reads solid here."},
+      {tid:"45–50",  item:"Civil War Brass Buttons / Eagle Buttons",    cat:"relic", note:"Solid repeatable. Key relic signal."},
+      {tid:"55–65",  item:"Bronze / Copper Relics (buckles, buttons)",  cat:"relic", note:"Mid-range copper/brass. Solid tone."},
+      {tid:"60–65",  item:"Zinc Penny, clean (1982–present)",           cat:"coin",  note:"Corroded specimens drop significantly lower."},
+      {tid:"18–72",  item:"Gold Jewelry — Full Range",                  cat:"gold",  note:"Gold rings vary widely. Dig all solid unidentified hits."},
+      {tid:"72–75",  item:"Wheat Cent / Indian Head Cent",              cat:"coin",  note:"Source: TreasureNet / FindMall."},
+      {tid:"76–80",  item:"Clad Dime / Copper Memorial Penny",         cat:"coin",  note:"Very common park finds."},
+      {tid:"80–85",  item:"Silver Dime (Mercury / Roosevelt)",          cat:"coin",  note:"Slightly richer signal than clad dime."},
+      {tid:"82–86",  item:"Large Copper Cent / Early American Cent",    cat:"coin",  note:"Big copper. Solid repeatable high tone."},
+      {tid:"87–89",  item:"Clad Quarter (Washington / State)",          cat:"coin",  note:"Strong repeatable signal."},
+      {tid:"88–92",  item:"Silver Quarter (pre-1965)",                  cat:"coin",  note:"Richer tone than clad."},
+      {tid:"90–92",  item:"Sacagawea / Presidential Dollar",            cat:"coin",  note:"Modern dollar coin. Solid consistent tone."},
+      {tid:"92–94",  item:"Silver Half Dollar (Franklin / Walking Liberty)",cat:"coin",note:"Large silver. Rich confident tone."},
+      {tid:"94–96",  item:"Ike Dollar / Kennedy Half Dollar",           cat:"coin",  note:"Large clad coin. Strong signal."},
+      {tid:"95–97",  item:"Morgan / Peace Silver Dollar",               cat:"coin",  note:"Top-tier silver. Confident high tone."},
+      {tid:"80–99⚠", item:"Bottle Caps (rusty steel)",                  cat:"trash", note:"High TID but BROKEN choppy signal. Check all sweep angles."},
+      {tid:"20–30",  item:"Platinum Ring",                              cat:"jewelry",note:"Reads in nickel/gold zone. Solid tone with clean edges."},
+    ]
+  }
+};
+
+const CATS=["all","coin","gold","jewelry","relic","trash","iron"];
+const CLBL={all:"All",coin:"Coins",gold:"Gold",jewelry:"Jewelry",relic:"Relics",trash:"Trash",iron:"Iron"};
+const CAT_PRE={coin:'coin',gold:'gold',jewelry:'jew',relic:'rel',trash:'trs',iron:'ion'};
+
+const BAND_COLORS={
+  coin:   'rgba(74,222,128,',
+  gold:   'rgba(251,191,36,',
+  jewelry:'rgba(167,139,250,',
+  relic:  'rgba(217,119,6,',
+  trash:  'rgba(107,114,128,',
+  iron:   'rgba(239,68,68,'
+};
+
+function tidRangeToPercent(tidStr, min, max){
+  const clean = tidStr.replace(/[⚠\s]/g, '');
+  const seg = clean.split('/')[0]; // non-CTX: first slash-segment only
+  const nums = (seg.match(/-?\d+/g)||[]).map(Number);
+  if(!nums.length) return null;
+  const lo = Math.max(Math.min(...nums), min);
+  const hi = Math.min(Math.max(...nums), max);
+  return {
+    left:  ((lo - min) / (max - min)) * 100,
+    width: Math.max(((hi - lo) / (max - min)) * 100, 0)
+  };
+}
+
+/* ═══ STATE ═══ */
+let themeMode   = localStorage.getItem('themeMode')   || 'auto';
+let detectorKey = localStorage.getItem('detectorKey') || 'manticore';
+let discShown   = localStorage.getItem('discShown')   !== 'false';
+let fontSize    = localStorage.getItem('fontSize')    || 'sm';
+let fieldMode   = localStorage.getItem('fieldMode') === 'true';
+let onbDet = null, onbMode = null;
+let scaleTid    = null; // number | null — set by scale bar drag, not persisted
+
+/* ═══ THEME ═══ */
+const sysDark = window.matchMedia('(prefers-color-scheme: dark)');
+function applyTheme(){
+  const res = themeMode==='auto'?(sysDark.matches?'night':'day'):themeMode;
+  document.documentElement.setAttribute('data-theme', res==='day'?'day':'');
+  document.querySelectorAll('.topt').forEach(el=>el.classList.toggle('sel', el.dataset.mode===themeMode));
+}
+sysDark.addEventListener('change',()=>{ if(themeMode==='auto') applyTheme(); });
+
+/* ═══ FONT SIZE ═══ */
+function applyFontSize(){
+  document.documentElement.setAttribute('data-fsize', fontSize==='sm'?'':fontSize);
+  document.querySelectorAll('.fopt').forEach(el=>el.classList.toggle('sel', el.dataset.fsize===fontSize));
+}
+
+/* ═══ DISCLAIMER ═══ */
+function applyDisc(){
+  document.getElementById('footer').classList.toggle('hidden',!discShown);
+  document.getElementById('disc-toggle').checked = discShown;
+}
+document.getElementById('dismiss-btn').addEventListener('click',()=>{
+  discShown=false; localStorage.setItem('discShown','false'); applyDisc();
+});
+document.getElementById('disc-toggle').addEventListener('change',e=>{
+  discShown=e.target.checked; localStorage.setItem('discShown',discShown?'true':'false'); applyDisc();
+});
+
+/* ═══ FIELD MODE ═══ */
+function applyFieldMode(isField){
+  fieldMode = isField;
+  localStorage.setItem('fieldMode', isField ? 'true' : 'false');
+  if(isField){
+    document.documentElement.setAttribute('data-mode','field');
+    searchVal = '';
+    document.getElementById('search').value = '';
+    scaleTid = null;
+    document.getElementById('sbar-thumb').classList.remove('visible');
+    document.getElementById('sbar-tooltip').classList.remove('visible');
+    pinnedTids.clear();
+    updateBarBands();
+  } else {
+    document.documentElement.removeAttribute('data-mode');
+  }
+  document.querySelectorAll('[data-mode-opt]').forEach(btn=>{
+    btn.classList.toggle('sel', btn.dataset.modeOpt===(isField?'field':'advanced'));
+  });
+  render();
+}
+
+/* ═══ ONBOARDING ═══ */
+function updateOnbSubmit(){
+  document.getElementById('onb-submit').disabled = !(onbDet && onbMode);
+}
+document.querySelectorAll('[data-onb-det]').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    onbDet = el.dataset.onbDet;
+    document.querySelectorAll('[data-onb-det]').forEach(d=>d.classList.toggle('sel', d===el));
+    updateOnbSubmit();
+  });
+});
+document.querySelectorAll('[data-onb-mode]').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    onbMode = el.dataset.onbMode;
+    document.querySelectorAll('[data-onb-mode]').forEach(m=>{
+      m.classList.remove('sel-field','sel-advanced');
+    });
+    el.classList.add(onbMode==='field' ? 'sel-field' : 'sel-advanced');
+    updateOnbSubmit();
+  });
+});
+document.getElementById('onb-submit').addEventListener('click', ()=>{
+  if(!onbDet || !onbMode) return;
+  detectorKey = onbDet;
+  localStorage.setItem('detectorKey', detectorKey);
+  localStorage.setItem('onboarded', 'true');
+  document.getElementById('onboard-modal').classList.remove('open');
+  applyDetector();
+  applyFieldMode(onbMode === 'field');
+});
+
+function updateBarBands(){
+  const bandsEl = document.getElementById('sbar-bands');
+  const bar     = document.getElementById('scalebar-bar');
+
+  // Remove previous tick marks (they sit directly in bar, outside sbar-bands)
+  bar.querySelectorAll('.sbar-tick').forEach(el => el.remove());
+
+  if(DETECTORS[detectorKey].ctx){
+    bandsEl.innerHTML = '';
+    return;
+  }
+
+  const {min, max} = scaleBounds();
+  let html = '';
+
+  // When any filter is active, grey out unselected bar regions
+  const hasActive = activeCats.size > 0 || pinnedTids.size > 0;
+  if(hasActive){
+    html += '<div class="sbar-band" style="left:0%;width:100%;background:rgba(0,0,0,0.55)"></div>';
+  }
+
+  // Category bands — one div per target in each active category
+  for(const cat of activeCats){
+    const color = BAND_COLORS[cat];
+    DETECTORS[detectorKey].targets
+      .filter(t => t.cat === cat)
+      .forEach(t => {
+        const r = tidRangeToPercent(t.tid, min, max);
+        if(!r) return;
+        const opacity = hasActive ? '0.75' : '0.4';
+        html += `<div class="sbar-band" style="left:${r.left.toFixed(2)}%;width:${r.width.toFixed(2)}%;background:${color}${opacity})"></div>`;
+      });
+  }
+
+  // Pinned card bands — brighter + tick marks at both edges
+  for(const tid of pinnedTids){
+    const t = DETECTORS[detectorKey].targets.find(t2 => t2.tid === tid);
+    if(!t) continue;
+    const r = tidRangeToPercent(t.tid, min, max);
+    if(!r) continue;
+    const color = BAND_COLORS[t.cat];
+    html += `<div class="sbar-band" style="left:${r.left.toFixed(2)}%;width:${r.width.toFixed(2)}%;background:${color}${hasActive ? '0.9' : '0.8'})"></div>`;
+    // Tick marks go directly in #scalebar-bar (NOT inside #sbar-bands)
+    // so they are not clipped by sbar-bands's overflow:hidden
+    // Left edge tick
+    const tickL = document.createElement('div');
+    tickL.className = 'sbar-tick';
+    tickL.style.cssText = `left:${r.left.toFixed(2)}%;background:${color}1)`;
+    bar.appendChild(tickL);
+    // Right edge tick (only if range has non-zero width)
+    if(r.width > 0){
+      const tickR = document.createElement('div');
+      tickR.className = 'sbar-tick';
+      tickR.style.cssText = `left:${(r.left + r.width).toFixed(2)}%;background:${color}1)`;
+      bar.appendChild(tickR);
+    }
+  }
+
+  bandsEl.innerHTML = html;
+}
+
+/* ═══ SCALE BAR ═══ */
+function scaleBounds(){
+  const ticks = DETECTORS[detectorKey].scaleTicks;
+  // scaleTicks use Unicode minus '−' (U+2212), not ASCII hyphen — replace before parseInt
+  function parseFirst(s){ return parseInt(s.replace('−','-'), 10); }
+  return { min: parseFirst(ticks[0]), max: parseFirst(ticks[5]) };
+}
+function initScaleBar(){
+  const bar     = document.getElementById('scalebar-bar');
+  const thumb   = document.getElementById('sbar-thumb');
+  const tval    = document.getElementById('sthumb-val');
+  const tooltip = document.getElementById('sbar-tooltip');
+  const sttNum  = document.getElementById('stt-num');
+
+  function startDrag(clientX){
+    const {min, max} = scaleBounds();
+    const rect = bar.getBoundingClientRect();
+    const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+    const tid = Math.round(min + (x / rect.width) * (max - min));
+    const pct = ((tid - min) / (max - min)) * 100;
+    scaleTid = tid;
+    sttNum.textContent = tid;
+    tooltip.style.left = pct + '%';
+    tooltip.classList.add('visible');
+    thumb.classList.remove('visible');
+    render();
+  }
+
+  function moveDrag(clientX){
+    const {min, max} = scaleBounds();
+    const rect = bar.getBoundingClientRect();
+    const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+    const tid = Math.round(min + (x / rect.width) * (max - min));
+    const pct = ((tid - min) / (max - min)) * 100;
+    scaleTid = tid;
+    sttNum.textContent = tid;
+    tooltip.style.left = pct + '%';
+    render();
+  }
+
+  function settleDrag(){
+    tooltip.classList.remove('visible');
+    if(scaleTid !== null){
+      const {min, max} = scaleBounds();
+      thumb.style.left = ((scaleTid - min) / (max - min)) * 100 + '%';
+      tval.textContent = scaleTid;
+      thumb.classList.add('visible');
+    }
+  }
+
+  function clearThumb(){
+    scaleTid = null;
+    thumb.classList.remove('visible');
+    tooltip.classList.remove('visible');
+    render(); // render() calls updateFilterUI() internally
+  }
+
+  bar.addEventListener('touchstart', e=>{
+    if(DETECTORS[detectorKey].ctx) return;
+    e.preventDefault();
+    startDrag(e.touches[0].clientX);
+  },{passive:false});
+
+  bar.addEventListener('touchmove', e=>{
+    if(DETECTORS[detectorKey].ctx) return;
+    e.preventDefault();
+    moveDrag(e.touches[0].clientX);
+  },{passive:false});
+
+  bar.addEventListener('touchend', ()=>{
+    if(DETECTORS[detectorKey].ctx) return;
+    settleDrag();
+  },{passive:true});
+
+  let dragging = false;
+  bar.addEventListener('mousedown', e=>{
+    if(DETECTORS[detectorKey].ctx) return;
+    dragging = true;
+    startDrag(e.clientX);
+  });
+  document.addEventListener('mousemove', e=>{
+    if(!dragging) return;
+    moveDrag(e.clientX);
+  });
+  document.addEventListener('mouseup', ()=>{
+    if(!dragging) return;
+    dragging = false;
+    settleDrag();
+  });
+
+  initScaleBar.clear = clearThumb;
+}
+
+function updateFilterUI(){
+  const hasTid    = scaleTid !== null;
+  const hasSearch = searchVal.trim().length > 0;
+  const hasCats   = activeCats.size > 0;
+  const hasPins   = pinnedTids.size > 0;
+
+  // show/hide filter status row
+  document.getElementById('filter-status').classList.toggle('visible', hasTid || hasSearch || hasCats || hasPins);
+
+  // TID chip
+  const tidChip = document.getElementById('fchip-tid');
+  tidChip.style.display = hasTid ? 'inline-flex' : 'none';
+  if(hasTid) document.getElementById('fchip-tid-val').textContent = scaleTid;
+
+  // search chip
+  const srchChip = document.getElementById('fchip-search');
+  srchChip.style.display = hasSearch ? 'inline-flex' : 'none';
+  if(hasSearch) document.getElementById('fchip-search-val').textContent = searchVal.trim();
+
+  // clear all link — replaced by Reset Filters button, always hidden
+  document.getElementById('fs-clear-all').style.display = 'none';
+
+  // Reset Filters button — visible in both modes when any filter is active
+  document.getElementById('field-show-all').style.display = (hasTid || hasSearch || hasCats || hasPins) ? 'block' : 'none';
+
+  // count bar summary
+  const parts = [];
+  if(hasTid)    parts.push('📍 TID ' + scaleTid);
+  if(hasSearch) parts.push('🔍 "' + searchVal.trim() + '"');
+  document.getElementById('cbar-summary').textContent = parts.length ? ' · ' + parts.join(' · ') : '';
+  updateFilterButtons();
+}
+
+/* ═══ FILTER CHIP EVENTS ═══ */
+document.getElementById('fchip-tid-x').addEventListener('click', ()=>{
+  if(initScaleBar.clear) initScaleBar.clear();
+});
+document.getElementById('fchip-search-x').addEventListener('click', ()=>{
+  searchVal='';
+  document.getElementById('search').value='';
+  render(); // render() calls updateFilterUI() internally
+});
+document.getElementById('fs-clear-all').addEventListener('click', ()=>{
+  activeCats.clear();
+  pinnedTids.clear();
+  searchVal='';
+  document.getElementById('search').value='';
+  if(initScaleBar.clear) initScaleBar.clear(); // calls render() internally
+  else render();
+  updateBarBands();
+});
+document.getElementById('field-show-all').addEventListener('click', ()=>{
+  activeCats.clear();
+  pinnedTids.clear();
+  searchVal='';
+  document.getElementById('search').value='';
+  if(initScaleBar.clear) initScaleBar.clear();
+  else render();
+  updateBarBands();
+});
+
+/* ═══ DETECTOR ═══ */
+function applyDetector(){
+  pinnedTids.clear();
+  const det=DETECTORS[detectorKey];
+  // Reset scale bar when switching to CTX (2D system — bar not applicable)
+  const clearedBar = det.ctx && scaleTid!==null && initScaleBar.clear;
+  if(clearedBar){
+    initScaleBar.clear(); // clearThumb() calls render() internally
+  }
+  // Also hide/show bar cursor affordance
+  document.getElementById('scalebar-bar').style.cursor = det.ctx ? 'default' : 'pointer';
+  document.getElementById('scalebar-bar').style.touchAction = det.ctx ? 'auto' : 'none';
+  document.getElementById('sbar-thumb').classList.remove('visible');
+  document.getElementById('det-label').textContent  =det.label;
+  document.getElementById('scale-label').textContent=det.scaleLabel;
+  document.getElementById('scale-ticks').innerHTML  =det.scaleTicks.map(t=>`<span>${t}</span>`).join('');
+
+  document.querySelectorAll('[data-det]').forEach(el=>el.classList.toggle('sel', el.dataset.det===detectorKey));
+  if(!clearedBar){
+    render(); // only render if we didn't already render via initScaleBar.clear()
+  }
+  updateBarBands();
+}
+
+/* ═══ SETTINGS DRAWER — with swipe-down to dismiss ═══ */
+const sov=document.getElementById('sov'), sdr=document.getElementById('sdrawer');
+function openSettings(){sov.classList.add('open');sdr.classList.add('open'); sdr.style.transform='';}
+function closeSettings(){
+  sdr.style.transition='transform .25s ease';
+  sov.classList.remove('open');sdr.classList.remove('open');
+  sdr.style.transform='';
+}
+document.getElementById('settings-btn').addEventListener('click',openSettings);
+sov.addEventListener('click',closeSettings);
+
+/* Swipe-down gesture on drawer */
+(function(){
+  let startY=0, startScrollTop=0, dragging=false;
+  sdr.addEventListener('touchstart',e=>{
+    startY=e.touches[0].clientY;
+    startScrollTop=sdr.scrollTop;
+    dragging=false;
+  },{passive:true});
+  sdr.addEventListener('touchmove',e=>{
+    const dy=e.touches[0].clientY - startY;
+    // Only drag-to-dismiss when scrolled to top and pulling downward
+    if(sdr.scrollTop<=0 && dy>0){
+      dragging=true;
+      sdr.style.transition='none';
+      sdr.style.transform=`translateY(${dy}px)`;
+    }
+  },{passive:true});
+  sdr.addEventListener('touchend',e=>{
+    if(!dragging){sdr.style.transform='';return;}
+    const dy=e.changedTouches[0].clientY - startY;
+    sdr.style.transition='transform .25s ease';
+    if(dy>80){
+      // dismissed — animate fully down then close
+      sdr.style.transform='translateY(100%)';
+      setTimeout(closeSettings,250);
+    } else {
+      // snap back
+      sdr.style.transform='';
+    }
+    dragging=false;
+  },{passive:true});
+})();
+document.querySelectorAll('.topt').forEach(o=>o.addEventListener('click',()=>{themeMode=o.dataset.mode;localStorage.setItem('themeMode',themeMode);applyTheme()}));
+document.querySelectorAll('[data-det]').forEach(o=>o.addEventListener('click',()=>{detectorKey=o.dataset.det;localStorage.setItem('detectorKey',detectorKey);applyDetector()}));
+document.querySelectorAll('.fopt').forEach(o=>o.addEventListener('click',()=>{fontSize=o.dataset.fsize;localStorage.setItem('fontSize',fontSize);applyFontSize()}));
+document.querySelectorAll('[data-mode-opt]').forEach(btn=>btn.addEventListener('click',()=>applyFieldMode(btn.dataset.modeOpt==='field')));
+
+/* ═══ CREDITS MODAL ═══ */
+const crModal=document.getElementById('credits-modal');
+document.getElementById('credits-btn').addEventListener('click',()=>{
+  closeSettings();
+  setTimeout(()=>crModal.classList.add('open'), 50);
+});
+crModal.addEventListener('click',e=>{
+  if(e.target===crModal) crModal.classList.remove('open');
+});
+
+/* ═══ FILTER + RENDER ═══ */
+let activeCats = new Set(), pinnedTids = new Set(), searchVal = '';
+
+/* Strip "— Source: ..." citations from note fields before display */
+function cleanNote(note){
+  if(!note) return '';
+  return note
+    .replace(/\s*[—–]\s*Source:[^]*$/i, '')  // remove " — Source: ..." to end
+    .replace(/^Source:[^]*$/i, '')            // remove notes that are entirely a source ref
+    .replace(/\.\s*$/, '')                    // tidy trailing period
+    .trim();
+}
+
+/* Range-aware TID search.
+   Handles: single numbers (29), ranges (72–78), negative ranges (-19–0),
+   CTX FE/CO format (12/43–45), multi-segment CTX (11–12/41–43). */
+function tidMatchesNum(tidStr, num){
+  const clean = tidStr.replace(/[⚠\s]/g, '');
+  const segments = clean.split('/');
+  for(const seg of segments){
+    const nums = (seg.match(/-?\d+/g) || []).map(Number);
+    if(!nums.length) continue;
+    const lo = Math.min(...nums), hi = Math.max(...nums);
+    if(num >= lo && num <= hi) return true;
+  }
+  return false;
+}
+
+function targetMatches(t, q){
+  if(!q) return true;
+  // Text match on item name or raw TID string
+  if(t.item.toLowerCase().includes(q) || t.tid.toLowerCase().includes(q)) return true;
+  // Numeric range match
+  const n = parseFloat(q);
+  if(!isNaN(n) && q.match(/^-?\d+(\.\d+)?$/)) return tidMatchesNum(t.tid, n);
+  return false;
+}
+
+function render(){
+  const det=DETECTORS[detectorKey], isCtx=det.ctx;
+  const q=searchVal.toLowerCase().trim();
+  // Determine if q is a plain integer for numeric range matching + highlight
+  const numQ = (q.match(/^-?\d+$/) ? parseFloat(q) : null);
+
+  const filtered=det.targets.filter(t=>
+    (activeCats.size===0 || activeCats.has(t.cat)) &&
+    targetMatches(t, q) &&
+    (scaleTid===null || tidMatchesNum(t.tid, scaleTid))
+  );
+  document.getElementById('count').textContent=filtered.length;
+  const tidLabel=isCtx?'FE/CO':'TID';
+  document.getElementById('list').innerHTML=filtered.map(t=>{
+    const note=cleanNote(t.note);
+    // Highlight TID cell only when text search is numeric and matched this card by range
+    const highlight = numQ!==null && tidMatchesNum(t.tid, numQ);
+    const isPinned = pinnedTids.has(t.tid);
+    const pinStyle = isPinned ? ` style="outline:2px solid var(--${CAT_PRE[t.cat]}-bo);outline-offset:2px"` : '';
+    return `
+    <div class="card${isCtx?' ctx':''} card-${t.cat}" data-tid="${t.tid}" data-cat="${t.cat}"${pinStyle}>
+      <div><div class="tval${highlight?' tval-highlight':''}">${t.tid}</div><div class="tlbl2">${tidLabel}</div></div>
+      <div>
+        <div class="iname">${t.item}</div>
+        ${fieldMode ? (note ? `<div class="inote">${note}</div>` : '') : isPinned ? '<div class="inote">Tap to unpin from bar</div>' : (note ? `<div class="inote">${note}</div>` : '')}
+      </div>
+      <span class="badge b-${t.cat}">${CLBL[t.cat]}</span>
+    </div>`;
+  }).join('')+'<div class="list-pad"></div>';
+  updateFilterUI();
+}
+function buildFilters(){
+  const c = document.getElementById('filters');
+  c.innerHTML = CATS.map(cat=>`<button class="fbtn" data-cat="${cat}">${CLBL[cat]}</button>`).join('');
+  c.querySelectorAll('.fbtn').forEach(btn => btn.addEventListener('click', ()=>{
+    const cat = btn.dataset.cat;
+    if(cat === 'all'){
+      activeCats.clear();
+    } else {
+      if(activeCats.has(cat)) activeCats.delete(cat);
+      else activeCats.add(cat);
+    }
+    render();
+    updateBarBands();
+  }));
+  updateFilterButtons();
+}
+function updateFilterButtons(){
+  document.querySelectorAll('.fbtn').forEach(btn=>{
+    const cat = btn.dataset.cat;
+    if(cat === 'all'){
+      btn.className = 'fbtn' + (activeCats.size === 0 ? ' a-all' : '');
+    } else {
+      btn.className = 'fbtn' + (activeCats.has(cat) ? ` a-${cat}` : '');
+    }
+  });
+}
+document.getElementById('search').addEventListener('input',e=>{searchVal=e.target.value;render()});
+document.getElementById('list').addEventListener('click', e=>{
+  if(fieldMode) return;
+  const card = e.target.closest('.card[data-tid]');
+  if(!card) return;
+  const tid = card.dataset.tid;
+  if(pinnedTids.has(tid)) pinnedTids.delete(tid);
+  else pinnedTids.add(tid);
+  updateBarBands();
+  render();
+});
+
+/* ═══ INIT ═══ */
+if(detectorKey === 'ctx3030'){ detectorKey = 'manticore'; localStorage.setItem('detectorKey','manticore'); }
+applyTheme(); applyFontSize(); applyDisc(); buildFilters(); applyDetector(); initScaleBar(); applyFieldMode(fieldMode);
+if(localStorage.getItem('onboarded') !== 'true'){
+  document.getElementById('onboard-modal').classList.add('open');
+}
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>
