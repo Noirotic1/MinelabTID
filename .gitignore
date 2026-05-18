@@ -2,3 +2,8 @@
 .superpowers/
 docs/
 README.txt
+.netlify/
+gen-icons.py
+icon-generator.html
+logo-mockup.html
+mockup-modern.html

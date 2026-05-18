@@ -1,7 +1,7 @@
 {
-  "name": "Minelab TID",
-  "short_name": "Minelab TID",
-  "description": "Minelab Manticore Target ID field reference chart",
+  "name": "Target ID",
+  "short_name": "Target ID",
+  "description": "Multi-detector Target ID field reference for metal detectorists",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0a0a0a",

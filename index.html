@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <meta name="apple-mobile-web-app-title" content="Minelab TID"/>
+  <meta name="apple-mobile-web-app-title" content="Target ID"/>
   <meta name="theme-color" content="#f59e0b"/>
   <link rel="manifest" href="./manifest.json"/>
   <link rel="apple-touch-icon" href="./icon-192.png"/>
-  <title>Minelab TID</title>
+  <title>Target ID</title>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -55,16 +55,16 @@
       --link:#1d4ed8;
     }
 
-    html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Courier New','Lucida Console',monospace;overscroll-behavior:none;transition:background .2s,color .2s}
+    html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;overscroll-behavior:none;transition:background .2s,color .2s}
     body{display:flex;flex-direction:column;height:100dvh}
 
     /* ══ HEADER — larger chrome fonts ══ */
-    #header{background:var(--hdr-bg);border-bottom:2px solid var(--hdr-border);padding:13px 16px 11px;padding-top:max(13px,env(safe-area-inset-top));flex-shrink:0;transition:background .2s,border-color .2s}
+    #header{background:var(--hdr-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--hdr-border);padding:13px 16px 11px;padding-top:max(13px,env(safe-area-inset-top));flex-shrink:0;transition:background .2s,border-color .2s}
     .hrow{display:flex;align-items:flex-start;justify-content:space-between}
     .htitles .eye{font-size:11px;letter-spacing:.22em;color:var(--hdr-eye);text-transform:uppercase;margin-bottom:3px;transition:color .2s}
     .htitles h1{font-size:21px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:var(--hdr-h1);line-height:1.1;transition:color .2s}
     .htitles .sub{font-size:11px;color:var(--hdr-sub);margin-top:3px;letter-spacing:.06em;transition:color .2s}
-    #settings-btn{background:transparent;border:1px solid var(--hdr-btn-border);border-radius:6px;padding:7px 11px;cursor:pointer;color:var(--hdr-btn-color);font-size:20px;line-height:1;-webkit-tap-highlight-color:transparent;flex-shrink:0;margin-left:10px;margin-top:2px;transition:border-color .2s,color .2s}
+    #settings-btn{background:transparent;border:1px solid var(--hdr-btn-border);border-radius:10px;padding:7px 11px;cursor:pointer;color:var(--hdr-btn-color);font-size:20px;line-height:1;-webkit-tap-highlight-color:transparent;flex-shrink:0;margin-left:10px;margin-top:2px;transition:border-color .2s,color .2s}
     #scalebar{margin-top:9px;position:relative;overflow:visible}
     #scalebar .slabels{display:flex;justify-content:space-between;font-size:9px;color:var(--hdr-tick);margin-bottom:3px;transition:color .2s}
     #scalebar .sbar{height:14px;border-radius:7px;background:linear-gradient(to right,#7f1d1d,#ef4444,#f59e0b,#4ade80,#22d3ee,#818cf8,#c4b5fd);border:1px solid #334155;position:relative;overflow:visible;cursor:pointer;touch-action:none}
@@ -100,17 +100,14 @@
     .slabel{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:11px;margin-top:20px}
     .slabel:first-of-type{margin-top:0}
 
-    /* detector opts */
-    .dopts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:4px}
-    .dopt{display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 8px;border-radius:8px;border:2px solid var(--border2);background:var(--surface2);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s}
-    .dopt.sel{border-color:var(--amber);background:rgba(245,158,11,.08)}
-    .dopt .dico{font-size:18px;line-height:1}
-    .dopt .dlbl{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text2);text-align:center;line-height:1.3}
-    .dopt.sel .dlbl{color:var(--amber)}
+    /* onboarding detector dropdown */
+    .onb-select{width:100%;background:var(--surface2);border:2px solid var(--border2);border-radius:10px;color:var(--text);padding:13px 40px 13px 14px;font-size:15px;font-family:inherit;outline:none;-webkit-appearance:none;appearance:none;cursor:pointer;transition:border-color .15s,background .15s;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:24px;margin-bottom:4px}
+    .onb-select:focus{border-color:var(--amber)}
+    .onb-select.has-val{border-color:var(--amber);background-color:rgba(245,158,11,.08)}
 
     /* theme opts */
     .topts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:4px}
-    .topt{display:flex;flex-direction:column;align-items:center;gap:6px;padding:13px 6px;border-radius:8px;border:2px solid var(--border2);background:var(--surface2);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s}
+    .topt{display:flex;flex-direction:column;align-items:center;gap:6px;padding:13px 6px;border-radius:12px;border:2px solid var(--border2);background:var(--surface2);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s}
     .topt.sel{border-color:var(--amber);background:var(--border)}
     .topt .tico{font-size:20px;line-height:1}
     .topt .tlbl{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text2)}
@@ -118,7 +115,7 @@
 
     /* font opts */
     .fopts{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:4px}
-    .fopt{display:flex;flex-direction:column;align-items:center;gap:5px;padding:11px 4px;border-radius:8px;border:2px solid var(--border2);background:var(--surface2);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s}
+    .fopt{display:flex;flex-direction:column;align-items:center;gap:5px;padding:11px 4px;border-radius:12px;border:2px solid var(--border2);background:var(--surface2);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s}
     .fopt.sel{border-color:var(--amber);background:var(--border)}
     .fopt .fico{font-weight:900;line-height:1;color:var(--text2)}
     .fopt .flbl{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
@@ -130,7 +127,7 @@
 
     /* ══ INTERFACE MODE SEGMENTED CONTROL ══ */
     .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
-    .sopt{padding:11px;border-radius:8px;border:2px solid var(--border2);background:var(--surface2);cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);-webkit-tap-highlight-color:transparent;transition:all .15s}
+    .sopt{padding:11px;border-radius:12px;border:2px solid var(--border2);background:var(--surface2);cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);-webkit-tap-highlight-color:transparent;transition:all .15s}
     .sopt.sel{border-color:var(--amber);background:var(--border);color:var(--amber)}
 
     /* ══ FIELD MODE OVERRIDES ══ */
@@ -143,7 +140,7 @@
     [data-mode="field"] #filter-status{display:none !important} /* !important beats .visible{display:flex} */
 
     /* ══ ONBOARDING MODAL ══ */
-    #onboard-modal{display:none;position:fixed;inset:0;background:rgba(10,15,30,.98);z-index:300;overflow-y:auto;padding:20px 16px}
+    #onboard-modal{display:none;position:fixed;inset:0;background:rgba(10,15,30,.98);z-index:300;overflow-y:auto;padding:20px 16px;padding-top:max(20px,env(safe-area-inset-top))}
     #onboard-modal.open{display:block}
     #onboard-panel{max-width:440px;margin:0 auto;padding-bottom:20px}
     .onb-eyebrow{font-size:10px;letter-spacing:.28em;color:var(--amber);text-transform:uppercase;text-align:center;margin-bottom:8px}
@@ -249,11 +246,11 @@
 
     /* ══ CONTROLS ══ */
     #controls{background:var(--surface);border-bottom:1px solid var(--border);padding:11px 13px;flex-shrink:0}
-    #search{width:100%;background:var(--input-bg);border:1px solid var(--border2);border-radius:4px;color:var(--text);padding:9px 11px;font-size:14px;font-family:inherit;margin-bottom:10px;outline:none;-webkit-appearance:none}
+    #search{width:100%;background:var(--input-bg);border:1px solid var(--border2);border-radius:10px;color:var(--text);padding:9px 11px;font-size:14px;font-family:inherit;margin-bottom:10px;outline:none;-webkit-appearance:none}
     #search::placeholder{color:var(--muted)}
     #search:focus{border-color:var(--amber)}
     #filters{display:flex;flex-wrap:wrap;gap:6px}
-    .fbtn{padding:6px 12px;border-radius:3px;font-size:var(--fs-filter);font-family:inherit;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;border:1px solid var(--border2);background:var(--surface2);color:var(--muted);font-weight:400;transition:all .15s;-webkit-tap-highlight-color:transparent}
+    .fbtn{padding:6px 14px;border-radius:99px;font-size:var(--fs-filter);font-family:inherit;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;border:1.5px solid var(--border2);background:var(--surface2);color:var(--muted);font-weight:600;transition:all .15s;-webkit-tap-highlight-color:transparent}
     .fbtn.a-all    {background:#1e3a5f;color:#60a5fa;border-color:#3b82f6;font-weight:700}
     .fbtn.a-coin   {background:var(--coin-bb);color:var(--coin-bt);border-color:var(--coin-bo);font-weight:700}
     .fbtn.a-gold   {background:var(--gold-bb);color:var(--gold-bt);border-color:var(--gold-bo);font-weight:700}
@@ -268,37 +265,37 @@
     /* ══ LIST ══ */
     #list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:4px 10px 8px}
     .list-pad{height:calc(52px + env(safe-area-inset-bottom))}
-    .card{border-radius:3px;margin-bottom:7px;padding:10px 11px;display:grid;grid-template-columns:70px 1fr auto;gap:8px;align-items:start}
+    .card{border-radius:12px;margin-bottom:8px;padding:12px 14px;display:grid;grid-template-columns:70px 1fr auto;gap:10px;align-items:start;border:1px solid transparent}
 
-    .card-coin    {background:var(--coin-bg);border-left:3px solid var(--coin-bo)}
-    .card-gold    {background:var(--gold-bg);border-left:3px solid var(--gold-bo)}
-    .card-jewelry {background:var(--jew-bg); border-left:3px solid var(--jew-bo)}
-    .card-relic   {background:var(--rel-bg); border-left:3px solid var(--rel-bo)}
-    .card-trash   {background:var(--trs-bg); border-left:3px solid var(--trs-bo)}
-    .card-iron    {background:var(--ion-bg); border-left:3px solid var(--ion-bo)}
-    .tval{font-size:var(--fs-tid);font-weight:900;line-height:1;letter-spacing:.02em}
-    .tlbl2{font-size:9px;color:var(--muted2);margin-top:2px;letter-spacing:.1em}
+    .card-coin    {background:var(--coin-bg);border-left:3px solid var(--coin-bo);border-color:rgba(74,222,128,.15)}
+    .card-gold    {background:var(--gold-bg);border-left:3px solid var(--gold-bo);border-color:rgba(251,191,36,.15)}
+    .card-jewelry {background:var(--jew-bg); border-left:3px solid var(--jew-bo); border-color:rgba(167,139,250,.15)}
+    .card-relic   {background:var(--rel-bg); border-left:3px solid var(--rel-bo); border-color:rgba(217,119,6,.15)}
+    .card-trash   {background:var(--trs-bg); border-left:3px solid var(--trs-bo); border-color:rgba(107,114,128,.15)}
+    .card-iron    {background:var(--ion-bg); border-left:3px solid var(--ion-bo); border-color:rgba(239,68,68,.15)}
+    .tval{font-family:'Courier New','Lucida Console',monospace;font-size:var(--fs-tid);font-weight:900;line-height:1;letter-spacing:.02em}
+    .tlbl2{font-size:9px;color:var(--muted2);margin-top:2px;letter-spacing:.1em;font-weight:500}
     .card-coin    .tval{color:var(--coin-bo)}
     .card-gold    .tval{color:var(--gold-bo)}
     .card-jewelry .tval{color:var(--jew-bo)}
     .card-relic   .tval{color:var(--rel-bo)}
     .card-trash   .tval{color:var(--trs-bo)}
     .card-iron    .tval{color:var(--ion-bo)}
-    .iname{font-size:var(--fs-name);font-weight:700;line-height:1.3}
+    .iname{font-size:var(--fs-name);font-weight:600;line-height:1.3}
     .card-coin    .iname{color:var(--coin-tx)}
     .card-gold    .iname{color:var(--gold-tx)}
     .card-jewelry .iname{color:var(--jew-tx)}
     .card-relic   .iname{color:var(--rel-tx)}
     .card-trash   .iname{color:var(--trs-tx)}
     .card-iron    .iname{color:var(--ion-tx)}
-    .inote{font-size:var(--fs-note);color:var(--muted);margin-top:3px;line-height:1.4}
-    .badge{font-size:var(--fs-badge);font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 6px;border-radius:2px;white-space:nowrap}
-    .b-coin    {background:var(--coin-bb);color:var(--coin-bt)}
-    .b-gold    {background:var(--gold-bb);color:var(--gold-bt)}
-    .b-jewelry {background:var(--jew-bb); color:var(--jew-bt)}
-    .b-relic   {background:var(--rel-bb); color:var(--rel-bt)}
-    .b-trash   {background:var(--trs-bb); color:var(--trs-bt)}
-    .b-iron    {background:var(--ion-bb); color:var(--ion-bt)}
+    .inote{font-size:var(--fs-note);color:var(--muted);margin-top:3px;line-height:1.5}
+    .badge{font-size:var(--fs-badge);font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:99px;white-space:nowrap;border:1px solid transparent}
+    .b-coin    {background:rgba(74,222,128,.12);  color:var(--coin-tx);  border-color:rgba(74,222,128,.25)}
+    .b-gold    {background:rgba(251,191,36,.12);  color:var(--gold-tx);  border-color:rgba(251,191,36,.25)}
+    .b-jewelry {background:rgba(167,139,250,.12); color:var(--jew-tx);   border-color:rgba(167,139,250,.25)}
+    .b-relic   {background:rgba(217,119,6,.12);   color:var(--rel-tx);   border-color:rgba(217,119,6,.25)}
+    .b-trash   {background:rgba(107,114,128,.12); color:var(--trs-tx);   border-color:rgba(107,114,128,.25)}
+    .b-iron    {background:rgba(239,68,68,.12);   color:var(--ion-tx);   border-color:rgba(239,68,68,.25)}
 
     /* ══ FOOTER ══ */
     #footer{position:fixed;bottom:0;left:0;right:0;background:var(--footer-bg);border-top:1px solid #f59e0b44;padding:7px 42px 7px 15px;padding-bottom:max(7px,env(safe-area-inset-bottom));font-size:11px;color:#94a3b8;letter-spacing:.04em;line-height:1.5;transition:transform .3s ease,opacity .3s ease}
@@ -307,6 +304,75 @@
     #list::-webkit-scrollbar{width:4px}
     #list::-webkit-scrollbar-track{background:transparent}
     #list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+    /* ══ MACHINE SLOTS (settings drawer) ══ */
+    #machine-slots{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:4px}
+    .mslot{display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 8px;border-radius:12px;border:2px solid var(--border2);background:var(--surface2);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s;position:relative;overflow:hidden;text-align:center}
+    .mslot.active{border-color:var(--amber);background:rgba(245,158,11,.08)}
+    .mslot.active .msname{color:var(--amber)}
+    .mslot.empty{border-style:dashed;opacity:.6}
+    .msico{font-size:18px;line-height:1}
+    .msname{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text2);line-height:1.3;word-break:break-word}
+    .mshint{font-size:9px;color:var(--muted2);margin-top:1px}
+    .mslot-fill{position:absolute;inset:0;background:var(--amber);opacity:0;transform-origin:left;pointer-events:none}
+    .mslot.pressing .mslot-fill{animation:lp-fill .6s linear forwards}
+    @keyframes lp-fill{from{opacity:0}to{opacity:.25}}
+    .io-row{display:flex;gap:8px;margin-top:10px}
+    .io-btn{flex:1;padding:10px 8px;background:transparent;border:1px solid var(--border2);border-radius:8px;color:var(--text2);font-family:inherit;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;text-align:center;-webkit-tap-highlight-color:transparent;transition:border-color .15s}
+    .io-btn:active{border-color:var(--amber);color:var(--amber)}
+
+    /* ══ MACHINE EDITOR OVERLAY ══ */
+    #machine-editor{display:none;position:fixed;inset:0;background:rgba(10,15,30,.98);z-index:150;overflow-y:auto;padding:0 0 calc(40px + env(safe-area-inset-bottom))}
+    #machine-editor.open{display:block}
+    #me-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;padding-top:max(14px,env(safe-area-inset-top));border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(10,15,30,.98);backdrop-filter:blur(12px);z-index:5}
+    #me-title{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--amber)}
+    .me-hbtn{background:transparent;border:1px solid var(--border2);border-radius:8px;padding:7px 13px;font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;-webkit-tap-highlight-color:transparent;color:var(--text2);transition:all .15s}
+    #me-save{border-color:var(--amber);color:var(--amber)}
+    #me-save:disabled{opacity:.35;cursor:not-allowed}
+    #me-body{padding:16px}
+    .me-section{margin-bottom:20px}
+    .me-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;display:block}
+    .me-input{width:100%;background:var(--input-bg);border:1.5px solid var(--border2);border-radius:8px;color:var(--text);padding:10px 12px;font-size:14px;font-family:inherit;outline:none;-webkit-appearance:none;transition:border-color .15s}
+    .me-input:focus{border-color:var(--amber)}
+    .me-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .me-small-label{font-size:10px;color:var(--muted);margin-bottom:5px}
+    #me-tpl-section{display:none}
+    #me-tpl-section.visible{display:block}
+    #me-tpl-select{width:100%;background:var(--input-bg);border:1.5px solid var(--border2);border-radius:8px;color:var(--text);padding:10px 36px 10px 12px;font-size:14px;font-family:inherit;outline:none;-webkit-appearance:none;appearance:none;cursor:pointer;transition:border-color .15s,background .15s;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;background-size:22px}
+    #me-tpl-select:focus{border-color:var(--amber)}
+    #me-tpl-select.has-val{border-color:var(--amber);background-color:rgba(245,158,11,.06)}
+    #me-cards{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+    .me-card-row{display:grid;grid-template-columns:60px 1fr auto;gap:8px;align-items:center;background:var(--surface2);border-radius:8px;border:1px solid var(--border);padding:9px 10px;cursor:pointer;transition:border-color .15s;-webkit-tap-highlight-color:transparent}
+    .me-card-row:active{border-color:var(--amber)}
+    .me-card-tid{font-family:'Courier New',monospace;font-size:12px;font-weight:900;color:var(--amber)}
+    .me-card-info{min-width:0}
+    .me-card-name{font-size:11px;font-weight:600;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .me-card-cat{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+    .me-card-chevron{font-size:16px;color:var(--muted2);font-weight:300;flex-shrink:0}
+    /* Expanded inline edit */
+    .me-card-expanded{display:block!important;cursor:default;border-color:var(--amber)!important;background:rgba(245,158,11,.05)!important;padding:12px!important}
+    .me-cexp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .me-cexp-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);font-weight:700}
+    .me-cexp-close{font-size:11px;color:var(--muted2);cursor:pointer;padding:3px 8px;border:1px solid var(--border2);border-radius:4px;font-weight:600;-webkit-tap-highlight-color:transparent}
+    .me-cexp-fields{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+    .me-cexp-field .me-small-label{margin-bottom:4px}
+    .me-cexp-select{width:100%;background:var(--input-bg);border:1.5px solid var(--border2);border-radius:8px;color:var(--text);padding:8px 10px;font-size:13px;font-family:inherit;outline:none;-webkit-appearance:none;cursor:pointer}
+    .me-cexp-select:focus{border-color:var(--amber)}
+    .me-cexp-actions{display:flex;gap:8px}
+    .me-cexp-save{flex:1;padding:9px;background:var(--amber);color:#0f172a;border:none;border-radius:6px;font-family:inherit;font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;-webkit-tap-highlight-color:transparent}
+    .me-cexp-del{padding:9px 12px;background:transparent;border:1.5px solid var(--red);border-radius:6px;color:var(--red);font-family:inherit;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;-webkit-tap-highlight-color:transparent}
+    #me-add-form{background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:12px}
+    .me-add-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+    .me-add-fields .me-input{font-size:13px;padding:8px 10px}
+    .me-add-fields .me-input::placeholder{color:var(--muted2);opacity:.5}
+    #me-anote::placeholder{color:var(--muted2);opacity:.5}
+    #me-cat-select{width:100%;background:var(--input-bg);border:1.5px solid var(--border2);border-radius:8px;color:var(--text);padding:8px 10px;font-size:13px;font-family:inherit;outline:none;-webkit-appearance:none;margin-bottom:8px;cursor:pointer}
+    #me-cat-select:focus{border-color:var(--amber)}
+    #me-add-btn{width:100%;padding:10px;background:var(--surface);border:1.5px solid var(--border2);border-radius:8px;color:var(--text2);font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s}
+    #me-add-btn:hover,#me-add-btn:active{border-color:var(--amber);color:var(--amber)}
+    #me-delete{width:100%;margin-top:20px;padding:13px;background:transparent;border:1.5px solid var(--red);border-radius:8px;color:var(--red);font-family:inherit;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:opacity .15s}
+    #me-delete:disabled{display:none}
+    #me-empty-note{font-size:11px;color:var(--muted2);text-align:center;padding:16px 0;display:none}
   </style>
 </head>
 <body>
@@ -336,13 +402,14 @@
   <div class="dhandle"></div>
   <div class="dtitle">⚙ Settings</div>
 
-  <div class="slabel">Detector</div>
-  <div class="dopts">
-    <div class="dopt" data-det="manticore"><span class="dico">🔴</span><span class="dlbl">Manticore</span></div>
-    <div class="dopt" data-det="equinox900"><span class="dico">🟠</span><span class="dlbl">Equinox 900</span></div>
-    <div class="dopt" data-det="equinox800"><span class="dico">🔵</span><span class="dlbl">Equinox 800</span></div>
-    <div class="dopt" data-det="equinox700"><span class="dico">🟡</span><span class="dlbl">Equinox 700</span></div>
+  <div class="slabel">My Machines</div>
+  <div id="machine-slots"></div>
+  <div class="slabel">Backup Detector Settings</div>
+  <div class="io-row">
+    <button class="io-btn" id="export-btn">⬆ Export Machines</button>
+    <button class="io-btn" id="import-btn">⬇ Import Machines</button>
   </div>
+  <input type="file" id="import-file" accept=".json" style="display:none"/>
 
   <div class="slabel">Display Mode</div>
   <div class="topts">
@@ -381,6 +448,10 @@
   <button id="credits-btn">
     <span>📋 Credits, Sources &amp; Contact</span>
     <span class="cr-arrow">›</span>
+  </button>
+  <button id="reset-btn" style="width:100%;margin-top:10px;background:transparent;border:1px solid var(--border2);border-radius:8px;padding:12px 16px;cursor:pointer;color:var(--muted2);font-family:inherit;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;text-align:left;display:flex;align-items:center;justify-content:space-between;-webkit-tap-highlight-color:transparent">
+    <span>↺ Reset App to Onboarding</span>
+    <span style="font-size:10px;color:var(--muted2)">Clears all data</span>
   </button>
 </div>
 
@@ -489,7 +560,79 @@
       </div>
     </div>
 
-    <div class="cr-ver">TID Reference App · v2.1 · May 2026<br>Built for the metal detecting community</div>
+    <div class="cr-section">
+      <div class="cr-section-title">🟣 Garrett AT Pro — Data Sources</div>
+      <div class="cr-source">
+        <div class="cr-src-name">High Plains Prospectors — AT Pro TID Chart</div>
+        <div class="cr-src-desc">Field-tested TID values for U.S. coins, gold, and common finds on the 0–99 scale. Primary source for validated ranges.</div>
+        <a class="cr-src-link" href="https://www.highplainsprospectors.com/blogs/the-finds-table/garrett-at-pro-target-id" target="_blank">highplainsprospectors.com › at-pro-target-id</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">My Metal Detector — Garrett AT Pro VDI Chart</div>
+        <div class="cr-src-desc">Coin-focused TID chart with confirmed nickel range (51–53) and dime/quarter data from field testing.</div>
+        <a class="cr-src-link" href="https://mymetaldetector.blogspot.com/2015/09/garrett-at-pro-vdi-numbers-and-coin.html" target="_blank">mymetaldetector.blogspot.com › at-pro-vdi-numbers</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">TreasureNet — AT Pro Field Reports</div>
+        <div class="cr-src-desc">Community thread with dug target measurements and cross-referenced relic/coin values from experienced hunters.</div>
+        <a class="cr-src-link" href="https://www.treasurenet.com/threads/garrett-at-pro.html" target="_blank">treasurenet.com › garrett-at-pro</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">ManualsLib — Garrett AT Pro Instruction Manual</div>
+        <div class="cr-src-desc">Official TID scale documentation and discriminator segment reference from the manufacturer.</div>
+        <a class="cr-src-link" href="https://www.manualslib.com/brand/garrett/at-pro/" target="_blank">manualslib.com › garrett-at-pro</a>
+      </div>
+    </div>
+
+    <div class="cr-section">
+      <div class="cr-section-title">🟤 Garrett AT MAX — Data Sources</div>
+      <div class="cr-source">
+        <div class="cr-src-name">Kellyco Detectors — AT MAX Product Guide</div>
+        <div class="cr-src-desc">TID scale documentation, enhanced audio features, and general range guidance for the AT MAX. Values near-identical to AT Pro.</div>
+        <a class="cr-src-link" href="https://www.kellycodetectors.com/garrett-at-max-metal-detector/" target="_blank">kellycodetectors.com › garrett-at-max</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">Serious Detecting — AT MAX TID Reference</div>
+        <div class="cr-src-desc">Field-compiled comparison of AT MAX vs AT Pro readings, noting jumpier response on deep targets.</div>
+        <a class="cr-src-link" href="https://www.seriousdetecting.com/garrett-at-max-review/" target="_blank">seriousdetecting.com › at-max-review</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">TreasureNet — AT MAX Community Thread</div>
+        <div class="cr-src-desc">Community-sourced field data confirming AT MAX TID values against dug targets.</div>
+        <a class="cr-src-link" href="https://www.treasurenet.com/threads/garrett-at-max.html" target="_blank">treasurenet.com › garrett-at-max</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">ManualsLib — Garrett AT MAX Instruction Manual</div>
+        <div class="cr-src-desc">Official TID scale and wireless audio documentation from the manufacturer.</div>
+        <a class="cr-src-link" href="https://www.manualslib.com/brand/garrett/at-max/" target="_blank">manualslib.com › garrett-at-max</a>
+      </div>
+    </div>
+
+    <div class="cr-section">
+      <div class="cr-section-title">⚫ Garrett ACE APEX — Data Sources</div>
+      <div class="cr-source">
+        <div class="cr-src-name">Second Star Hobbies — ACE APEX TID Chart</div>
+        <div class="cr-src-desc">Comprehensive field-tested TID values for the APEX's Multi-Flex multi-frequency platform. Primary source for APEX-specific readings.</div>
+        <a class="cr-src-link" href="https://secondstarhobbies.com/garrett-ace-apex-target-id-chart/" target="_blank">secondstarhobbies.com › ace-apex-target-id</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">ManualsLib — Garrett ACE APEX Instruction Manual</div>
+        <div class="cr-src-desc">Official 20-segment discriminator reference, frequency modes documentation, and TID scale from the manufacturer.</div>
+        <a class="cr-src-link" href="https://www.manualslib.com/brand/garrett/ace-apex/" target="_blank">manualslib.com › garrett-ace-apex</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">DetectorProspector — ACE APEX Field Reports</div>
+        <div class="cr-src-desc">Community thread with dug coin measurements and comparisons between APEX frequency modes.</div>
+        <a class="cr-src-link" href="https://www.detectorprospector.com/topic/garrett-ace-apex/" target="_blank">detectorprospector.com › garrett-ace-apex</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">FocusSpeed — ACE APEX Target ID Reference</div>
+        <div class="cr-src-desc">Field notes on bottle cap and trash target behavior specific to the APEX platform.</div>
+        <a class="cr-src-link" href="https://focusspeed.com/garrett-ace-apex-target-id/" target="_blank">focusspeed.com › ace-apex-target-id</a>
+      </div>
+    </div>
+
+    <div class="cr-ver">Target ID · v2.2 · May 2026<br>Built for the metal detecting community</div>
   </div>
 </div>
 
@@ -497,17 +640,25 @@
 <div id="onboard-modal">
   <div id="onboard-panel">
     <div class="onb-eyebrow">Welcome to</div>
-    <h2 class="onb-title">Minelab TID</h2>
+    <h2 class="onb-title">Target ID</h2>
     <p class="onb-sub">Field-ready Target ID reference.<br>Let's get you set up.</p>
 
     <div class="onb-step">
       <div class="onb-step-label"><span class="onb-num">1</span> Choose your detector</div>
-      <div class="dopts">
-        <div class="dopt" data-onb-det="manticore"><span class="dico">🔴</span><span class="dlbl">Manticore</span></div>
-        <div class="dopt" data-onb-det="equinox900"><span class="dico">🟠</span><span class="dlbl">Equinox 900</span></div>
-        <div class="dopt" data-onb-det="equinox800"><span class="dico">🔵</span><span class="dlbl">Equinox 800</span></div>
-        <div class="dopt" data-onb-det="equinox700"><span class="dico">🟡</span><span class="dlbl">Equinox 700</span></div>
-      </div>
+      <select id="onb-det-select" class="onb-select">
+        <option value="" disabled selected>— Select your detector —</option>
+        <optgroup label="Garrett">
+          <option value="aceapex">ACE APEX</option>
+          <option value="atmax">AT MAX</option>
+          <option value="atpro">AT Pro</option>
+        </optgroup>
+        <optgroup label="Minelab">
+          <option value="equinox700">Equinox 700</option>
+          <option value="equinox800">Equinox 800</option>
+          <option value="equinox900">Equinox 900</option>
+          <option value="manticore">Manticore</option>
+        </optgroup>
+      </select>
     </div>
 
     <div class="onb-step">
@@ -536,6 +687,96 @@
     </div>
 
     <button id="onb-submit" disabled>Let's Dig →</button>
+  </div>
+</div>
+
+<!-- Machine Editor Overlay -->
+<div id="machine-editor">
+  <div id="me-header">
+    <div id="me-title">Edit Machine</div>
+    <div style="display:flex;gap:8px">
+      <button class="me-hbtn" id="me-discard">Discard Changes</button>
+      <button class="me-hbtn" id="me-save" disabled>Save Changes</button>
+    </div>
+  </div>
+  <div id="me-body">
+
+    <!-- Template picker (create mode only) -->
+    <div class="me-section" id="me-tpl-section">
+      <span class="me-label">Start from a template</span>
+      <select id="me-tpl-select">
+        <option value="" disabled selected>— Choose a template —</option>
+        <optgroup label="Garrett">
+          <option value="aceapex">ACE APEX</option>
+          <option value="atmax">AT MAX</option>
+          <option value="atpro">AT Pro</option>
+        </optgroup>
+        <optgroup label="Minelab">
+          <option value="equinox700">Equinox 700</option>
+          <option value="equinox800">Equinox 800</option>
+          <option value="equinox900">Equinox 900</option>
+          <option value="manticore">Manticore</option>
+        </optgroup>
+        <optgroup label="Custom">
+          <option value="blank">Start Blank</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <!-- Machine name -->
+    <div class="me-section">
+      <span class="me-label">Machine Name</span>
+      <input class="me-input" id="me-name" type="text" placeholder="e.g. My Manticore" maxlength="30"/>
+    </div>
+
+    <!-- Scale range -->
+    <div class="me-section">
+      <span class="me-label">TID Scale Range</span>
+      <div class="me-row2">
+        <div>
+          <div class="me-small-label">Min (Iron / lowest)</div>
+          <input class="me-input" id="me-smin" type="number" placeholder="-19" min="-99" max="0"/>
+        </div>
+        <div>
+          <div class="me-small-label">Max (Silver / highest)</div>
+          <input class="me-input" id="me-smax" type="number" placeholder="99" min="1" max="999"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Target cards -->
+    <div class="me-section">
+      <span class="me-label">Target Cards <span id="me-card-count" style="font-weight:400;color:var(--muted)"></span></span>
+      <div id="me-empty-note">No cards yet. Add one below.</div>
+      <div id="me-cards"></div>
+      <div id="me-add-form">
+        <span class="me-label" style="margin-bottom:8px">Add a Card</span>
+        <div class="me-add-fields">
+          <div>
+            <div class="me-small-label">TID (e.g. 77–80)</div>
+            <input class="me-input" id="me-atid" type="text" placeholder="77–80" maxlength="20"/>
+          </div>
+          <div>
+            <div class="me-small-label">Item Name</div>
+            <input class="me-input" id="me-aitem" type="text" placeholder="Clad Dime" maxlength="50"/>
+          </div>
+        </div>
+        <select id="me-cat-select">
+          <option value="coin">💰 Coins</option>
+          <option value="gold">✨ Gold</option>
+          <option value="jewelry">💎 Jewelry</option>
+          <option value="relic">🏺 Relics</option>
+          <option value="trash">🗑 Trash</option>
+          <option value="iron">🔩 Iron</option>
+        </select>
+        <input class="me-input" id="me-anote" type="text" placeholder="Optional note" maxlength="120" style="margin-bottom:8px"/>
+        <button id="me-add-btn">+ Add Card</button>
+      </div>
+    </div>
+
+    <!-- Delete button (edit mode only) -->
+    <button id="me-delete" disabled>🗑 Delete This Machine</button>
+
   </div>
 </div>
 
@@ -727,6 +968,94 @@ const DETECTORS = {
       {tid:"80–99⚠", item:"Bottle Caps (rusty steel)",                  cat:"trash", note:"High TID but BROKEN choppy signal. Check all sweep angles."},
       {tid:"20–30",  item:"Platinum Ring",                              cat:"jewelry",note:"Reads in nickel/gold zone. Solid tone with clean edges."},
     ]
+  },
+
+  /* GARRETT AT PRO — Sources: HighPlainsProspectors, MyMetalDetector, ManualsLib, TreasureNet */
+  atpro:{
+    label:'Garrett AT Pro', ctx:false,
+    scaleLabel:'TID Scale: 0 to 99 · All-Metal and Discriminate modes',
+    scaleTicks:['0 IRON','20','40 LEAD','60','80 COINS','99 SILVER'],
+    targets:[
+      {tid:"1–15",   item:"Iron / Nails / Wire",                        cat:"iron",  note:"Ferrous range. Choppy, broken signal. — Source: HighPlainsProspectors"},
+      {tid:"12–19",  item:"Civil War Brass Buttons / Eagle Buttons",    cat:"relic", note:"Military buttons. Dig all solid tones in this range. — Source: TreasureNet"},
+      {tid:"35–50",  item:"Lead (sinkers, musket balls)",               cat:"relic", note:"Lead reads solidly in this range. Size determines exact position. — Source: TreasureNet"},
+      {tid:"38–45",  item:"Small Foil / Thin Aluminum Trash",           cat:"trash", note:"Thin aluminum. Scratchy, chirpy signal."},
+      {tid:"40–45",  item:"Thin Gold Jewelry (chains, studs)",          cat:"gold",  note:"Fine gold easily missed. Slow sweep, All-Metal mode. — Source: HighPlainsProspectors"},
+      {tid:"49–50",  item:"Silver 3-Cent Piece",                        cat:"coin",  note:"Small rare silver coin. Solid tone."},
+      {tid:"50–60",  item:"Pull Tabs (modern, various)",                cat:"trash", note:"Most common trash zone. Compare tone quality to gold."},
+      {tid:"50–60",  item:"Gold Jewelry — Medium (rings, bands)",       cat:"gold",  note:"Overlaps pull tab zone. Tone quality is the separator. — Source: HighPlainsProspectors"},
+      {tid:"51–53",  item:"US Nickel (Jefferson / Buffalo / V-Nickel)", cat:"coin",  note:"Confirmed field range. — Source: MyMetalDetector / TreasureNet"},
+      {tid:"62",     item:"$2.50 Gold Piece (Quarter Eagle)",           cat:"gold",  note:"Small U.S. gold coin. Solid confident tone."},
+      {tid:"69–75",  item:"Modern Zinc Penny (1982–present)",           cat:"coin",  note:"Clean specimens read higher; corroded drop lower."},
+      {tid:"75–82",  item:"Wheat Cent / Indian Head Cent",              cat:"coin",  note:"Bronze cents. Clear, repeatable signal. — Source: HighPlainsProspectors"},
+      {tid:"77–82⚠", item:"Bottle Caps (rusty steel)",                  cat:"trash", note:"BROKEN choppy signal. Sweep multiple directions. — Source: HighPlainsProspectors"},
+      {tid:"78–85",  item:"Clad Dime (Roosevelt)",                      cat:"coin",  note:"Very common park find. — Source: HighPlainsProspectors"},
+      {tid:"80–84",  item:"Silver Dime (Mercury / Roosevelt)",          cat:"coin",  note:"Slightly richer tone than clad. — Source: HighPlainsProspectors"},
+      {tid:"81",     item:"$20 Gold Piece (Double Eagle)",              cat:"gold",  note:"Large gold coin. Rare but solid confident tone."},
+      {tid:"81–82",  item:"Copper Cent (Wheat / Indian Head, pre-1982)",cat:"coin",  note:"Bronze cents. Solid high tone. — Source: HighPlainsProspectors"},
+      {tid:"84–90",  item:"Clad Quarter (Washington / State)",          cat:"coin",  note:"Strong repeatable signal. — Source: HighPlainsProspectors"},
+      {tid:"86–88",  item:"Silver Quarter (pre-1965)",                  cat:"coin",  note:"Slightly richer tone than clad quarter. — Source: HighPlainsProspectors"},
+      {tid:"89–92",  item:"Half Dollar — Clad / 40% Silver Kennedy",   cat:"coin",  note:"Large coin. Strong consistent signal. — Source: HighPlainsProspectors"},
+      {tid:"96",     item:"Silver Half Dollar (Franklin / Walking Liberty)",cat:"coin",note:"Full silver half. Rich, confident tone. — Source: ManualsLib"},
+      {tid:"98–99",  item:"Ike Dollar / Morgan Silver Dollar",          cat:"coin",  note:"Large coins at the top of the scale. — Source: HighPlainsProspectors"},
+    ]
+  },
+
+  /* GARRETT AT MAX — Sources: KellycoDetectors, SeriousDetecting, TreasureNet, ManualsLib. Scale and readings near-identical to AT Pro; jumpier on deep targets. */
+  atmax:{
+    label:'Garrett AT MAX', ctx:false,
+    scaleLabel:'TID Scale: 0 to 99 · Enhanced audio, wireless-ready',
+    scaleTicks:['0 IRON','20','40 LEAD','60','80 COINS','99 SILVER'],
+    targets:[
+      {tid:"1–15",   item:"Iron / Nails / Wire",                        cat:"iron",  note:"Ferrous range. Choppy, broken signal. — Source: SeriousDetecting"},
+      {tid:"12–19",  item:"Civil War Brass Buttons / Eagle Buttons",    cat:"relic", note:"Military relics. Dig all solid tones. — Source: TreasureNet"},
+      {tid:"35–50",  item:"Lead (sinkers, musket balls)",               cat:"relic", note:"Lead reads solidly in this range. — Source: TreasureNet"},
+      {tid:"38–45",  item:"Small Foil / Thin Aluminum Trash",           cat:"trash", note:"Thin aluminum. Scratchy signal."},
+      {tid:"40–45",  item:"Thin Gold Jewelry (chains, studs)",          cat:"gold",  note:"Fine gold easily missed. Use All-Metal mode. — Source: KellycoDetectors"},
+      {tid:"49–50",  item:"Silver 3-Cent Piece",                        cat:"coin",  note:"Small rare silver coin. Solid tone."},
+      {tid:"50–60",  item:"Pull Tabs (modern, various)",                cat:"trash", note:"Most common trash zone. Deep targets may jump more than AT Pro."},
+      {tid:"50–60",  item:"Gold Jewelry — Medium (rings, bands)",       cat:"gold",  note:"Overlaps pull tab zone. Tone quality is the separator. — Source: KellycoDetectors"},
+      {tid:"51–53",  item:"US Nickel (Jefferson / Buffalo / V-Nickel)", cat:"coin",  note:"Reads same as AT Pro. — Source: TreasureNet"},
+      {tid:"62",     item:"$2.50 Gold Piece (Quarter Eagle)",           cat:"gold",  note:"Small U.S. gold coin. Solid confident tone."},
+      {tid:"69–75",  item:"Modern Zinc Penny (1982–present)",           cat:"coin",  note:"Deep specimens may read lower due to frequency effect."},
+      {tid:"75–82",  item:"Wheat Cent / Indian Head Cent",              cat:"coin",  note:"Bronze cents. Clear, repeatable signal. — Source: TreasureNet"},
+      {tid:"77–82⚠", item:"Bottle Caps (rusty steel)",                  cat:"trash", note:"BROKEN choppy signal. Sweep multiple directions. — Source: SeriousDetecting"},
+      {tid:"79–85",  item:"Clad Dime (Roosevelt)",                      cat:"coin",  note:"Very common park find. Slightly shifted vs AT Pro at depth. — Source: KellycoDetectors"},
+      {tid:"80–84",  item:"Silver Dime (Mercury / Roosevelt)",          cat:"coin",  note:"Slightly richer tone than clad. — Source: TreasureNet"},
+      {tid:"81",     item:"$20 Gold Piece (Double Eagle)",              cat:"gold",  note:"Large gold coin. Rare but solid confident tone."},
+      {tid:"81–82",  item:"Copper Cent (Wheat / Indian Head, pre-1982)",cat:"coin",  note:"Bronze cents. Solid high tone. — Source: TreasureNet"},
+      {tid:"84–90",  item:"Clad Quarter (Washington / State)",          cat:"coin",  note:"Strong repeatable signal. — Source: KellycoDetectors"},
+      {tid:"86–88",  item:"Silver Quarter (pre-1965)",                  cat:"coin",  note:"Slightly richer tone than clad. — Source: TreasureNet"},
+      {tid:"89–92",  item:"Half Dollar — Clad / 40% Silver Kennedy",   cat:"coin",  note:"Large coin. Strong consistent signal. — Source: KellycoDetectors"},
+      {tid:"96",     item:"Silver Half Dollar (Franklin / Walking Liberty)",cat:"coin",note:"Full silver half. Rich, confident tone. — Source: ManualsLib"},
+      {tid:"98–99",  item:"Ike Dollar / Morgan Silver Dollar",          cat:"coin",  note:"Large coins. Top of scale. — Source: KellycoDetectors"},
+    ]
+  },
+
+  /* GARRETT ACE APEX — Sources: SecondStarHobbies, ManualsLib, DetectorProspector, FocusSpeed. Multi-Flex multi-frequency (5/10/15/20 kHz). */
+  aceapex:{
+    label:'Garrett ACE APEX', ctx:false,
+    scaleLabel:'TID Scale: 0 to 99 · Multi-Flex multi-frequency',
+    scaleTicks:['0 IRON','20','40 LEAD','60','80 COINS','99 SILVER'],
+    targets:[
+      {tid:"1–35",   item:"Iron / Nails / Wire",                        cat:"iron",  note:"Ferrous range. Discriminate at 35 to reject most iron. — Source: ManualsLib"},
+      {tid:"35–45",  item:"Small Foil / Thin Aluminum Trash",           cat:"trash", note:"Low aluminum range. Scratchy signal."},
+      {tid:"38–48",  item:"Lead (sinkers, musket balls)",               cat:"relic", note:"Lead reads in this zone on the APEX. — Source: SecondStarHobbies"},
+      {tid:"40–48",  item:"Thin Gold Jewelry (chains, studs)",          cat:"gold",  note:"Fine gold. Use All-Metal mode and slow sweep. — Source: SecondStarHobbies"},
+      {tid:"50–53",  item:"US Nickel (Jefferson / Buffalo)",            cat:"coin",  note:"Nickel and thin foil overlap here. Tone quality separates. — Source: SecondStarHobbies"},
+      {tid:"50–60",  item:"Pull Tabs (modern, various)",                cat:"trash", note:"Common trash zone. Compare tone quality to gold."},
+      {tid:"55–65",  item:"Gold Jewelry — Medium (rings, bands)",       cat:"gold",  note:"Overlaps pull tab zone. Solid clean tone = dig. — Source: SecondStarHobbies"},
+      {tid:"65–75",  item:"Modern Zinc Penny (1982–present)",           cat:"coin",  note:"Reads lower than AT Pro on APEX scale. — Source: SecondStarHobbies"},
+      {tid:"72–78",  item:"Wheat Cent / Indian Head Cent",              cat:"coin",  note:"Bronze cents. Clear repeatable signal. — Source: DetectorProspector"},
+      {tid:"77–82⚠", item:"Bottle Caps (rusty steel)",                  cat:"trash", note:"BROKEN choppy signal edges. Sweep all directions. — Source: FocusSpeed"},
+      {tid:"79–85",  item:"Clad Dime (Roosevelt)",                      cat:"coin",  note:"Very common park find. — Source: SecondStarHobbies"},
+      {tid:"80–84",  item:"Silver Dime (Mercury / Roosevelt)",          cat:"coin",  note:"Slightly richer tone than clad. — Source: SecondStarHobbies"},
+      {tid:"84–91",  item:"Clad Quarter (Washington / State)",          cat:"coin",  note:"Reads slightly higher than AT Pro. — Source: SecondStarHobbies"},
+      {tid:"85–90",  item:"Silver Quarter (pre-1965)",                  cat:"coin",  note:"Richer tone than clad quarter. — Source: SecondStarHobbies"},
+      {tid:"89–92",  item:"Half Dollar — Clad / 40% Silver Kennedy",   cat:"coin",  note:"Large coin. Strong consistent signal. — Source: SecondStarHobbies"},
+      {tid:"86–95",  item:"Dollar Coins (Ike, Sacagawea, Morgan)",     cat:"coin",  note:"Large coins cluster in this range on the APEX. — Source: SecondStarHobbies"},
+      {tid:"95–99",  item:"Morgan / Peace Silver Dollar",               cat:"coin",  note:"Top-tier silver. Confident high tone. — Source: DetectorProspector"},
+    ]
   }
 };
 
@@ -757,13 +1086,73 @@ function tidRangeToPercent(tidStr, min, max){
 }
 
 /* ═══ STATE ═══ */
-let themeMode   = localStorage.getItem('themeMode')   || 'auto';
-let detectorKey = localStorage.getItem('detectorKey') || 'manticore';
-let discShown   = localStorage.getItem('discShown')   !== 'false';
-let fontSize    = localStorage.getItem('fontSize')    || 'sm';
-let fieldMode   = localStorage.getItem('fieldMode') === 'true';
+let themeMode        = localStorage.getItem('themeMode')   || 'auto';
+let detectorKey      = localStorage.getItem('detectorKey') || 'manticore';
+let discShown        = localStorage.getItem('discShown')   !== 'false';
+let fontSize         = localStorage.getItem('fontSize')    || 'sm';
+let fieldMode        = localStorage.getItem('fieldMode') === 'true';
 let onbDet = null, onbMode = null;
-let scaleTid    = null; // number | null — set by scale bar drag, not persisted
+let scaleTid         = null; // number | null — set by scale bar drag, not persisted
+
+let userMachines     = [];   // Array of machine objects (max 4)
+let activeMachineIdx = 0;    // Index into userMachines
+
+let editorSlot     = null;   // 0–3 slot being edited/created
+let editorMode     = null;   // 'edit' | 'create'
+let editorDraft    = null;   // working copy of machine while editing
+let expandedCardId = null;   // id of card currently expanded for editing
+
+/* ═══ MACHINE HELPERS ═══ */
+function genId(prefix){return prefix+'_'+Math.random().toString(36).slice(2,9)}
+
+function scaleBoundsForTemplate(det){
+  function parseFirst(s){return parseInt(s.replace('−','-'),10)}
+  return {min:parseFirst(det.scaleTicks[0]),max:parseFirst(det.scaleTicks[5])}
+}
+
+function machineFromTemplate(key){
+  const det=DETECTORS[key];
+  const bounds=scaleBoundsForTemplate(det);
+  return {
+    id:genId('m'), name:det.label, baseKey:key,
+    scaleMin:bounds.min, scaleMax:bounds.max,
+    targets:det.targets.map(t=>({...t,id:genId('t')}))
+  };
+}
+
+function currentMachine(){return userMachines[activeMachineIdx] || userMachines[0]}
+
+function saveMachines(){
+  localStorage.setItem('userMachines',JSON.stringify(userMachines));
+  localStorage.setItem('activeMachineIdx',String(activeMachineIdx));
+}
+
+function initMachines(){
+  const raw=localStorage.getItem('userMachines');
+  if(raw){
+    try{
+      userMachines=JSON.parse(raw);
+      if(!Array.isArray(userMachines)) throw new Error('bad');
+      activeMachineIdx=Math.max(0,parseInt(localStorage.getItem('activeMachineIdx')||'0',10)||0);
+      if(activeMachineIdx>=userMachines.length) activeMachineIdx=0;
+    }catch{
+      userMachines=[];activeMachineIdx=0;
+    }
+  } else {
+    // Migration: onboarded user with old detectorKey
+    const dk=localStorage.getItem('detectorKey')||'manticore';
+    const safeKey=DETECTORS[dk]?dk:'manticore';
+    userMachines=[machineFromTemplate(safeKey)];
+    activeMachineIdx=0;
+    saveMachines();
+  }
+}
+
+function machineTicks(m){
+  const n=5, steps=[];
+  for(let i=0;i<=n;i++) steps.push(Math.round(m.scaleMin+(m.scaleMax-m.scaleMin)*i/n));
+  return steps.map(String);
+}
 
 /* ═══ THEME ═══ */
 const sysDark = window.matchMedia('(prefers-color-scheme: dark)');
@@ -818,12 +1207,10 @@ function applyFieldMode(isField){
 function updateOnbSubmit(){
   document.getElementById('onb-submit').disabled = !(onbDet && onbMode);
 }
-document.querySelectorAll('[data-onb-det]').forEach(el=>{
-  el.addEventListener('click', ()=>{
-    onbDet = el.dataset.onbDet;
-    document.querySelectorAll('[data-onb-det]').forEach(d=>d.classList.toggle('sel', d===el));
-    updateOnbSubmit();
-  });
+document.getElementById('onb-det-select').addEventListener('change', function(){
+  onbDet = this.value;
+  this.classList.add('has-val');
+  updateOnbSubmit();
 });
 document.querySelectorAll('[data-onb-mode]').forEach(el=>{
   el.addEventListener('click', ()=>{
@@ -837,81 +1224,62 @@ document.querySelectorAll('[data-onb-mode]').forEach(el=>{
 });
 document.getElementById('onb-submit').addEventListener('click', ()=>{
   if(!onbDet || !onbMode) return;
-  detectorKey = onbDet;
-  localStorage.setItem('detectorKey', detectorKey);
-  localStorage.setItem('onboarded', 'true');
+  const m=machineFromTemplate(onbDet);
+  userMachines=[m];
+  activeMachineIdx=0;
+  saveMachines();
+  localStorage.setItem('onboarded','true');
+  localStorage.removeItem('detectorKey');
   document.getElementById('onboard-modal').classList.remove('open');
-  applyDetector();
-  applyFieldMode(onbMode === 'field');
+  applyMachine(0);
+  applyFieldMode(onbMode==='field');
 });
 
 function updateBarBands(){
-  const bandsEl = document.getElementById('sbar-bands');
-  const bar     = document.getElementById('scalebar-bar');
-
-  // Remove previous tick marks (they sit directly in bar, outside sbar-bands)
-  bar.querySelectorAll('.sbar-tick').forEach(el => el.remove());
-
-  if(DETECTORS[detectorKey].ctx){
-    bandsEl.innerHTML = '';
-    return;
-  }
-
-  const {min, max} = scaleBounds();
-  let html = '';
-
-  // When any filter is active, grey out unselected bar regions
-  const hasActive = activeCats.size > 0 || pinnedTids.size > 0;
-  if(hasActive){
-    html += '<div class="sbar-band" style="left:0%;width:100%;background:rgba(0,0,0,0.55)"></div>';
-  }
-
-  // Category bands — one div per target in each active category
+  const bandsEl=document.getElementById('sbar-bands');
+  const bar=document.getElementById('scalebar-bar');
+  bar.querySelectorAll('.sbar-tick').forEach(el=>el.remove());
+  const m=currentMachine();
+  if(!m){bandsEl.innerHTML='';return;}
+  const {min,max}=scaleBounds();
+  let html='';
+  const hasActive=activeCats.size>0||pinnedTids.size>0;
+  if(hasActive) html+='<div class="sbar-band" style="left:0%;width:100%;background:rgba(0,0,0,0.55)"></div>';
   for(const cat of activeCats){
-    const color = BAND_COLORS[cat];
-    DETECTORS[detectorKey].targets
-      .filter(t => t.cat === cat)
-      .forEach(t => {
-        const r = tidRangeToPercent(t.tid, min, max);
-        if(!r) return;
-        const opacity = hasActive ? '0.75' : '0.4';
-        html += `<div class="sbar-band" style="left:${r.left.toFixed(2)}%;width:${r.width.toFixed(2)}%;background:${color}${opacity})"></div>`;
-      });
+    const color=BAND_COLORS[cat];
+    m.targets.filter(t=>t.cat===cat).forEach(t=>{
+      const r=tidRangeToPercent(t.tid,min,max);
+      if(!r) return;
+      const opacity=hasActive?'0.75':'0.4';
+      html+=`<div class="sbar-band" style="left:${r.left.toFixed(2)}%;width:${r.width.toFixed(2)}%;background:${color}${opacity})"></div>`;
+    });
   }
-
-  // Pinned card bands — brighter + tick marks at both edges
   for(const tid of pinnedTids){
-    const t = DETECTORS[detectorKey].targets.find(t2 => t2.tid === tid);
+    const t=m.targets.find(t2=>t2.tid===tid);
     if(!t) continue;
-    const r = tidRangeToPercent(t.tid, min, max);
+    const r=tidRangeToPercent(t.tid,min,max);
     if(!r) continue;
-    const color = BAND_COLORS[t.cat];
-    html += `<div class="sbar-band" style="left:${r.left.toFixed(2)}%;width:${r.width.toFixed(2)}%;background:${color}${hasActive ? '0.9' : '0.8'})"></div>`;
-    // Tick marks go directly in #scalebar-bar (NOT inside #sbar-bands)
-    // so they are not clipped by sbar-bands's overflow:hidden
-    // Left edge tick
-    const tickL = document.createElement('div');
-    tickL.className = 'sbar-tick';
-    tickL.style.cssText = `left:${r.left.toFixed(2)}%;background:${color}1)`;
+    const color=BAND_COLORS[t.cat];
+    html+=`<div class="sbar-band" style="left:${r.left.toFixed(2)}%;width:${r.width.toFixed(2)}%;background:${color}${hasActive?'0.9':'0.8'})"></div>`;
+    const tickL=document.createElement('div');
+    tickL.className='sbar-tick';
+    tickL.style.cssText=`left:${r.left.toFixed(2)}%;background:${color}1)`;
     bar.appendChild(tickL);
-    // Right edge tick (only if range has non-zero width)
-    if(r.width > 0){
-      const tickR = document.createElement('div');
-      tickR.className = 'sbar-tick';
-      tickR.style.cssText = `left:${(r.left + r.width).toFixed(2)}%;background:${color}1)`;
+    if(r.width>0){
+      const tickR=document.createElement('div');
+      tickR.className='sbar-tick';
+      tickR.style.cssText=`left:${(r.left+r.width).toFixed(2)}%;background:${color}1)`;
       bar.appendChild(tickR);
     }
   }
-
-  bandsEl.innerHTML = html;
+  bandsEl.innerHTML=html;
 }
 
 /* ═══ SCALE BAR ═══ */
 function scaleBounds(){
-  const ticks = DETECTORS[detectorKey].scaleTicks;
-  // scaleTicks use Unicode minus '−' (U+2212), not ASCII hyphen — replace before parseInt
-  function parseFirst(s){ return parseInt(s.replace('−','-'), 10); }
-  return { min: parseFirst(ticks[0]), max: parseFirst(ticks[5]) };
+  const m=currentMachine();
+  if(!m) return {min:-19, max:99};
+  return {min:m.scaleMin, max:m.scaleMax};
 }
 function initScaleBar(){
   const bar     = document.getElementById('scalebar-bar');
@@ -964,25 +1332,21 @@ function initScaleBar(){
   }
 
   bar.addEventListener('touchstart', e=>{
-    if(DETECTORS[detectorKey].ctx) return;
     e.preventDefault();
     startDrag(e.touches[0].clientX);
   },{passive:false});
 
   bar.addEventListener('touchmove', e=>{
-    if(DETECTORS[detectorKey].ctx) return;
     e.preventDefault();
     moveDrag(e.touches[0].clientX);
   },{passive:false});
 
   bar.addEventListener('touchend', ()=>{
-    if(DETECTORS[detectorKey].ctx) return;
     settleDrag();
   },{passive:true});
 
   let dragging = false;
   bar.addEventListener('mousedown', e=>{
-    if(DETECTORS[detectorKey].ctx) return;
     dragging = true;
     startDrag(e.clientX);
   });
@@ -1060,28 +1424,102 @@ document.getElementById('field-show-all').addEventListener('click', ()=>{
   updateBarBands();
 });
 
-/* ═══ DETECTOR ═══ */
-function applyDetector(){
+/* ═══ MACHINE ═══ */
+function applyMachine(idx){
+  if(!userMachines.length){
+    document.getElementById('det-label').textContent='No Detector';
+    document.getElementById('scale-label').textContent='Open ⚙ Settings to add a machine';
+    document.getElementById('scale-ticks').innerHTML='';
+    buildMachineSlots();
+    render();
+    updateBarBands();
+    return;
+  }
+  activeMachineIdx=Math.max(0,Math.min(idx,userMachines.length-1));
+  saveMachines();
   pinnedTids.clear();
-  const det=DETECTORS[detectorKey];
-  // Reset scale bar when switching to CTX (2D system — bar not applicable)
-  const clearedBar = det.ctx && scaleTid!==null && initScaleBar.clear;
-  if(clearedBar){
-    initScaleBar.clear(); // clearThumb() calls render() internally
-  }
-  // Also hide/show bar cursor affordance
-  document.getElementById('scalebar-bar').style.cursor = det.ctx ? 'default' : 'pointer';
-  document.getElementById('scalebar-bar').style.touchAction = det.ctx ? 'auto' : 'none';
+  const m=currentMachine();
+  document.getElementById('scalebar-bar').style.cursor='pointer';
+  document.getElementById('scalebar-bar').style.touchAction='none';
   document.getElementById('sbar-thumb').classList.remove('visible');
-  document.getElementById('det-label').textContent  =det.label;
-  document.getElementById('scale-label').textContent=det.scaleLabel;
-  document.getElementById('scale-ticks').innerHTML  =det.scaleTicks.map(t=>`<span>${t}</span>`).join('');
-
-  document.querySelectorAll('[data-det]').forEach(el=>el.classList.toggle('sel', el.dataset.det===detectorKey));
-  if(!clearedBar){
-    render(); // only render if we didn't already render via initScaleBar.clear()
-  }
+  document.getElementById('det-label').textContent=m.name;
+  document.getElementById('scale-label').textContent=
+    'TID Scale: '+m.scaleMin+' to '+m.scaleMax+' · Air Test Baseline';
+  document.getElementById('scale-ticks').innerHTML=
+    machineTicks(m).map(t=>`<span>${t}</span>`).join('');
+  buildMachineSlots();
+  render();
   updateBarBands();
+}
+function applyDetector(){applyMachine(activeMachineIdx)}
+
+/* ═══ MACHINE SLOTS ═══ */
+const TEMPLATE_ICONS={manticore:'🔴',equinox900:'🟠',equinox800:'🔵',equinox700:'🟡',atpro:'🟣',atmax:'🟤',aceapex:'⚫'};
+const MAX_MACHINES=4;
+
+function buildMachineSlots(){
+  const container=document.getElementById('machine-slots');
+  if(!container) return;
+  let html='';
+  for(let i=0;i<MAX_MACHINES;i++){
+    const m=userMachines[i];
+    if(m){
+      const ico=TEMPLATE_ICONS[m.baseKey]||'📡';
+      const active=i===activeMachineIdx;
+      html+=`<div class="mslot${active?' active':''}" data-slot="${i}">
+        <div class="mslot-fill"></div>
+        <div class="msico">${ico}</div>
+        <div class="msname">${m.name}</div>
+        <div class="mshint">Hold to edit</div>
+      </div>`;
+    } else {
+      html+=`<div class="mslot empty" data-slot="${i}" data-empty="1">
+        <div class="msico">＋</div>
+        <div class="msname">Add Machine</div>
+        <div class="mshint">Slot ${i+1}</div>
+      </div>`;
+    }
+  }
+  container.innerHTML=html;
+  container.querySelectorAll('.mslot').forEach(el=>attachSlotHandlers(el));
+}
+
+function attachSlotHandlers(el){
+  const slot=parseInt(el.dataset.slot,10);
+  const isEmpty=el.dataset.empty==='1';
+  let pressTimer=null;
+
+  function startPress(){
+    if(isEmpty) return;
+    el.classList.add('pressing');
+    pressTimer=setTimeout(()=>{
+      el.classList.remove('pressing');
+      closeSettings();
+      setTimeout(()=>openEditor(slot,'edit'),50);
+    },600);
+  }
+  function cancelPress(){
+    clearTimeout(pressTimer);
+    el.classList.remove('pressing');
+  }
+  function tap(){
+    clearTimeout(pressTimer);
+    el.classList.remove('pressing');
+    if(isEmpty){
+      closeSettings();
+      setTimeout(()=>openEditor(slot,'create'),50);
+    } else {
+      applyMachine(slot);
+      buildMachineSlots();
+    }
+  }
+
+  el.addEventListener('touchstart',e=>{e.preventDefault();startPress()},{passive:false});
+  el.addEventListener('touchend',e=>{e.preventDefault();tap()});
+  el.addEventListener('touchcancel',cancelPress);
+  el.addEventListener('mousedown',startPress);
+  el.addEventListener('mouseup',tap);
+  el.addEventListener('mouseleave',cancelPress);
 }
 
 /* ═══ SETTINGS DRAWER — with swipe-down to dismiss ═══ */
@@ -1128,9 +1566,53 @@ sov.addEventListener('click',closeSettings);
   },{passive:true});
 })();
 document.querySelectorAll('.topt').forEach(o=>o.addEventListener('click',()=>{themeMode=o.dataset.mode;localStorage.setItem('themeMode',themeMode);applyTheme()}));
-document.querySelectorAll('[data-det]').forEach(o=>o.addEventListener('click',()=>{detectorKey=o.dataset.det;localStorage.setItem('detectorKey',detectorKey);applyDetector()}));
 document.querySelectorAll('.fopt').forEach(o=>o.addEventListener('click',()=>{fontSize=o.dataset.fsize;localStorage.setItem('fontSize',fontSize);applyFontSize()}));
 document.querySelectorAll('[data-mode-opt]').forEach(btn=>btn.addEventListener('click',()=>applyFieldMode(btn.dataset.modeOpt==='field')));
+
+/* ═══ EXPORT / IMPORT ═══ */
+document.getElementById('export-btn').addEventListener('click',()=>{
+  const json=JSON.stringify(userMachines,null,2);
+  const blob=new Blob([json],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='minelab-machines.json';a.click();
+  URL.revokeObjectURL(url);
+});
+document.getElementById('import-btn').addEventListener('click',()=>{
+  document.getElementById('import-file').click();
+});
+document.getElementById('import-file').addEventListener('change',e=>{
+  const file=e.target.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const data=JSON.parse(ev.target.result);
+      if(!Array.isArray(data)||!data.length) throw new Error('Invalid format');
+      userMachines=data.slice(0,MAX_MACHINES).map(m=>({
+        id:m.id||genId('m'),
+        name:String(m.name||'Custom').slice(0,30),
+        baseKey:m.baseKey||null,
+        scaleMin:Number(m.scaleMin)||-19,
+        scaleMax:Number(m.scaleMax)||99,
+        targets:(Array.isArray(m.targets)?m.targets:[]).map(t=>({
+          id:t.id||genId('t'),
+          tid:String(t.tid||''),
+          item:String(t.item||''),
+          cat:CATS.includes(t.cat)?t.cat:'trash',
+          note:String(t.note||'')
+        }))
+      }));
+      activeMachineIdx=0;
+      saveMachines();
+      buildMachineSlots();
+      applyMachine(0);
+      closeSettings();
+    }catch{alert('Invalid file. Must be a JSON array exported from this app.');}
+  };
+  reader.readAsText(file);
+  e.target.value='';
+});
 
 /* ═══ CREDITS MODAL ═══ */
 const crModal=document.getElementById('credits-modal');
@@ -1140,6 +1622,226 @@ document.getElementById('credits-btn').addEventListener('click',()=>{
 });
 crModal.addEventListener('click',e=>{
   if(e.target===crModal) crModal.classList.remove('open');
+});
+document.getElementById('reset-btn').addEventListener('click',()=>{
+  if(!confirm('Reset the app? All machines and settings will be cleared and you\'ll see the welcome screen again.')) return;
+  localStorage.clear();
+  location.reload();
+});
+
+/* ═══ MACHINE EDITOR ═══ */
+function openEditor(slot, mode){
+  editorSlot=slot;
+  editorMode=mode;
+  expandedCardId=null;
+
+  if(mode==='create'){
+    editorDraft={
+      id:genId('m'),name:'',baseKey:null,
+      scaleMin:-19,scaleMax:99,targets:[]
+    };
+    document.getElementById('me-title').textContent='New Machine';
+    document.getElementById('me-save').textContent='Create Machine';
+    document.getElementById('me-discard').textContent='Discard Changes';
+    document.getElementById('me-tpl-section').classList.add('visible');
+    document.getElementById('me-delete').disabled=true;
+    const tplSel=document.getElementById('me-tpl-select');
+    tplSel.value=''; tplSel.classList.remove('has-val');
+  } else {
+    editorDraft=JSON.parse(JSON.stringify(userMachines[slot]));
+    document.getElementById('me-title').textContent='Edit Machine';
+    document.getElementById('me-save').textContent='Save Changes';
+    document.getElementById('me-discard').textContent='Discard Changes';
+    document.getElementById('me-tpl-section').classList.remove('visible');
+    document.getElementById('me-delete').disabled=false;
+  }
+
+  document.getElementById('me-name').value=editorDraft.name;
+  document.getElementById('me-smin').value=editorDraft.scaleMin;
+  document.getElementById('me-smax').value=editorDraft.scaleMax;
+  renderEditorCards();
+  updateEditorSaveBtn();
+  document.getElementById('machine-editor').classList.add('open');
+  document.getElementById('machine-editor').scrollTop=0;
+}
+
+function closeEditor(){
+  document.getElementById('machine-editor').classList.remove('open');
+  editorSlot=null; editorMode=null; editorDraft=null; expandedCardId=null;
+}
+
+function updateEditorSaveBtn(){
+  const nameOk=document.getElementById('me-name').value.trim().length>0;
+  const minVal=parseInt(document.getElementById('me-smin').value,10);
+  const maxVal=parseInt(document.getElementById('me-smax').value,10);
+  const scaleOk=!isNaN(minVal)&&!isNaN(maxVal)&&maxVal>minVal;
+  const tplOk=editorMode==='edit'||(editorDraft&&(editorDraft.baseKey!==null||editorDraft.targets.length>0));
+  document.getElementById('me-save').disabled=!(nameOk&&scaleOk&&(editorMode==='edit'||tplOk));
+}
+
+const CAT_LABELS={coin:'💰 Coins',gold:'✨ Gold',jewelry:'💎 Jewelry',relic:'🏺 Relics',trash:'🗑 Trash',iron:'🔩 Iron'};
+
+function renderEditorCards(){
+  if(!editorDraft) return;
+  const cards=editorDraft.targets;
+  const el=document.getElementById('me-cards');
+  const emptyNote=document.getElementById('me-empty-note');
+  document.getElementById('me-card-count').textContent='('+cards.length+')';
+  if(!cards.length){el.innerHTML='';emptyNote.style.display='block';return;}
+  emptyNote.style.display='none';
+
+  el.innerHTML=cards.map(t=>{
+    if(t.id===expandedCardId){
+      const catOpts=['coin','gold','jewelry','relic','trash','iron']
+        .map(c=>`<option value="${c}"${t.cat===c?' selected':''}>${CAT_LABELS[c]}</option>`).join('');
+      return `<div class="me-card-row me-card-expanded" data-cid="${t.id}">
+        <div class="me-cexp-header">
+          <span class="me-cexp-label">▾ Editing Card</span>
+          <span class="me-cexp-close" data-cancel="${t.id}">✕ Cancel</span>
+        </div>
+        <div class="me-cexp-fields">
+          <div class="me-cexp-field">
+            <div class="me-small-label">TID</div>
+            <input class="me-input" data-field="tid" value="${t.tid}" maxlength="20"/>
+          </div>
+          <div class="me-cexp-field">
+            <div class="me-small-label">Item Name</div>
+            <input class="me-input" data-field="item" value="${t.item}" maxlength="50"/>
+          </div>
+          <div class="me-cexp-field">
+            <div class="me-small-label">Category</div>
+            <select class="me-cexp-select" data-field="cat">${catOpts}</select>
+          </div>
+          <div class="me-cexp-field">
+            <div class="me-small-label">Note (optional)</div>
+            <input class="me-input" data-field="note" value="${(t.note||'').replace(/"/g,'&quot;')}" maxlength="120"/>
+          </div>
+        </div>
+        <div class="me-cexp-actions">
+          <button class="me-cexp-save" data-save="${t.id}">✓ Save Card</button>
+          <button class="me-cexp-del" data-del="${t.id}">🗑 Delete</button>
+        </div>
+      </div>`;
+    }
+    return `<div class="me-card-row" data-cid="${t.id}">
+      <div class="me-card-tid">${t.tid}</div>
+      <div class="me-card-info">
+        <div class="me-card-name">${t.item}</div>
+        <div class="me-card-cat">${t.cat}</div>
+      </div>
+      <span class="me-card-chevron">›</span>
+    </div>`;
+  }).join('');
+
+  // Tap collapsed card → expand
+  el.querySelectorAll('.me-card-row:not(.me-card-expanded)').forEach(row=>{
+    row.addEventListener('click',()=>{
+      expandedCardId=row.dataset.cid;
+      renderEditorCards();
+      setTimeout(()=>row.scrollIntoView({behavior:'smooth',block:'nearest'}),30);
+    });
+  });
+  // Cancel
+  el.querySelectorAll('[data-cancel]').forEach(btn=>btn.addEventListener('click',()=>{
+    expandedCardId=null; renderEditorCards();
+  }));
+  // Save card edits
+  el.querySelectorAll('[data-save]').forEach(btn=>btn.addEventListener('click',()=>{
+    const cid=btn.dataset.save;
+    const row=btn.closest('.me-card-expanded');
+    const t=editorDraft.targets.find(x=>x.id===cid);
+    if(!t||!row) return;
+    const newTid=row.querySelector('[data-field="tid"]').value.trim();
+    const newItem=row.querySelector('[data-field="item"]').value.trim();
+    if(!newTid||!newItem) return;
+    t.tid=newTid; t.item=newItem;
+    t.cat=row.querySelector('[data-field="cat"]').value;
+    t.note=row.querySelector('[data-field="note"]').value.trim();
+    expandedCardId=null; renderEditorCards();
+  }));
+  // Delete from expanded
+  el.querySelectorAll('[data-del]').forEach(btn=>btn.addEventListener('click',()=>{
+    const cid=btn.dataset.del;
+    editorDraft.targets=editorDraft.targets.filter(t=>t.id!==cid);
+    expandedCardId=null; renderEditorCards();
+  }));
+}
+
+document.getElementById('me-name').addEventListener('input',updateEditorSaveBtn);
+document.getElementById('me-smin').addEventListener('input',updateEditorSaveBtn);
+document.getElementById('me-smax').addEventListener('input',updateEditorSaveBtn);
+
+document.getElementById('me-add-btn').addEventListener('click',()=>{
+  if(!editorDraft) return;
+  const tid=document.getElementById('me-atid').value.trim();
+  const item=document.getElementById('me-aitem').value.trim();
+  const cat=document.getElementById('me-cat-select').value;
+  const note=document.getElementById('me-anote').value.trim();
+  if(!tid||!item) return;
+  editorDraft.targets.push({id:genId('t'),tid,item,cat,note});
+  document.getElementById('me-atid').value='';
+  document.getElementById('me-aitem').value='';
+  document.getElementById('me-anote').value='';
+  renderEditorCards();
+  if(editorMode==='create') updateEditorSaveBtn();
+});
+
+document.getElementById('me-tpl-select').addEventListener('change', function(){
+  this.classList.add('has-val');
+  const tpl=this.value;
+  if(tpl==='blank'){
+    editorDraft.baseKey=null;
+    editorDraft.name='Custom Machine';
+    editorDraft.scaleMin=-19; editorDraft.scaleMax=99;
+    editorDraft.targets=[];
+  } else {
+    const m=machineFromTemplate(tpl);
+    editorDraft.baseKey=tpl;
+    editorDraft.name=m.name;
+    editorDraft.scaleMin=m.scaleMin; editorDraft.scaleMax=m.scaleMax;
+    editorDraft.targets=m.targets;
+  }
+  document.getElementById('me-name').value=editorDraft.name;
+  document.getElementById('me-smin').value=editorDraft.scaleMin;
+  document.getElementById('me-smax').value=editorDraft.scaleMax;
+  renderEditorCards();
+  updateEditorSaveBtn();
+});
+
+document.getElementById('me-save').addEventListener('click',()=>{
+  if(document.getElementById('me-save').disabled) return;
+  const name=document.getElementById('me-name').value.trim();
+  const scaleMin=parseInt(document.getElementById('me-smin').value,10);
+  const scaleMax=parseInt(document.getElementById('me-smax').value,10);
+  editorDraft.name=name;
+  editorDraft.scaleMin=scaleMin;
+  editorDraft.scaleMax=scaleMax;
+  if(editorMode==='create'){
+    while(userMachines.length<=editorSlot) userMachines.push(null);
+    userMachines[editorSlot]=editorDraft;
+    userMachines=userMachines.filter(Boolean);
+    activeMachineIdx=userMachines.indexOf(editorDraft);
+  } else {
+    userMachines[editorSlot]=editorDraft;
+    if(editorSlot===activeMachineIdx){
+      /* active machine edited — refresh header */
+    }
+  }
+  saveMachines();
+  applyMachine(activeMachineIdx);
+  closeEditor();
+});
+
+document.getElementById('me-discard').addEventListener('click',closeEditor);
+
+document.getElementById('me-delete').addEventListener('click',()=>{
+  if(!userMachines[editorSlot]) return;
+  if(!confirm('Delete "'+userMachines[editorSlot].name+'"? This cannot be undone.')) return;
+  userMachines.splice(editorSlot,1);
+  activeMachineIdx=Math.max(0,Math.min(activeMachineIdx,userMachines.length-1));
+  saveMachines();
+  applyMachine(activeMachineIdx);
+  closeEditor();
 });
 
 /* ═══ FILTER + RENDER ═══ */
@@ -1181,18 +1883,28 @@ function targetMatches(t, q){
 }
 
 function render(){
-  const det=DETECTORS[detectorKey], isCtx=det.ctx;
+  const m=currentMachine();
+  if(!m){
+    document.getElementById('count').textContent='0';
+    document.getElementById('list').innerHTML=`
+      <div style="text-align:center;padding:48px 20px 24px">
+        <div style="font-size:36px;margin-bottom:14px">📡</div>
+        <div style="font-size:14px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);margin-bottom:8px">No Machines Loaded</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7">Tap ⚙ Settings and add your<br>first detector machine.</div>
+      </div><div class="list-pad"></div>`;
+    updateFilterUI();
+    return;
+  }
   const q=searchVal.toLowerCase().trim();
-  // Determine if q is a plain integer for numeric range matching + highlight
-  const numQ = (q.match(/^-?\d+$/) ? parseFloat(q) : null);
+  const numQ=(q.match(/^-?\d+$/)?parseFloat(q):null);
 
-  const filtered=det.targets.filter(t=>
-    (activeCats.size===0 || activeCats.has(t.cat)) &&
-    targetMatches(t, q) &&
-    (scaleTid===null || tidMatchesNum(t.tid, scaleTid))
+  const filtered=m.targets.filter(t=>
+    (activeCats.size===0||activeCats.has(t.cat))&&
+    targetMatches(t,q)&&
+    (scaleTid===null||tidMatchesNum(t.tid,scaleTid))
   );
   document.getElementById('count').textContent=filtered.length;
-  const tidLabel=isCtx?'FE/CO':'TID';
+  const tidLabel='TID';
   document.getElementById('list').innerHTML=filtered.map(t=>{
     const note=cleanNote(t.note);
     // Highlight TID cell only when text search is numeric and matched this card by range
@@ -1200,7 +1912,7 @@ function render(){
     const isPinned = pinnedTids.has(t.tid);
     const pinStyle = isPinned ? ` style="outline:2px solid var(--${CAT_PRE[t.cat]}-bo);outline-offset:2px"` : '';
     return `
-    <div class="card${isCtx?' ctx':''} card-${t.cat}" data-tid="${t.tid}" data-cat="${t.cat}"${pinStyle}>
+    <div class="card card-${t.cat}" data-tid="${t.tid}" data-cat="${t.cat}"${pinStyle}>
       <div><div class="tval${highlight?' tval-highlight':''}">${t.tid}</div><div class="tlbl2">${tidLabel}</div></div>
       <div>
         <div class="iname">${t.item}</div>
@@ -1250,8 +1962,22 @@ document.getElementById('list').addEventListener('click', e=>{
 });
 
 /* ═══ INIT ═══ */
-if(detectorKey === 'ctx3030'){ detectorKey = 'manticore'; localStorage.setItem('detectorKey','manticore'); }
-applyTheme(); applyFontSize(); applyDisc(); buildFilters(); applyDetector(); initScaleBar(); applyFieldMode(fieldMode);
+initMachines();
+applyTheme(); applyFontSize(); applyDisc(); buildFilters(); buildMachineSlots();
+(function(){
+  const m=currentMachine();
+  if(m){
+    document.getElementById('det-label').textContent=m.name;
+    document.getElementById('scale-label').textContent=
+      'TID Scale: '+m.scaleMin+' to '+m.scaleMax+' · Air Test Baseline';
+    document.getElementById('scale-ticks').innerHTML=
+      machineTicks(m).map(t=>`<span>${t}</span>`).join('');
+  } else {
+    document.getElementById('det-label').textContent='No Detector';
+    document.getElementById('scale-label').textContent='Open ⚙ Settings to add a machine';
+  }
+})();
+render(); initScaleBar(); applyFieldMode(fieldMode);
 if(localStorage.getItem('onboarded') !== 'true'){
   document.getElementById('onboard-modal').classList.add('open');
 }

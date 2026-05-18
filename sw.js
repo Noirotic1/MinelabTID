@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minelab-tid-v5';
+const CACHE_NAME = 'target-id-v1';
 const ASSETS = [
   './index.html',
   './manifest.json',
