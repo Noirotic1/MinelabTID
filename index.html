@@ -1679,6 +1679,7 @@ function applyMachine(idx){
   document.getElementById('search').value='';
   document.getElementById('sbar-thumb').classList.remove('visible');
   document.getElementById('sbar-tooltip').classList.remove('visible');
+  updateFilterButtons();
   const m=currentMachine();
   document.getElementById('scalebar-bar').style.cursor='pointer';
   document.getElementById('scalebar-bar').style.touchAction='none';
