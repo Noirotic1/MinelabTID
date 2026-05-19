@@ -750,6 +750,25 @@
     </div>
 
     <div class="cr-section">
+      <div class="cr-section-title">🔶 Minelab X-Terra Pro — Data Sources</div>
+      <div class="cr-source">
+        <div class="cr-src-name">TreasureNet — New X-Terra Target ID Numbers Thread</div>
+        <div class="cr-src-desc">Community-compiled VDI chart covering US coins, jewelry, and common trash targets using the X-Terra Pro's 8kHz Coin mode as baseline.</div>
+        <a class="cr-src-link" href="https://www.treasurenet.com/threads/new-x-terra-target-id-numbers.265799/" target="_blank">treasurenet.com › x-terra-target-id-numbers</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">DetectorProspector — Minelab X-Terra Pro Database Entry</div>
+        <div class="cr-src-desc">Manufacturer specs and community field reports documenting VDI responses across coin, relic, and gold targets with the PRO-SWITCH frequency system.</div>
+        <a class="cr-src-link" href="https://www.detectorprospector.com/metal-detector-database/minelab-x-terra-pro-r159/" target="_blank">detectorprospector.com › x-terra-pro-r159</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">IrateMetalDetectors — X-Terra Pro Target ID Bible</div>
+        <div class="cr-src-desc">Comprehensive field-tested VDI reference guide for the X-Terra Pro covering US coins, gold jewelry, relics, and common trash signals.</div>
+        <a class="cr-src-link" href="https://www.iratemetaldetectors.com/product-page/minelab-x-terra-pro-target-id-bible" target="_blank">iratemetaldetectors.com › x-terra-pro-target-id-bible</a>
+      </div>
+    </div>
+
+    <div class="cr-section">
       <div class="cr-section-title">🟪 Nokta Triple Score — Data Sources</div>
       <div class="cr-source">
         <div class="cr-src-name">Nokta Detectors — Triple Score Official Page</div>
@@ -794,6 +813,7 @@
           <option value="equinox900">Equinox 900</option>
           <option value="manticore">Manticore</option>
           <option value="vanquish540">Vanquish 540</option>
+          <option value="xterrapro">X-Terra Pro</option>
         </optgroup>
         <optgroup label="Nokta">
           <option value="legend">Legend</option>
@@ -867,6 +887,7 @@
           <option value="equinox900">Equinox 900</option>
           <option value="manticore">Manticore</option>
           <option value="vanquish540">Vanquish 540</option>
+          <option value="xterrapro">X-Terra Pro</option>
         </optgroup>
         <optgroup label="Nokta">
           <option value="legend">Legend</option>
@@ -1407,6 +1428,46 @@ const DETECTORS = {
       {tid:"58–60",  item:"Morgan / Peace Silver Dollar",                cat:"coin",   note:"Top of the 60-point scale."},
       {tid:"38",     item:"Crusty / Corroded Zinc Penny",                cat:"coin",   note:"Oxidation drops reading from the normal 28–32 zone."},
     ]
+  },
+
+  /* MINELAB X-TERRA PRO — Sources: TreasureNet, DetectorProspector, IrateMetalDetectors */
+  xterrapro:{
+    label:'Minelab X-Terra Pro', ctx:false,
+    scaleLabel:'TID Scale: −19 to 99 · PRO-SWITCH Selectable Freq · 8kHz Coin Mode Baseline',
+    scaleTicks:['−19 IRON','0','25 NICKEL','50','75 COPPER','99 SILVER'],
+    targets:[
+      {tid:"-19– -1", item:"Iron / Nails / Wire",                          cat:"iron",   note:"Ferrous range. Choppy, broken signals. Skip unless in All Metal. — Source: TreasureNet"},
+      {tid:"1–3",     item:"Very Small Iron / Fine Wire",                  cat:"iron",   note:"Edge of ferrous zone. Low, unstable reading."},
+      {tid:"1–7",     item:"Aluminum Foil / Gum Wrappers",                 cat:"trash",  note:"Thin aluminum range. Scratchy signal."},
+      {tid:"1–20",    item:"Small Gold (chains, earrings, fine rings)",     cat:"gold",   note:"Tiny gold reads very low. Use All-Metal. Dig solid tones. — Source: DetectorProspector"},
+      {tid:"8–13",    item:"Small Lead (fishing sinkers, shot)",            cat:"relic",  note:"Solid signal. Compare tone quality to gold in same range."},
+      {tid:"12–13",   item:"US Nickel (Jefferson / Buffalo)",               cat:"coin",   note:"Classic nickel signal. Dig all solid hits. — Source: TreasureNet"},
+      {tid:"12–13",   item:"Silver War Nickel (35% silver, 1942–45)",       cat:"coin",   note:"Reads same zone as modern nickel due to 35% silver + large size."},
+      {tid:"15–22",   item:"Beaver Tail Pull Tab",                          cat:"trash",  note:"Choppy/jumpy edges. Overlaps small gold zone — check tone quality."},
+      {tid:"16–24",   item:"Gold Rings (10k–18k, medium size)",             cat:"gold",   note:"Critical dig zone. Solid tone = dig. Jumpy = tab. — Source: DetectorProspector"},
+      {tid:"20–28",   item:"Ring Pull Tab (whole)",                         cat:"trash",  note:"Very common park trash. Scratchy edges vs. gold's cleaner signal."},
+      {tid:"25–35",   item:"Large Gold Ring / Heavy Gold Band",             cat:"gold",   note:"Overlaps pull-tab zone. Tone quality is everything."},
+      {tid:"30–38",   item:"Gold $1 Coin / Small Gold Coin",               cat:"gold",   note:"Solid repeatable signal. — Source: DetectorProspector"},
+      {tid:"50–60",   item:"Civil War Relics (belt plates, buttons)",       cat:"relic",  note:"Brass and copper military hardware. Dig solid tones."},
+      {tid:"60–65",   item:"Brass Button (Colonial/Civil War)",             cat:"relic",  note:"Key relic signal. Dig all solid tones."},
+      {tid:"64–66",   item:"Zinc Penny (clean, 1982–present)",              cat:"coin",   note:"Very common park find. — Source: TreasureNet"},
+      {tid:"60–64",   item:"Zinc Penny (corroded, post-1982)",              cat:"coin",   note:"Corrosion drops the reading from the normal 64–66 zone."},
+      {tid:"68–72",   item:"Small Aluminum Cans / Scrap",                   cat:"trash",  note:"Choppy, irregular signal."},
+      {tid:"72–75",   item:"Copper Penny (Wheat Cent, pre-1982)",           cat:"coin",   note:"Bronze cents. Solid, repeatable signal. — Source: TreasureNet"},
+      {tid:"74–76",   item:"Indian Head Cent (copper)",                     cat:"coin",   note:"Similar to Wheat cent range. Solid tone."},
+      {tid:"75–80",   item:"Musket Ball / Lead Ball",                       cat:"relic",  note:"Lead. Solid signal in relic zones."},
+      {tid:"77–80",   item:"Clad Dime (Roosevelt, modern)",                 cat:"coin",   note:"Very common park find. — Source: TreasureNet / IrateMetalDetectors"},
+      {tid:"79–82",   item:"Silver Dime (Mercury / Roosevelt)",             cat:"coin",   note:"Slightly higher than clad. Solid, confident tone."},
+      {tid:"80–84",   item:"Large Cent (early American copper)",            cat:"coin",   note:"Big copper. Solid high-value signal."},
+      {tid:"82–85",   item:"Clad Quarter (Washington / State)",             cat:"coin",   note:"Solid signal. Very common park find. — Source: TreasureNet"},
+      {tid:"85–87",   item:"Silver Quarter (pre-1965)",                     cat:"coin",   note:"Slightly richer tone than clad quarter. — Source: TreasureNet"},
+      {tid:"88–92",   item:"Clad Half Dollar / 40% Silver Kennedy",         cat:"coin",   note:"Larger coin. Strong signal."},
+      {tid:"90–93",   item:"Silver Half Dollar (Franklin / Walking Liberty)",cat:"coin",  note:"Full silver. Rich, confident tone."},
+      {tid:"93–96",   item:"Sacagawea / Presidential Dollar / Ike Dollar",  cat:"coin",   note:"Large coin. Clear high signal."},
+      {tid:"95–99",   item:"Morgan / Peace Silver Dollar",                  cat:"coin",   note:"Top-tier find. Solid, confident tone. — Source: IrateMetalDetectors"},
+      {tid:"80–92⚠",  item:"Bottle Caps (rusty steel)",                    cat:"trash",  note:"BROKEN choppy signal edges. Sweep multiple directions to confirm."},
+      {tid:"14–20",   item:"Platinum Ring",                                 cat:"jewelry",note:"Reads in pull-tab/gold zone. Solid tone with clean edges."},
+    ]
   }
 };
 
@@ -1811,7 +1872,7 @@ function applyMachine(idx){
 function applyDetector(){applyMachine(activeMachineIdx)}
 
 /* ═══ MACHINE SLOTS ═══ */
-const TEMPLATE_ICONS={manticore:'🔴',equinox900:'🟠',equinox800:'🔵',equinox700:'🟡',atpro:'🟣',atmax:'🟤',aceapex:'⚫',deus2:'🟨',deus:'🟧',legend:'🟩',simplex:'🟦',vanquish540:'⬜',triplescore:'🟪'};
+const TEMPLATE_ICONS={manticore:'🔴',equinox900:'🟠',equinox800:'🔵',equinox700:'🟡',atpro:'🟣',atmax:'🟤',aceapex:'⚫',deus2:'🟨',deus:'🟧',legend:'🟩',simplex:'🟦',vanquish540:'⬜',triplescore:'🟪',xterrapro:'🔶'};
 const MAX_MACHINES=4;
 
 function buildMachineSlots(){
