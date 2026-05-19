@@ -416,8 +416,8 @@
   <div id="machine-slots"></div>
   <div class="slabel">Backup Detector Settings</div>
   <div class="io-row">
-    <button class="io-btn" id="export-btn">⬆ Export Machines</button>
-    <button class="io-btn" id="import-btn">⬇ Import Machines</button>
+    <button class="io-btn" id="export-btn">⬆ Backup Machine Settings</button>
+    <button class="io-btn" id="import-btn">⬇ Restore Machine Settings</button>
   </div>
   <input type="file" id="import-file" accept=".json" style="display:none"/>
 
@@ -1815,7 +1815,8 @@ document.getElementById('export-btn').addEventListener('click',()=>{
   const blob=new Blob([json],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
-  a.href=url;a.download='minelab-machines.json';a.click();
+  const d=new Date();const ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  a.href=url;a.download='TargetID_Settings_Backup_'+ds+'.json';a.click();
   URL.revokeObjectURL(url);
 });
 document.getElementById('import-btn').addEventListener('click',()=>{
