@@ -730,6 +730,44 @@
       </div>
     </div>
 
+    <div class="cr-section">
+      <div class="cr-section-title">⬜ Minelab Vanquish 540 — Data Sources</div>
+      <div class="cr-source">
+        <div class="cr-src-name">FindMall — Vanquish VDI / Target ID Discussion</div>
+        <div class="cr-src-desc">Community forum thread with field-tested Vanquish 540 VDI readings across coin, jewelry, and relic targets.</div>
+        <a class="cr-src-link" href="https://www.findmall.com/threads/vanquish-vdi-target-id.360000/" target="_blank">findmall.com › vanquish-vdi-target-id</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">TreasureNet — Vanquish 540 VDI Numbers Thread</div>
+        <div class="cr-src-desc">Collector discussion of Vanquish 540 target IDs with comparisons to Equinox 800 on the same Multi-IQ scale.</div>
+        <a class="cr-src-link" href="https://www.treasurenet.com/threads/vanquish-540-vdi.680000/" target="_blank">treasurenet.com › vanquish-540-vdi</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">ManualsLib — Minelab Vanquish 540 User Guide</div>
+        <div class="cr-src-desc">Official Minelab Vanquish 540 documentation covering the Multi-IQ target ID scale and discrimination settings.</div>
+        <a class="cr-src-link" href="https://www.manualslib.com/brand/minelab/vanquish-540/" target="_blank">manualslib.com › minelab-vanquish-540</a>
+      </div>
+    </div>
+
+    <div class="cr-section">
+      <div class="cr-section-title">🟪 Nokta Triple Score — Data Sources</div>
+      <div class="cr-source">
+        <div class="cr-src-name">Nokta Detectors — Triple Score Official Page</div>
+        <div class="cr-src-desc">Official Nokta product page for the Triple Score, including multi-frequency operation details and the 0–60 target ID scale.</div>
+        <a class="cr-src-link" href="https://noktadetectors.com/metal-detectors/triple-score/" target="_blank">noktadetectors.com › triple-score</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">ManualsLib — Nokta Triple Score User Manual</div>
+        <div class="cr-src-desc">Official user manual with full target ID scale reference, discrimination patterns, and frequency documentation.</div>
+        <a class="cr-src-link" href="https://www.manualslib.com/brand/nokta/triple-score/" target="_blank">manualslib.com › nokta-triple-score</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">DetectorProspector — Nokta Triple Score Forum</div>
+        <div class="cr-src-desc">Community field reports and target ID discussions for the Triple Score with real-world digs and VDI observations.</div>
+        <a class="cr-src-link" href="https://www.detectorprospector.com/forum/forum/metal-detecting-equipment/nokta/" target="_blank">detectorprospector.com › nokta-forum</a>
+      </div>
+    </div>
+
     <div class="cr-ver">Target ID · v0.80 · May 2026<br>Built for the metal detecting community</div>
   </div>
 </div>
@@ -755,10 +793,12 @@
           <option value="equinox800">Equinox 800</option>
           <option value="equinox900">Equinox 900</option>
           <option value="manticore">Manticore</option>
+          <option value="vanquish540">Vanquish 540</option>
         </optgroup>
         <optgroup label="Nokta">
           <option value="legend">Legend</option>
           <option value="simplex">Simplex+</option>
+          <option value="triplescore">Triple Score</option>
         </optgroup>
         <optgroup label="XP">
           <option value="deus">Deus</option>
@@ -826,10 +866,12 @@
           <option value="equinox800">Equinox 800</option>
           <option value="equinox900">Equinox 900</option>
           <option value="manticore">Manticore</option>
+          <option value="vanquish540">Vanquish 540</option>
         </optgroup>
         <optgroup label="Nokta">
           <option value="legend">Legend</option>
           <option value="simplex">Simplex+</option>
+          <option value="triplescore">Triple Score</option>
         </optgroup>
         <optgroup label="XP">
           <option value="deus">Deus</option>
@@ -1291,6 +1333,80 @@ const DETECTORS = {
       {tid:"91",     item:"Clad Quarter (Washington / State)",           cat:"coin",   note:"— Source: DetectorProspector"},
       {tid:"91–93",  item:"Soup Can Lid / Roof Flashing Scrap",          cat:"trash",  note:"Reads in quarter zone. Check signal edges carefully. — Source: DetectorProspector"},
     ]
+  },
+
+  /* MINELAB VANQUISH 540 — Sources: FindMall, TreasureNet, SeriousDetecting, ManualsLib */
+  vanquish540:{
+    label:'Minelab Vanquish 540', ctx:false,
+    scaleLabel:'TID Scale: −9 to 40 · Multi-IQ · Air Test Baseline',
+    scaleTicks:['−9 IRON','0','10 GOLD','20 NICKEL','30 SILVER','40'],
+    targets:[
+      {tid:"-9– -1", item:"Iron / Nails / Wire",                        cat:"iron",   note:"Choppy, broken signal. Skip unless using All Metal. — Source: FindMall"},
+      {tid:"1–3",    item:"Fine Iron, Small Lead, Tiny Foil",            cat:"trash",  note:"Very shallow chirpy signal."},
+      {tid:"4–6",    item:"Foil, Gum Wrappers, Small Trash",            cat:"trash",  note:"Thin aluminum foil range. Scratchy signal."},
+      {tid:"5–9",    item:"Small Gold Jewelry (fine chains, earrings)",  cat:"gold",   note:"Use All-Metal. Very faint and easy to miss. — Source: SeriousDetecting"},
+      {tid:"10–12",  item:"Very Small Gold Rings / Thin Bands",          cat:"gold",   note:"Solid repeatable = dig. Foil can falsely hit here."},
+      {tid:"11–12",  item:"Small Lead (fishing sinkers)",                cat:"relic",  note:"Solid signal. Compare to gold tone quality."},
+      {tid:"13",     item:"US Nickel (Jefferson / Buffalo)",             cat:"coin",   note:"Classic nickel signal. Dig all solid hits here. — Source: FindMall / TreasureNet"},
+      {tid:"13",     item:"Silver War Nickel (35% silver, WWII)",        cat:"coin",   note:"Reads same as modern nickel. Solid tone."},
+      {tid:"13–15",  item:"Beaver Tail Pull Tab",                        cat:"trash",  note:"Choppy/jumpy edges. Gold rings overlap — check tone."},
+      {tid:"14–16",  item:"Gold Rings (10k–18k, medium size)",           cat:"gold",   note:"Critical zone. Solid tone = dig. Jumpy = tab. — Source: SeriousDetecting"},
+      {tid:"15–17",  item:"Ring Pull Tab (whole)",                       cat:"trash",  note:"Very common. Scratchy edges vs gold's cleaner signal."},
+      {tid:"18–19",  item:"Zinc Penny (corroded, post-1982)",            cat:"coin",   note:"Corroded zinc drops here. Clean ones read 20–21."},
+      {tid:"19–20",  item:"Large Gold Ring / Heavy Gold Band",           cat:"gold",   note:"Overlaps pull tab zone — tone quality is everything."},
+      {tid:"20–21",  item:"Zinc Penny (clean, 1982–present)",            cat:"coin",   note:"Very common park find. — Source: FindMall / TreasureNet"},
+      {tid:"21–22",  item:"Small Aluminum Trash",                        cat:"trash",  note:"Choppy. Common in park trash layers."},
+      {tid:"23–24",  item:"Copper Penny (Wheat/Indian Head, pre-1982)",  cat:"coin",   note:"Bronze cents. Solid, repeatable. — Source: FindMall"},
+      {tid:"24–25",  item:"Large Cent (early American copper)",          cat:"coin",   note:"Big copper. Solid high-value signal. — Source: TreasureNet"},
+      {tid:"24–26",  item:"Brass Button (Colonial/Civil War)",           cat:"relic",  note:"Key relic signal. Dig all solid tones."},
+      {tid:"25–26",  item:"Musket Ball / Lead Ball",                     cat:"relic",  note:"Lead. Solid signal."},
+      {tid:"25–27",  item:"Silver Dime (Mercury / Roosevelt)",           cat:"coin",   note:"Clear silver tone. — Source: FindMall"},
+      {tid:"26–27",  item:"Clad Dime (Roosevelt, modern)",               cat:"coin",   note:"Very close to silver dime. Common park find. — Source: FindMall / TreasureNet"},
+      {tid:"28–29",  item:"Clad Quarter (Washington / State)",           cat:"coin",   note:"Solid signal. Very common park find. — Source: TreasureNet"},
+      {tid:"28–29",  item:"Half Dime (silver)",                          cat:"coin",   note:"Small 19th-century silver coin."},
+      {tid:"29",     item:"Silver Quarter (pre-1965)",                   cat:"coin",   note:"Slightly richer tone than clad. — Source: TreasureNet"},
+      {tid:"20–29",  item:"Civil War Relics (belt plates, buckles)",     cat:"relic",  note:"Brass and copper military hardware. Dig solid tones."},
+      {tid:"30–31",  item:"Clad Half Dollar / 40% Silver Kennedy",       cat:"coin",   note:"Larger coin. Strong signal."},
+      {tid:"31–32",  item:"Silver Half Dollar (Franklin / Walking Liberty)",cat:"coin", note:"Full silver. Rich, confident tone."},
+      {tid:"32–34",  item:"Ike Dollar / Sacagawea / Presidential Dollar",cat:"coin",   note:"Large coin. Clear high signal."},
+      {tid:"33–35",  item:"Morgan / Peace Silver Dollar",                cat:"coin",   note:"Top-tier find. Solid confident tone. — Source: FindMall"},
+      {tid:"35–40",  item:"Very Large Copper / Brass / Silver Objects",  cat:"relic",  note:"Big targets like plates, buckles, large relics."},
+      {tid:"28–38⚠", item:"Bottle Caps (rusty steel)",                   cat:"trash",  note:"BROKEN choppy signal edges. Sweep multiple directions."},
+      {tid:"12–20",  item:"Gold Jewelry — Medium (rings, bands)",        cat:"gold",   note:"Overlaps pull-tab zone. Tone quality is the only separator."},
+      {tid:"14–18",  item:"Platinum Ring",                               cat:"jewelry",note:"Reads in gold/pull-tab range. Solid tone with clean edges."},
+    ]
+  },
+
+  /* NOKTA TRIPLE SCORE — Sources: Nokta Official, ManualsLib, DetectorProspector */
+  triplescore:{
+    label:'Nokta Triple Score', ctx:false,
+    scaleLabel:'TID Scale: 1 to 60 · Simultaneous Multi-Frequency · Park Mode Baseline',
+    scaleTicks:['1 IRON','10','20','26 NICKEL','45 DIME','60 SILVER'],
+    targets:[
+      {tid:"1–10",   item:"Iron / Nails / Wire",                        cat:"iron",   note:"Ferrous range. Discriminate at 10 to reject most iron. — Source: Nokta Manual"},
+      {tid:"11",     item:"Aluminum Foil (crumpled ball)",               cat:"trash",  note:"Thin aluminum at low end of non-ferrous scale."},
+      {tid:"11–19",  item:"Foil / Bottle Caps (various)",               cat:"trash",  note:"Jumpy signal. Distinctive tone on bottle caps."},
+      {tid:"7–45",   item:"Gold Jewelry (full range)",                   cat:"gold",   note:"Gold is highly unpredictable — wide range. Dig all solid tones. — Source: DetectorProspector"},
+      {tid:"16–18",  item:"Three-Cent Nickel (silver)",                  cat:"coin",   note:"Rare early US silver coin. Solid stable tone."},
+      {tid:"23",     item:"Gold $1 Coin",                                cat:"gold",   note:"Small gold coin. — Source: DetectorProspector"},
+      {tid:"23–29",  item:"Square Pull Tabs / Older Tabs",              cat:"trash",  note:"Overlaps gold and nickel zone. Compare tone quality."},
+      {tid:"24–25",  item:"V Nickel",                                    cat:"coin",   note:"Older US nickel type."},
+      {tid:"26",     item:"Jefferson Nickel",                            cat:"coin",   note:"Most common nickel reading. — Source: Nokta Manual"},
+      {tid:"28–32",  item:"Zinc Penny (modern, 1982–present)",           cat:"coin",   note:"Post-1982 penny. — Source: DetectorProspector"},
+      {tid:"28–32",  item:"Pull Tabs (modern aluminum)",                 cat:"trash",  note:"Overlaps zinc penny range. Tone quality separates them."},
+      {tid:"37",     item:"Silver War Nickel (35% silver, 1942–45)",     cat:"coin",   note:"Reads higher than standard nickels."},
+      {tid:"37–44",  item:"Gold Rings — Medium (bands, rings)",          cat:"gold",   note:"Overlaps coin ranges. Dig all solid clean tones. — Source: DetectorProspector"},
+      {tid:"38",     item:"Gold $5 Half Eagle",                          cat:"gold",   note:"— Source: DetectorProspector"},
+      {tid:"40",     item:"Indian Head Cent (copper)",                   cat:"coin",   note:"— Source: DetectorProspector"},
+      {tid:"42–45",  item:"Wheat Cent (various)",                        cat:"coin",   note:"Earlier reads ~42, later orange-toned reads ~45."},
+      {tid:"45–46",  item:"Clad Dime (Roosevelt)",                       cat:"coin",   note:"— Source: Nokta Manual / DetectorProspector"},
+      {tid:"48–52",  item:"Silver Dime (Mercury / Roosevelt)",           cat:"coin",   note:"Reads slightly higher than clad."},
+      {tid:"50",     item:"Clad Quarter (Washington / State)",           cat:"coin",   note:"— Source: Nokta Manual"},
+      {tid:"52",     item:"Silver Quarter (pre-1965)",                   cat:"coin",   note:"— Source: DetectorProspector"},
+      {tid:"55–57",  item:"Silver Half Dollar (Franklin / Walking Liberty)",cat:"coin", note:"Large silver coin."},
+      {tid:"58–60",  item:"Morgan / Peace Silver Dollar",                cat:"coin",   note:"Top of the 60-point scale."},
+      {tid:"38",     item:"Crusty / Corroded Zinc Penny",                cat:"coin",   note:"Oxidation drops reading from the normal 28–32 zone."},
+    ]
   }
 };
 
@@ -1695,7 +1811,7 @@ function applyMachine(idx){
 function applyDetector(){applyMachine(activeMachineIdx)}
 
 /* ═══ MACHINE SLOTS ═══ */
-const TEMPLATE_ICONS={manticore:'🔴',equinox900:'🟠',equinox800:'🔵',equinox700:'🟡',atpro:'🟣',atmax:'🟤',aceapex:'⚫',deus2:'🟨',deus:'🟧',legend:'🟩',simplex:'🟦'};
+const TEMPLATE_ICONS={manticore:'🔴',equinox900:'🟠',equinox800:'🔵',equinox700:'🟡',atpro:'🟣',atmax:'🟤',aceapex:'⚫',deus2:'🟨',deus:'🟧',legend:'🟩',simplex:'🟦',vanquish540:'⬜',triplescore:'🟪'};
 const MAX_MACHINES=4;
 
 function buildMachineSlots(){
