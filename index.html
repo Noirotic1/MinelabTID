@@ -1672,11 +1672,16 @@ function applyMachine(idx){
   }
   activeMachineIdx=Math.max(0,Math.min(idx,userMachines.length-1));
   saveMachines();
+  activeCats.clear();
   pinnedTids.clear();
+  searchVal='';
+  scaleTid=null;
+  document.getElementById('search').value='';
+  document.getElementById('sbar-thumb').classList.remove('visible');
+  document.getElementById('sbar-tooltip').classList.remove('visible');
   const m=currentMachine();
   document.getElementById('scalebar-bar').style.cursor='pointer';
   document.getElementById('scalebar-bar').style.touchAction='none';
-  document.getElementById('sbar-thumb').classList.remove('visible');
   document.getElementById('det-label').textContent=m.name;
   document.getElementById('scale-label').textContent=
     'TID Scale: '+m.scaleMin+' to '+m.scaleMax+' · Air Test Baseline';
