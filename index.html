@@ -769,6 +769,25 @@
     </div>
 
     <div class="cr-section">
+      <div class="cr-section-title">🔷 Minelab X-Terra Elite — Data Sources</div>
+      <div class="cr-source">
+        <div class="cr-src-name">Metal Detecting Forum — X-Terra Elite Coin VDI Numbers</div>
+        <div class="cr-src-desc">Community thread with confirmed VDI readings for US coins including clad dime (80–83), silver dime (82–85), and clad quarter (~90). Note: full chart data is limited for this detector.</div>
+        <a class="cr-src-link" href="https://metaldetectingforum.com/index.php?threads/xterra-elite-coin-vdi-numbers.310602/" target="_blank">metaldetectingforum.com › xterra-elite-coin-vdi</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">Prospecting Australia — X-Terra Elite VDI Chart Thread</div>
+        <div class="cr-src-desc">International community field reports for the X-Terra Elite with VDI observations across coin and relic targets in varied soil conditions.</div>
+        <a class="cr-src-link" href="https://www.prospectingaustralia.com/threads/xterra-elite-vdi-chart.43303/" target="_blank">prospectingaustralia.com › xterra-elite-vdi-chart</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">Minelab — X-Terra Elite Official Specifications</div>
+        <div class="cr-src-desc">Official Minelab product page confirming the -19 to 99 scale with 119 Target ID segments and WIDEBAND technology details.</div>
+        <a class="cr-src-link" href="https://usa.minelab.com/x-terra-elite" target="_blank">usa.minelab.com › x-terra-elite</a>
+      </div>
+    </div>
+
+    <div class="cr-section">
       <div class="cr-section-title">🟪 Nokta Triple Score — Data Sources</div>
       <div class="cr-source">
         <div class="cr-src-name">Nokta Detectors — Triple Score Official Page</div>
@@ -784,6 +803,25 @@
         <div class="cr-src-name">DetectorProspector — Nokta Triple Score Forum</div>
         <div class="cr-src-desc">Community field reports and target ID discussions for the Triple Score with real-world digs and VDI observations.</div>
         <a class="cr-src-link" href="https://www.detectorprospector.com/forum/forum/metal-detecting-equipment/nokta/" target="_blank">detectorprospector.com › nokta-forum</a>
+      </div>
+    </div>
+
+    <div class="cr-section">
+      <div class="cr-section-title">🟢 Nokta Legend 2 — Data Sources</div>
+      <div class="cr-source">
+        <div class="cr-src-name">Nokta Community — Legend 2 VDI Field Reports</div>
+        <div class="cr-src-desc">Community-sourced VDI data from Nokta forums, YouTube field reports, and Facebook detecting groups. Nickel confirmed at 25–26. Other values estimated from confirmed anchors — this detector was released Oct 2025 and full charts are still emerging.</div>
+        <a class="cr-src-link" href="https://www.detectorprospector.com/topic/21468-legend-vdis/" target="_blank">detectorprospector.com › legend-vdis</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">Kellyco — Nokta Legend 2 vs. Legend Comparison</div>
+        <div class="cr-src-desc">Detailed comparison of the expanded 1–99 scale vs. original 0–60 Legend scale, with notes on performance differences and target ID behavior.</div>
+        <a class="cr-src-link" href="https://www.kellycodetectors.com/blog/the-nokta-legend-2-whats-actually-different-and-what-real-detectorists-are-saying/" target="_blank">kellycodetectors.com › legend-2-comparison</a>
+      </div>
+      <div class="cr-source">
+        <div class="cr-src-name">Nokta Detectors — Legend 2 Official Page</div>
+        <div class="cr-src-desc">Official product page confirming the expanded 1–99 multi-frequency scale and updated discrimination system released October 2025.</div>
+        <a class="cr-src-link" href="https://noktadetectors.com/metal-detectors/legend-2/" target="_blank">noktadetectors.com › legend-2</a>
       </div>
     </div>
 
@@ -814,9 +852,11 @@
           <option value="manticore">Manticore</option>
           <option value="vanquish540">Vanquish 540</option>
           <option value="xterrapro">X-Terra Pro</option>
+          <option value="xterraelite">X-Terra Elite</option>
         </optgroup>
         <optgroup label="Nokta">
           <option value="legend">Legend</option>
+          <option value="legend2">Legend 2</option>
           <option value="simplex">Simplex+</option>
           <option value="triplescore">Triple Score</option>
         </optgroup>
@@ -888,9 +928,11 @@
           <option value="manticore">Manticore</option>
           <option value="vanquish540">Vanquish 540</option>
           <option value="xterrapro">X-Terra Pro</option>
+          <option value="xterraelite">X-Terra Elite</option>
         </optgroup>
         <optgroup label="Nokta">
           <option value="legend">Legend</option>
+          <option value="legend2">Legend 2</option>
           <option value="simplex">Simplex+</option>
           <option value="triplescore">Triple Score</option>
         </optgroup>
@@ -1468,6 +1510,75 @@ const DETECTORS = {
       {tid:"80–92⚠",  item:"Bottle Caps (rusty steel)",                    cat:"trash",  note:"BROKEN choppy signal edges. Sweep multiple directions to confirm."},
       {tid:"14–20",   item:"Platinum Ring",                                 cat:"jewelry",note:"Reads in pull-tab/gold zone. Solid tone with clean edges."},
     ]
+  },
+
+  /* MINELAB X-TERRA ELITE — Sources: Community Metal Detecting Forum, Prospecting Australia, Minelab specs
+     NOTE: Limited community data. Confirmed values marked; others estimated and may vary from X-Terra Pro. */
+  xterraelite:{
+    label:'Minelab X-Terra Elite', ctx:false,
+    scaleLabel:'TID Scale: −19 to 99 · WIDEBAND · ⚠ Limited Community Data — See Notes',
+    scaleTicks:['−19 IRON','0','25','50','75 COPPER','99 SILVER'],
+    targets:[
+      {tid:"-19– -1", item:"Iron / Nails / Wire",                          cat:"iron",   note:"Ferrous range. Same -19 to 99 scale as X-Terra Pro. — Source: Minelab"},
+      {tid:"1–10",    item:"Aluminum Foil / Gum Wrappers",                 cat:"trash",  note:"Thin aluminum range. Scratchy signal. (Est.)"},
+      {tid:"1–22",    item:"Small Gold (chains, earrings, fine rings)",     cat:"gold",   note:"Tiny gold reads low. Dig all solid repeatable tones. (Est.)"},
+      {tid:"5–18",    item:"Small Lead (fishing sinkers, shot)",            cat:"relic",  note:"Solid signal. Compare tone quality to gold in same zone. (Est.)"},
+      {tid:"20–28",   item:"US Nickel (Jefferson / Buffalo)",               cat:"coin",   note:"(Est.) — Limited confirmed data. Placement differs from X-Terra Pro due to WIDEBAND tuning."},
+      {tid:"20–28",   item:"Silver War Nickel (35% silver, 1942–45)",       cat:"coin",   note:"Reads same zone as modern nickel. (Est.)"},
+      {tid:"15–33",   item:"Pull Tabs (beaver tail, ring tab, modern)",     cat:"trash",  note:"Common park trash. Choppy edges vs. gold's solid tone. (Est.)"},
+      {tid:"15–30",   item:"Gold Rings — Medium (10k–18k, bands)",         cat:"gold",   note:"Critical dig zone. Solid tone = dig. Jumpy = tab. (Est.)"},
+      {tid:"28–38",   item:"Large Gold Ring / Heavy Gold Band",             cat:"gold",   note:"Overlaps pull-tab zone. Tone quality is everything. (Est.)"},
+      {tid:"60–73",   item:"Civil War Relics (belt plates, buttons)",       cat:"relic",  note:"Brass and copper military hardware. Dig solid tones. (Est.)"},
+      {tid:"68–73",   item:"Zinc Penny (corroded, post-1982)",              cat:"coin",   note:"Corrosion drops reading from normal 75–80 zone. (Est.)"},
+      {tid:"75–80",   item:"Zinc Penny (clean, 1982–present)",              cat:"coin",   note:"Confirmed community reading. — Source: Metal Detecting Forum / Prospecting Australia"},
+      {tid:"78–83",   item:"Copper Penny (Wheat Cent, pre-1982)",           cat:"coin",   note:"Slightly above zinc penny. (Est.)"},
+      {tid:"78–82",   item:"Indian Head Cent (copper)",                     cat:"coin",   note:"Similar zone to Wheat cent. (Est.)"},
+      {tid:"80–83",   item:"Clad Dime (Roosevelt, modern)",                 cat:"coin",   note:"Confirmed community reading. — Source: Metal Detecting Forum"},
+      {tid:"82–85",   item:"Silver Dime (Mercury / Roosevelt)",             cat:"coin",   note:"Confirmed community reading. — Source: Metal Detecting Forum"},
+      {tid:"83–87",   item:"Large Cent (early American copper)",            cat:"coin",   note:"Big copper. Solid high-value signal. (Est.)"},
+      {tid:"88–92",   item:"Clad Quarter (Washington / State)",             cat:"coin",   note:"Reported ~90. — Source: Community"},
+      {tid:"91–94",   item:"Silver Quarter (pre-1965)",                     cat:"coin",   note:"Higher conductivity than clad. (Est.)"},
+      {tid:"92–95",   item:"Clad Half Dollar / 40% Silver Kennedy",         cat:"coin",   note:"Larger coin. Strong signal. (Est.)"},
+      {tid:"93–96",   item:"Silver Half Dollar (Franklin / Walking Liberty)",cat:"coin",  note:"Full silver. Rich, confident tone. (Est.)"},
+      {tid:"94–97",   item:"Sacagawea / Presidential Dollar / Ike Dollar",  cat:"coin",   note:"Large coin. Clear high signal. (Est.)"},
+      {tid:"95–99",   item:"Morgan / Peace Silver Dollar",                  cat:"coin",   note:"Confirmed highest range. — Source: Community"},
+      {tid:"80–91⚠",  item:"Bottle Caps (rusty steel)",                    cat:"trash",  note:"BROKEN choppy signal edges. Sweep multiple directions to confirm."},
+      {tid:"12–22",   item:"Platinum Ring",                                 cat:"jewelry",note:"In pull-tab/gold zone. Solid tone with clean edges. (Est.)"},
+    ]
+  },
+
+  /* NOKTA LEGEND 2 — Sources: Community (Nokta forums, YouTube field reports)
+     NOTE: Released Oct 2025. Limited VDI chart data exists. Nickel confirmed at 25-26.
+     All other values are estimates interpolated from confirmed anchors and original Legend scale. */
+  legend2:{
+    label:'Nokta Legend 2', ctx:false,
+    scaleLabel:'TID Scale: 1 to 99 · Multi-Frequency · ⚠ Limited Community Data — Estimates from Confirmed Anchors',
+    scaleTicks:['1 IRON','20','26 NICKEL','55','78','99 SILVER'],
+    targets:[
+      {tid:"1–19",    item:"Iron / Nails / Wire",                          cat:"iron",   note:"Ferrous range. Default tone break at 20. — Source: Community"},
+      {tid:"1–8",     item:"Aluminum Foil / Gum Wrappers",                 cat:"trash",  note:"Thin aluminum. Scratchy, low signal."},
+      {tid:"5–24",    item:"Small Gold (chains, earrings, fine rings)",     cat:"gold",   note:"Tiny gold spans lower range. Dig all solid repeatable tones. (Est.)"},
+      {tid:"10–18",   item:"Small Lead (fishing sinkers, shot)",            cat:"relic",  note:"Solid signal. Compare to gold in same zone. (Est.)"},
+      {tid:"20–35",   item:"Pull Tabs (beaver tail, ring tab, modern)",     cat:"trash",  note:"Common park trash. Jumpy/choppy vs. gold's solid tone. (Est.)"},
+      {tid:"22–30",   item:"Gold Rings — Medium (10k–18k, bands)",         cat:"gold",   note:"Overlaps pull-tab zone. Solid tone = dig. Jumpy = tab. (Est.)"},
+      {tid:"25–26",   item:"US Nickel (Jefferson / Buffalo)",               cat:"coin",   note:"Confirmed community reading. Dig all solid hits. — Source: Community"},
+      {tid:"25–26",   item:"Silver War Nickel (35% silver, 1942–45)",       cat:"coin",   note:"Reads same zone as modern nickel."},
+      {tid:"26–34",   item:"Large Gold Ring / Heavy Gold Band",             cat:"gold",   note:"Overlaps pull-tab/zinc zone. Tone quality is everything. (Est.)"},
+      {tid:"53–60",   item:"Zinc Penny (corroded, post-1982)",              cat:"coin",   note:"Corrosion drops reading. (Est.)"},
+      {tid:"58–65",   item:"Zinc Penny (clean, 1982–present)",              cat:"coin",   note:"(Est.) — Limited confirmed Legend 2 data. Community estimates vary."},
+      {tid:"45–60",   item:"Civil War Relics (belt plates, buttons)",       cat:"relic",  note:"Brass and copper military hardware. Dig solid tones. (Est.)"},
+      {tid:"62–68",   item:"Indian Head Cent (copper)",                     cat:"coin",   note:"Solid tone in the copper range. (Est.)"},
+      {tid:"65–72",   item:"Copper Penny (Wheat Cent, pre-1982)",           cat:"coin",   note:"Bronze cents. Solid, repeatable signal. (Est.)"},
+      {tid:"70–75",   item:"Clad Dime (Roosevelt, modern)",                 cat:"coin",   note:"(Est.) — Limited confirmed data for Legend 2 scale."},
+      {tid:"73–78",   item:"Silver Dime (Mercury / Roosevelt)",             cat:"coin",   note:"Slightly higher than clad dime. (Est.)"},
+      {tid:"78–82",   item:"Clad Quarter (Washington / State)",             cat:"coin",   note:"Common park find. Solid signal. (Est.)"},
+      {tid:"81–85",   item:"Silver Quarter (pre-1965)",                     cat:"coin",   note:"Higher conductivity than clad. (Est.)"},
+      {tid:"86–91",   item:"Clad Half Dollar / 40% Silver Kennedy",         cat:"coin",   note:"Larger coin, strong signal. (Est.)"},
+      {tid:"89–93",   item:"Silver Half Dollar (Franklin / Walking Liberty)",cat:"coin",  note:"Full silver. Rich tone. (Est.)"},
+      {tid:"92–96",   item:"Sacagawea / Presidential Dollar / Ike Dollar",  cat:"coin",   note:"Large coin. Clear high signal. (Est.)"},
+      {tid:"94–99",   item:"Morgan / Peace Silver Dollar",                  cat:"coin",   note:"Top of the 99-point scale. (Est.)"},
+      {tid:"5–18",    item:"Platinum Ring",                                 cat:"jewelry",note:"Low end of scale. Solid tone with clean edges. (Est.)"},
+    ]
   }
 };
 
@@ -1872,7 +1983,7 @@ function applyMachine(idx){
 function applyDetector(){applyMachine(activeMachineIdx)}
 
 /* ═══ MACHINE SLOTS ═══ */
-const TEMPLATE_ICONS={manticore:'🔴',equinox900:'🟠',equinox800:'🔵',equinox700:'🟡',atpro:'🟣',atmax:'🟤',aceapex:'⚫',deus2:'🟨',deus:'🟧',legend:'🟩',simplex:'🟦',vanquish540:'⬜',triplescore:'🟪',xterrapro:'🔶'};
+const TEMPLATE_ICONS={manticore:'🔴',equinox900:'🟠',equinox800:'🔵',equinox700:'🟡',atpro:'🟣',atmax:'🟤',aceapex:'⚫',deus2:'🟨',deus:'🟧',legend:'🟩',simplex:'🟦',vanquish540:'⬜',triplescore:'🟪',xterrapro:'🔶',xterraelite:'🔷',legend2:'🟢'};
 const MAX_MACHINES=4;
 
 function buildMachineSlots(){
