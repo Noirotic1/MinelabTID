@@ -168,6 +168,7 @@
     #onb-modes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .omode{border-radius:8px;border:2px solid var(--border2);background:var(--surface2);padding:14px 12px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s}
     .omode-title{font-size:13px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:var(--text2);margin-bottom:8px}
+    .omode-badge{display:inline-block;font-size:8px;font-weight:900;letter-spacing:.06em;background:var(--amber);color:#fff;border-radius:999px;padding:2px 7px;margin-left:2px;vertical-align:2px;white-space:nowrap}
     .omode ul{margin:0;padding:0;list-style:none;font-size:10px;color:var(--muted);line-height:2}
     .omode.sel-field{border-color:var(--amber);background:rgba(245,158,11,.08)}
     .omode.sel-field .omode-title{color:var(--amber)}
@@ -893,7 +894,7 @@
       <div class="onb-step-label"><span class="onb-num">2</span> Choose your interface</div>
       <div id="onb-modes">
         <div class="omode" data-onb-mode="field">
-          <div class="omode-title">Field</div>
+          <div class="omode-title">Field <span class="omode-badge">Recommended</span></div>
           <ul>
             <li>🧤 Glove-friendly controls</li>
             <li>📏 Larger slider</li>
