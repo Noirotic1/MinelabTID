@@ -27,15 +27,25 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   // index.html is network-first so deploys reach users without a cache-name
   // bump. All navigations (/, /index.html) share one cache entry so the app
-  // launches offline regardless of which URL was installed.
+  // launches offline regardless of which URL was installed. On slow
+  // connections the cached copy is served after 3s instead of hanging.
   if (e.request.mode === 'navigate' || new URL(e.request.url).pathname.endsWith('/index.html')) {
-    e.respondWith(
-      fetch(e.request).then(res => {
-        const copy = res.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put('./index.html', copy));
+    e.respondWith((async () => {
+      const network = fetch(e.request).then(res => {
+        caches.open(CACHE_NAME).then(cache => cache.put('./index.html', res.clone()));
         return res;
-      }).catch(() => caches.match('./index.html'))
-    );
+      });
+      network.catch(() => {}); // handled below; avoid unhandled-rejection noise
+      const cachedAfterTimeout = new Promise(resolve =>
+        setTimeout(() => caches.match('./index.html').then(resolve), 3000)
+      );
+      try {
+        // null when the timeout wins but nothing is cached yet (first visit)
+        return (await Promise.race([network, cachedAfterTimeout])) || (await network);
+      } catch (_) {
+        return (await caches.match('./index.html')) || network;
+      }
+    })());
     return;
   }
   // Static assets stay cache-first.

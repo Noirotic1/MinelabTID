@@ -508,6 +508,9 @@
         Questions, feedback, bug reports, or requests to add new detectors?<br>
         Reach out — contributions and data corrections are always welcome.
       </div>
+      <div class="cr-desc" style="margin-top:10px">
+        <a href="./privacy.html" target="_blank" style="color:var(--link)">Privacy Policy</a> — no data collected, everything stays on your device.
+      </div>
     </div>
 
     <div class="cr-section">
@@ -2071,13 +2074,32 @@ function attachSlotHandlers(el){
   el.addEventListener('mouseleave',cancelPress);
 }
 
+/* ═══ ANDROID BACK — back button/gesture closes overlays instead of exiting ═══ */
+/* Every overlay open pushes a history entry; UI-initiated closes consume it
+   via history.back() (popGuard suppresses the resulting popstate), so the
+   history stack stays in sync whichever way an overlay is dismissed. */
+let popGuard=false;
+function ovPush(name){ history.pushState({ov:name},''); }
+function ovConsume(name){
+  if(history.state && history.state.ov===name){ popGuard=true; history.back(); }
+}
+window.addEventListener('popstate',()=>{
+  if(popGuard){ popGuard=false; return; }
+  const editor=document.getElementById('machine-editor');
+  const credits=document.getElementById('credits-modal');
+  if(editor.classList.contains('open')) closeEditor(true);
+  else if(credits.classList.contains('open')) credits.classList.remove('open');
+  else if(sdr.classList.contains('open')) closeSettings(true);
+});
+
 /* ═══ SETTINGS DRAWER — with swipe-down to dismiss ═══ */
 const sov=document.getElementById('sov'), sdr=document.getElementById('sdrawer');
-function openSettings(){sov.classList.add('open');sdr.classList.add('open'); sdr.style.transform='';}
-function closeSettings(){
+function openSettings(){sov.classList.add('open');sdr.classList.add('open'); sdr.style.transform=''; ovPush('settings');}
+function closeSettings(fromPop){
   sdr.style.transition='transform .25s ease';
   sov.classList.remove('open');sdr.classList.remove('open');
   sdr.style.transform='';
+  if(fromPop!==true) ovConsume('settings');
 }
 document.getElementById('settings-btn').addEventListener('click',openSettings);
 sov.addEventListener('click',closeSettings);
@@ -2168,10 +2190,10 @@ document.getElementById('import-file').addEventListener('change',e=>{
 const crModal=document.getElementById('credits-modal');
 document.getElementById('credits-btn').addEventListener('click',()=>{
   closeSettings();
-  setTimeout(()=>crModal.classList.add('open'), 50);
+  setTimeout(()=>{crModal.classList.add('open'); ovPush('credits');}, 50);
 });
 crModal.addEventListener('click',e=>{
-  if(e.target===crModal) crModal.classList.remove('open');
+  if(e.target===crModal){ crModal.classList.remove('open'); ovConsume('credits'); }
 });
 document.getElementById('reset-btn').addEventListener('click',()=>{
   if(!confirm('Reset the app? All machines and settings will be cleared and you\'ll see the welcome screen again.')) return;
@@ -2213,6 +2235,7 @@ function openEditor(slot, mode){
   updateDiscardBtn();
   document.getElementById('machine-editor').classList.add('open');
   document.getElementById('machine-editor').scrollTop=0;
+  ovPush('editor');
 }
 
 function updateDiscardBtn(){
@@ -2224,9 +2247,10 @@ function markEditorDirty(){
   updateDiscardBtn();
 }
 
-function closeEditor(){
+function closeEditor(fromPop){
   document.getElementById('machine-editor').classList.remove('open');
   editorSlot=null; editorMode=null; editorDraft=null; expandedCardId=null;
+  if(fromPop!==true) ovConsume('editor');
 }
 
 function updateEditorSaveBtn(){
@@ -2549,6 +2573,8 @@ if(localStorage.getItem('onboarded') !== 'true'){
 }
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+  // Ask the browser not to evict localStorage/caches under disk pressure
+  if(navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(()=>{});
 }
 </script>
 </body>

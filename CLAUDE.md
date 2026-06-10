@@ -23,6 +23,8 @@ Contact for: bug reports, feedback, new detector requests, data corrections
 | `icon-512.png` | Splash/install icon (512×512) |
 | `icon-maskable-192.png` | Android maskable icon (art padded to safe zone) |
 | `icon-maskable-512.png` | Android maskable icon (art padded to safe zone) |
+| `privacy.html` | Privacy policy (required by Google Play; linked from Credits modal) |
+| `store-assets/` | Play Store submission kit — listing text, feature graphic, screenshots (gitignored, local only) |
 | `CLAUDE.md` | This file — project brief for Claude Code |
 | `CLAUDE.old` | Previous version of CLAUDE.md |
 
@@ -47,7 +49,9 @@ Contact for: bug reports, feedback, new detector requests, data corrections
 
 **Current service worker cache name:** `target-id-v3`
 
-**Service worker strategy:** navigations (and `index.html`) are network-first with cache fallback — all navigation paths (`/`, `/index.html`) share the single `./index.html` cache entry so offline launch works from either URL. Icons and manifest are cache-first.
+**Service worker strategy:** navigations (and `index.html`) are network-first with cache fallback — all navigation paths (`/`, `/index.html`) share the single `./index.html` cache entry so offline launch works from either URL. On slow connections the cached copy is served after a 3s timeout instead of waiting on the network. Icons and manifest are cache-first.
+
+**Google Play (TWA):** the Play app is a Trusted Web Activity wrapping the live site (built with PWABuilder, package `us.noirot.targetid`). Requirements that must stay in place: `/.well-known/assetlinks.json` on the server (native appearance breaks without it), `privacy.html`, and the maskable icons. App updates ship by deploying the website — Play Console is only needed if manifest identity changes. Submission kit: `store-assets/PLAY_LISTING.md`.
 
 **Running locally:**
 ```bash
@@ -193,6 +197,11 @@ Some detectors have limited community VDI data. These are flagged with `⚠ Limi
 - `applyMachine(idx)` clears ALL filter state: `activeCats`, `pinnedTids`, `searchVal`, `scaleTid`
 - Also clears search input DOM value and scale bar thumb/tooltip visibility
 - Calls `updateFilterButtons()` explicitly for immediate visual reset
+
+### Android Back Button
+- Back button/gesture closes the topmost overlay (machine editor → credits modal → settings drawer) instead of exiting the app
+- Each overlay open pushes a history entry (`ovPush`); UI-initiated closes consume it via `history.back()` with a `popGuard` flag suppressing the resulting popstate
+- Both close paths (back button and UI tap) keep the history stack in sync — no dead back-presses
 
 ### Backup / Restore
 - Export button label: "Backup Machine Settings"
