@@ -21,6 +21,8 @@ Contact for: bug reports, feedback, new detector requests, data corrections
 | `sw.js` | Service worker — caches all files for offline use |
 | `icon-192.png` | Home screen icon (192×192) |
 | `icon-512.png` | Splash/install icon (512×512) |
+| `icon-maskable-192.png` | Android maskable icon (art padded to safe zone) |
+| `icon-maskable-512.png` | Android maskable icon (art padded to safe zone) |
 | `CLAUDE.md` | This file — project brief for Claude Code |
 | `CLAUDE.old` | Previous version of CLAUDE.md |
 
@@ -41,9 +43,11 @@ Contact for: bug reports, feedback, new detector requests, data corrections
 1. Edit `index.html` locally and test via local server
 2. `git add index.html && git commit -m "..."` then `git push`
 3. SSH to LXC `10.0.1.196`, run `git pull` in `/var/www/targetid`
-4. If adding new static files, bump `CACHE_NAME` in `sw.js` to force fresh load on cached devices
+4. `index.html` is served **network-first** by the service worker, so data/UI changes reach users on their next online launch — no cache bump needed. Bump `CACHE_NAME` in `sw.js` only when adding or changing other static files (icons, manifest).
 
-**Current service worker cache name:** `target-id-v2`
+**Current service worker cache name:** `target-id-v3`
+
+**Service worker strategy:** navigations (and `index.html`) are network-first with cache fallback — all navigation paths (`/`, `/index.html`) share the single `./index.html` cache entry so offline launch works from either URL. Icons and manifest are cache-first.
 
 **Running locally:**
 ```bash
@@ -168,7 +172,7 @@ Some detectors have limited community VDI data. These are flagged with `⚠ Limi
 ### Credits Modal
 - Opens from Credits button in settings
 - Per-detector sections with sourced references and clickable URLs
-- Version stamp at bottom: `Target ID · v0.80 · May 2026`
+- Version stamp at bottom: `Target ID · v1.0 · June 2026`
 
 ### Search
 - Text match on item name and raw TID string
@@ -182,7 +186,7 @@ Some detectors have limited community VDI data. These are flagged with `⚠ Limi
 ### Onboarding Screen
 - Shows on first launch
 - Forced to light mode always (dark mode users included)
-- Bottom bar: Ko-fi link (left) + version stamp `v0.80` (right)
+- Bottom bar: Ko-fi link (left) + version stamp `v1.0` (right)
 - Detector dropdown uses `.onb-select` with hardcoded light-mode hex colors on options (native `<select>` doesn't inherit CSS variables)
 
 ### Filter Reset on Machine Switch
@@ -205,6 +209,7 @@ Some detectors have limited community VDI data. These are flagged with `⚠ Limi
 | v1.5 | May 2026 | Added Equinox 800, day/night/auto theme, font size, swipe dismiss |
 | v2.0 | May 2026 | Added Equinox 900 + CTX 3030, Credits modal, range-aware search, renamed to Minelab TID |
 | v0.80 | May 2026 | Major expansion: added 13 detectors across 4 brands, machine slots system, onboarding, Ko-fi, filter reset, backup/restore, version display. Renamed to Target ID. |
+| v1.0 | June 2026 | Public launch. Renumbered from v0.80. Network-first service worker (deploys reach users without cache bumps), offline launch from `/`, Open Graph/social meta tags, favicon, maskable Android icons, onboarding CTA contrast fix, single-row scrollable filters (advanced mode), desktop max-width column, danger-styled reset button, machine editor Cancel/Discard Changes dirty-state label. |
 
 ---
 

@@ -7,3 +7,5 @@ gen-icons.py
 icon-generator.html
 logo-mockup.html
 mockup-modern.html
+TargetID_Data_Matrix.csv
+build_spreadsheet.py

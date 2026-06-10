@@ -3,11 +3,21 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Target ID"/>
   <meta name="theme-color" content="#f59e0b"/>
+  <meta name="description" content="Free, offline Target ID reference for metal detectorists. VDI charts for 17 Minelab, Garrett, Nokta and XP detectors — works as a home screen app in the field."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Target ID"/>
+  <meta property="og:title" content="Target ID — Metal Detecting Field Reference"/>
+  <meta property="og:description" content="Free, offline Target ID reference for metal detectorists. VDI charts for 17 Minelab, Garrett, Nokta and XP detectors — works as a home screen app in the field."/>
+  <meta property="og:url" content="https://targetid.noirot.us/"/>
+  <meta property="og:image" content="https://targetid.noirot.us/icon-512.png"/>
+  <meta name="twitter:card" content="summary"/>
   <link rel="manifest" href="./manifest.json"/>
+  <link rel="icon" type="image/png" href="./icon-192.png"/>
   <link rel="apple-touch-icon" href="./icon-192.png"/>
   <title>Target ID</title>
   <style>
@@ -166,8 +176,8 @@
     .omode.sel-advanced .omode-title{color:var(--amber)}
     .omode.sel-advanced ul{color:#92400e}
     .onb-hint{font-size:10px;color:var(--muted2);text-align:center;margin:9px 0 0}
-    #onb-submit{width:100%;padding:15px;background:var(--amber);color:#0f172a;font-family:inherit;font-size:15px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;border:none;border-radius:8px;cursor:pointer;margin-top:20px;-webkit-tap-highlight-color:transparent;transition:opacity .15s}
-    #onb-submit:disabled{opacity:.35;cursor:not-allowed}
+    #onb-submit{width:100%;padding:15px;background:var(--amber);color:#fff;font-family:inherit;font-size:15px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;border:none;border-radius:8px;cursor:pointer;margin-top:20px;-webkit-tap-highlight-color:transparent;transition:background .15s,color .15s}
+    #onb-submit:disabled{background:#cbd5e1;color:#64748b;cursor:not-allowed}
 
     /* toggle */
     .trow{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-top:1px solid var(--border)}
@@ -255,7 +265,10 @@
     #search{width:100%;background:var(--input-bg);border:1px solid var(--border2);border-radius:10px;color:var(--text);padding:9px 11px;font-size:14px;font-family:inherit;margin-bottom:10px;outline:none;-webkit-appearance:none}
     #search::placeholder{color:var(--muted)}
     #search:focus{border-color:var(--amber)}
-    #filters{display:flex;flex-wrap:wrap;gap:6px}
+    #filters{display:flex;flex-wrap:nowrap;gap:6px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+    #filters::-webkit-scrollbar{display:none}
+    #filters .fbtn{flex-shrink:0}
+    [data-mode="field"] #filters{flex-wrap:wrap;overflow-x:visible}
     .fbtn{padding:6px 14px;border-radius:99px;font-size:var(--fs-filter);font-family:inherit;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;border:1.5px solid var(--border2);background:var(--surface2);color:var(--muted);font-weight:600;transition:all .15s;-webkit-tap-highlight-color:transparent}
     .fbtn.a-all    {background:#1e3a5f;color:#60a5fa;border-color:#3b82f6;font-weight:700}
     .fbtn.a-coin   {background:var(--coin-bb);color:var(--coin-bt);border-color:var(--coin-bo);font-weight:700}
@@ -270,6 +283,12 @@
 
     /* ══ LIST ══ */
     #list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:4px 10px 8px}
+
+    /* Desktop: center the main column instead of full-bleed cards */
+    @media(min-width:820px){
+      #header,#controls,#cbar{padding-left:max(16px,calc((100% - 760px)/2));padding-right:max(16px,calc((100% - 760px)/2))}
+      #list{padding-left:max(10px,calc((100% - 760px)/2));padding-right:max(10px,calc((100% - 760px)/2))}
+    }
     .list-pad{height:calc(52px + env(safe-area-inset-bottom))}
     .card{border-radius:12px;margin-bottom:8px;padding:12px 14px;display:grid;grid-template-columns:70px 1fr auto;gap:10px;align-items:start;border:1px solid transparent}
 
@@ -465,11 +484,11 @@
     <span>📋 Credits, Sources &amp; Contact</span>
     <span class="cr-arrow">›</span>
   </button>
-  <button id="reset-btn" style="width:100%;margin-top:10px;background:transparent;border:1px solid var(--border2);border-radius:8px;padding:12px 16px;cursor:pointer;color:var(--muted2);font-family:inherit;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;text-align:left;display:flex;align-items:center;justify-content:space-between;-webkit-tap-highlight-color:transparent">
+  <button id="reset-btn" style="width:100%;margin-top:10px;background:transparent;border:1px solid var(--red);border-radius:8px;padding:12px 16px;cursor:pointer;color:var(--red);font-family:inherit;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;text-align:left;display:flex;align-items:center;justify-content:space-between;-webkit-tap-highlight-color:transparent">
     <span>↺ Reset App to Onboarding</span>
-    <span style="font-size:10px;color:var(--muted2)">Clears all data</span>
+    <span style="font-size:10px;color:var(--red);opacity:.75">Clears all data</span>
   </button>
-  <div style="margin-top:20px;padding-top:14px;border-top:1px solid var(--border);text-align:center;font-size:11px;color:var(--muted2);letter-spacing:.1em">Target ID · v0.80</div>
+  <div style="margin-top:20px;padding-top:14px;border-top:1px solid var(--border);text-align:center;font-size:11px;color:var(--muted2);letter-spacing:.1em">Target ID · v1.0</div>
 </div>
 
 <!-- Credits Modal -->
@@ -825,7 +844,7 @@
       </div>
     </div>
 
-    <div class="cr-ver">Target ID · v0.80 · May 2026<br>Built for the metal detecting community</div>
+    <div class="cr-ver">Target ID · v1.0 · June 2026<br>Built for the metal detecting community</div>
   </div>
 </div>
 
@@ -895,7 +914,7 @@
     <button id="onb-submit" disabled>Let's Dig →</button>
     <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px">
       <a href="https://ko-fi.com/noirot" target="_blank" style="font-size:11px;color:var(--muted2);text-decoration:none;line-height:1.5">❤️ If you find this useful,<br>please buy me a coffee</a>
-      <span style="font-size:10px;color:var(--muted2);letter-spacing:.08em;flex-shrink:0;margin-left:12px">v0.80</span>
+      <span style="font-size:10px;color:var(--muted2);letter-spacing:.08em;flex-shrink:0;margin-left:12px">v1.0</span>
     </div>
   </div>
 </div>
@@ -1621,6 +1640,7 @@ let userMachines     = [];   // Array of machine objects (max 4)
 let activeMachineIdx = 0;    // Index into userMachines
 
 let editorSlot     = null;   // 0–3 slot being edited/created
+let editorDirty    = false;  // true once the user has touched the draft
 let editorMode     = null;   // 'edit' | 'create'
 let editorDraft    = null;   // working copy of machine while editing
 let expandedCardId = null;   // id of card currently expanded for editing
@@ -2172,7 +2192,6 @@ function openEditor(slot, mode){
     };
     document.getElementById('me-title').textContent='New Machine';
     document.getElementById('me-save').textContent='Create Machine';
-    document.getElementById('me-discard').textContent='Discard Changes';
     document.getElementById('me-tpl-section').classList.add('visible');
     document.getElementById('me-delete').disabled=true;
     const tplSel=document.getElementById('me-tpl-select');
@@ -2181,7 +2200,6 @@ function openEditor(slot, mode){
     editorDraft=JSON.parse(JSON.stringify(userMachines[slot]));
     document.getElementById('me-title').textContent='Edit Machine';
     document.getElementById('me-save').textContent='Save Changes';
-    document.getElementById('me-discard').textContent='Discard Changes';
     document.getElementById('me-tpl-section').classList.remove('visible');
     document.getElementById('me-delete').disabled=false;
   }
@@ -2191,8 +2209,19 @@ function openEditor(slot, mode){
   document.getElementById('me-smax').value=editorDraft.scaleMax;
   renderEditorCards();
   updateEditorSaveBtn();
+  editorDirty=false;
+  updateDiscardBtn();
   document.getElementById('machine-editor').classList.add('open');
   document.getElementById('machine-editor').scrollTop=0;
+}
+
+function updateDiscardBtn(){
+  document.getElementById('me-discard').textContent = editorDirty ? 'Discard Changes' : 'Cancel';
+}
+function markEditorDirty(){
+  if(editorDirty) return;
+  editorDirty=true;
+  updateDiscardBtn();
 }
 
 function closeEditor(){
@@ -2288,18 +2317,24 @@ function renderEditorCards(){
     t.cat=row.querySelector('[data-field="cat"]').value;
     t.note=row.querySelector('[data-field="note"]').value.trim();
     expandedCardId=null; renderEditorCards();
+    markEditorDirty();
   }));
   // Delete from expanded
   el.querySelectorAll('[data-del]').forEach(btn=>btn.addEventListener('click',()=>{
     const cid=btn.dataset.del;
     editorDraft.targets=editorDraft.targets.filter(t=>t.id!==cid);
     expandedCardId=null; renderEditorCards();
+    markEditorDirty();
   }));
 }
 
 document.getElementById('me-name').addEventListener('input',updateEditorSaveBtn);
 document.getElementById('me-smin').addEventListener('input',updateEditorSaveBtn);
 document.getElementById('me-smax').addEventListener('input',updateEditorSaveBtn);
+
+/* Any typing or select change in the editor flips Cancel → Discard Changes */
+document.getElementById('machine-editor').addEventListener('input',markEditorDirty);
+document.getElementById('machine-editor').addEventListener('change',markEditorDirty);
 
 document.getElementById('me-add-btn').addEventListener('click',()=>{
   if(!editorDraft) return;
@@ -2313,6 +2348,7 @@ document.getElementById('me-add-btn').addEventListener('click',()=>{
   document.getElementById('me-aitem').value='';
   document.getElementById('me-anote').value='';
   renderEditorCards();
+  markEditorDirty();
   if(editorMode==='create') updateEditorSaveBtn();
 });
 
