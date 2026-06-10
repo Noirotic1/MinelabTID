@@ -24,6 +24,7 @@ Contact for: bug reports, feedback, new detector requests, data corrections
 | `icon-maskable-192.png` | Android maskable icon (art padded to safe zone) |
 | `icon-maskable-512.png` | Android maskable icon (art padded to safe zone) |
 | `privacy.html` | Privacy policy (required by Google Play; linked from Credits modal) |
+| `screenshots/` | Manifest screenshots (referenced by `manifest.json`; shown in install UI / PWABuilder) — not precached by the SW |
 | `store-assets/` | Play Store submission kit — listing text, feature graphic, screenshots (gitignored, local only) |
 | `CLAUDE.md` | This file — project brief for Claude Code |
 | `CLAUDE.old` | Previous version of CLAUDE.md |
@@ -47,7 +48,7 @@ Contact for: bug reports, feedback, new detector requests, data corrections
 3. SSH to LXC `10.0.1.196`, run `git pull` in `/var/www/targetid`
 4. `index.html` is served **network-first** by the service worker, so data/UI changes reach users on their next online launch — no cache bump needed. Bump `CACHE_NAME` in `sw.js` only when adding or changing other static files (icons, manifest).
 
-**Current service worker cache name:** `target-id-v4`
+**Current service worker cache name:** `target-id-v5`
 
 **Service worker strategy:** navigations (and `index.html`) are network-first with cache fallback — all navigation paths (`/`, `/index.html`) share the single `./index.html` cache entry so offline launch works from either URL. On slow connections the cached copy is served after a 3s timeout instead of waiting on the network. Icons and manifest are cache-first.
 

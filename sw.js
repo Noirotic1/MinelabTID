@@ -1,4 +1,4 @@
-const CACHE_NAME = 'target-id-v4';
+const CACHE_NAME = 'target-id-v5';
 const ASSETS = [
   './index.html',
   './manifest.json',

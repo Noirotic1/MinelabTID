@@ -2,7 +2,7 @@
   "id": "./",
   "name": "Target ID",
   "short_name": "Target ID",
-  "description": "Multi-detector Target ID field reference for metal detectorists",
+  "description": "Fast, field-ready Target ID / VDI reference for 17 metal detectors from Minelab, Garrett, Nokta, and XP. Pick your machine and see coins, gold, jewelry, relics, and trash on its actual TID scale, with notes on tone and signal quality. Works completely offline, with day and night themes built for the field. Free, no ads, no accounts, no tracking.",
   "start_url": "./index.html",
   "scope": "./",
   "lang": "en",
@@ -13,6 +13,36 @@
   "background_color": "#0a0a0a",
   "theme_color": "#f59e0b",
   "orientation": "portrait-primary",
+  "screenshots": [
+    {
+      "src": "screenshots/chart-night.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Target ID chart on the Minelab Manticore, night theme"
+    },
+    {
+      "src": "screenshots/chart-day.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "High-contrast day theme for direct sunlight"
+    },
+    {
+      "src": "screenshots/search.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Range-aware TID search — type a number, see every matching target"
+    },
+    {
+      "src": "screenshots/field-mode.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Field mode with glove-friendly controls and large target slider"
+    }
+  ],
   "icons": [
     {
       "src": "icon-192.png",
