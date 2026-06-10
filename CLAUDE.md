@@ -1,4 +1,4 @@
-# Target ID — Claude Code Project Brief
+# TargetID — Claude Code Project Brief
 
 ## What This Is
 A Progressive Web App (PWA) for metal detectorists — a field-ready Target ID reference tool that works offline on iOS and Android as a home screen app. The app is a single-file static site (no build step, no framework, no dependencies). Free and ad-free; supported by community donations via Ko-fi.
@@ -48,7 +48,9 @@ Contact for: bug reports, feedback, new detector requests, data corrections
 3. SSH to LXC `10.0.1.196`, run `git pull` in `/var/www/targetid`
 4. `index.html` is served **network-first** by the service worker, so data/UI changes reach users on their next online launch — no cache bump needed. Bump `CACHE_NAME` in `sw.js` only when adding or changing other static files (icons, manifest).
 
-**Current service worker cache name:** `target-id-v5`
+**Current service worker cache name:** `target-id-v6`
+
+**App name:** `TargetID` — one word, always. Applies to the manifest, Play listing, page titles, version stamps, and all user-facing copy. Generic detector terminology ("Target ID numbers", "target ID scale") and external source titles keep their original form.
 
 **Service worker strategy:** navigations (and `index.html`) are network-first with cache fallback — all navigation paths (`/`, `/index.html`) share the single `./index.html` cache entry so offline launch works from either URL. On slow connections the cached copy is served after a 3s timeout instead of waiting on the network. Icons and manifest are cache-first.
 
@@ -177,7 +179,7 @@ Some detectors have limited community VDI data. These are flagged with `⚠ Limi
 ### Credits Modal
 - Opens from Credits button in settings
 - Per-detector sections with sourced references and clickable URLs
-- Version stamp at bottom: `Target ID · v1.0 · June 2026`
+- Version stamp at bottom: `TargetID · v1.0 · June 2026`
 
 ### Search
 - Text match on item name and raw TID string
@@ -218,7 +220,7 @@ Some detectors have limited community VDI data. These are flagged with `⚠ Limi
 | v1.0 | May 2026 | Manticore only, basic TID chart |
 | v1.5 | May 2026 | Added Equinox 800, day/night/auto theme, font size, swipe dismiss |
 | v2.0 | May 2026 | Added Equinox 900 + CTX 3030, Credits modal, range-aware search, renamed to Minelab TID |
-| v0.80 | May 2026 | Major expansion: added 13 detectors across 4 brands, machine slots system, onboarding, Ko-fi, filter reset, backup/restore, version display. Renamed to Target ID. |
+| v0.80 | May 2026 | Major expansion: added 13 detectors across 4 brands, machine slots system, onboarding, Ko-fi, filter reset, backup/restore, version display. Renamed to Target ID (now styled TargetID). |
 | v1.0 | June 2026 | Public launch. Renumbered from v0.80. Network-first service worker (deploys reach users without cache bumps), offline launch from `/`, Open Graph/social meta tags, favicon, maskable Android icons, onboarding CTA contrast fix, single-row scrollable filters (advanced mode), desktop max-width column, danger-styled reset button, machine editor Cancel/Discard Changes dirty-state label. |
 
 ---

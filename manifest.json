@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Target ID",
-  "short_name": "Target ID",
+  "name": "TargetID",
+  "short_name": "TargetID",
   "description": "Fast, field-ready Target ID / VDI reference for 17 metal detectors from Minelab, Garrett, Nokta, and XP. Pick your machine and see coins, gold, jewelry, relics, and trash on its actual TID scale, with notes on tone and signal quality. Works completely offline, with day and night themes built for the field. Free, no ads, no accounts, no tracking.",
   "start_url": "./index.html",
   "scope": "./",
