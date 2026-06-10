@@ -47,7 +47,7 @@ Contact for: bug reports, feedback, new detector requests, data corrections
 3. SSH to LXC `10.0.1.196`, run `git pull` in `/var/www/targetid`
 4. `index.html` is served **network-first** by the service worker, so data/UI changes reach users on their next online launch — no cache bump needed. Bump `CACHE_NAME` in `sw.js` only when adding or changing other static files (icons, manifest).
 
-**Current service worker cache name:** `target-id-v3`
+**Current service worker cache name:** `target-id-v4`
 
 **Service worker strategy:** navigations (and `index.html`) are network-first with cache fallback — all navigation paths (`/`, `/index.html`) share the single `./index.html` cache entry so offline launch works from either URL. On slow connections the cached copy is served after a 3s timeout instead of waiting on the network. Icons and manifest are cache-first.
 
